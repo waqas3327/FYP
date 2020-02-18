@@ -109,8 +109,6 @@ export class HomePage {
        password: [null, [Validators.required]]
     });
   }
-  call(){
-    alert('clicked');
-  }
+ 
 }
 
