@@ -11,6 +11,7 @@ export class GeolocationPage implements AfterViewInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
+  marker: any;
   constructor(private geolocation: Geolocation) { }
     map: google.maps.Map;
     lat = 30.3753;
