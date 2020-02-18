@@ -4,28 +4,20 @@ import { CanActivate, Router } from '@angular/router';
 import { GuardService } from './sdk/custom/guard.service';
 const routes: Routes = [
   {  path: '',
-     redirectTo: 'movies',
+     redirectTo: 'home',
      pathMatch: 'full'
   },
   { path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
+  
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'moviedetails',
-    loadChildren: () => import('./moviedetails/moviedetails.module').then( m => m.MoviedetailsPageModule),
-    canActivate: [GuardService]
-  },
-  {
-    path: 'movies',
-    loadChildren: () => import('./movies/movies.module').then( m => m.MoviesPageModule),
-    canActivate: [GuardService]
-  },
-  { path: 'movies/:id',
-    loadChildren: './moviedetails/moviedetails.module#MoviedetailsPageModule'
+    path: 'geolocation',
+    loadChildren: () => import('./geolocation/geolocation.module').then( m => m.GeolocationPageModule)
   },
   {
     path: 'about',

@@ -21,10 +21,11 @@ public appPages = [
       icon: 'create'
     },
     {
-      title: 'Movies',
-      url: '/movies',
-      icon: 'videocam'
+      title: 'GeoLocation',
+      url: '/geolocation',
+      icon: 'create'
     },
+    
     {
       title: 'About',
       url: '/about',

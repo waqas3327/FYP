@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MoviesPageRoutingModule } from './movies-routing.module';
+import { GeolocationPageRoutingModule } from './geolocation-routing.module';
 
-import { MoviesPage } from './movies.page';
+import { GeolocationPage } from './geolocation.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MoviesPageRoutingModule
+    GeolocationPageRoutingModule
   ],
-  declarations: [MoviesPage]
+  declarations: [GeolocationPage]
 })
-export class MoviesPageModule {}
+export class GeolocationPageModule {}
