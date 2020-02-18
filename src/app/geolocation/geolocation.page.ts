@@ -16,6 +16,7 @@ export class GeolocationPage implements AfterViewInit {
 
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
+     disableDefaultUI: true,
      zoom: 7
     };
 

@@ -4,7 +4,7 @@ import { CanActivate, Router } from '@angular/router';
 import { GuardService } from './sdk/custom/guard.service';
 const routes: Routes = [
   {  path: '',
-     redirectTo: 'home',
+     redirectTo: 'geolocation',
      pathMatch: 'full'
   },
   { path: 'home',
