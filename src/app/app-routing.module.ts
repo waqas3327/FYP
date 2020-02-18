@@ -27,6 +27,14 @@ const routes: Routes = [
   {
     path: 'forgotpassword',
     loadChildren: () => import('./forgotpassword/forgotpassword.module').then( m => m.ForgotpasswordPageModule)
+  },
+  {
+    path: 'postlost',
+    loadChildren: () => import('./postlost/postlost.module').then( m => m.PostlostPageModule)
+  },
+  {
+    path: 'postfound',
+    loadChildren: () => import('./postfound/postfound.module').then( m => m.PostfoundPageModule)
   }
 
 ];

@@ -1,6 +1,7 @@
 
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LocationStrategy } from '@angular/common';
 declare var google:any;
 @Component({
   selector: 'app-geolocation',
@@ -11,6 +12,7 @@ export class GeolocationPage implements AfterViewInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
+  marker: any;
   constructor(private geolocation: Geolocation) { }
     map: google.maps.Map;
     lat = 30.3753;
@@ -56,9 +58,14 @@ export class GeolocationPage implements AfterViewInit {
           lat: this.latitude,
           lng: this.longitude
         };
+        const icon = {
+          url: 'https://img.icons8.com/doodle/48/000000/street-view.png', // image url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+        };
         const marker = new google.maps.Marker({
              position: pos,
              map: this.map,
+             icon: icon
           });
         infoWindow.setPosition(pos);
         infoWindow.setContent('Location found.');

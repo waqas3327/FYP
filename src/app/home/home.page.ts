@@ -81,7 +81,7 @@ export class HomePage {
         localStorage.setItem('token', 'mytoken');
         localStorage.setItem('name', loginData.email);
         this.loading = false;
-        this.router.navigate(['movies']);
+        this.router.navigate(['geolocation']);
       },
       error => {
         this.clicked = false;
@@ -108,6 +108,9 @@ export class HomePage {
        email: [null, [Validators.required, Validators.email]],
        password: [null, [Validators.required]]
     });
+  }
+  call(){
+    alert('clicked');
   }
 }
 
