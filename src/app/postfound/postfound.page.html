@@ -34,6 +34,8 @@
               </ion-item>
             </div>
             
+            <div padding class="ion-text-center" #mapContainer  id="map"></div>
+
             <div padding id="buttons">
               <ion-button size="small" shape="round" type="submit" (click)="SaveToDB()">Post
                 <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
@@ -41,12 +43,12 @@
               <ion-button  size="small" shape="round" (click)="cancel()">Cancel
                 <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
               </ion-button>
-              
             </div>
+
           </ion-col>
         </ion-row>
       </ion-grid>
     </form>
-    <div class="ion-text-center" #mapContainer  id="map"></div>
+    
 </ion-content>
 
