@@ -12,6 +12,41 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+    <form>
+      <!-- [formGroup]="getLostData" -->
+      <ion-grid>
+        <ion-row color="primary" justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <div padding>
+              <ion-item>
+                <ion-input name="title" type="text" placeholder="Title" ></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input name="description" type="text" placeholder="Description" ></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input (click)="openImage()" name="image" placeholder="Add Image" ></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input name="reward" type="text" placeholder="Offer Reward" ></ion-input>
+              </ion-item>
+            </div>
+            
+            <div padding id="buttons">
+              <ion-button size="small" shape="round" type="submit" (click)="SaveToDB()">Post
+                <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
+              </ion-button>
+              <ion-button  size="small" shape="round" (click)="cancel()">Cancel
+                <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
+              </ion-button>
+              
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <div class="ion-text-center" #mapContainer  id="map"></div>
 </ion-content>
+
