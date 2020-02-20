@@ -9,8 +9,8 @@
       <ion-content>
         <div class="profile">
           <img class="profile-picture" src="../assets/icon/user.png" width="100px" height="100px" />
-          <h3 class="name">{{name}}</h3>
-          <ion-button shape="round" color="#3880ff" (click)="logout()" >LogOut</ion-button>
+          <h3 class="name" style="font-family: sans-serif;color: white;font-style: italic;">{{name}}</h3>
+          <ion-button shape="round" color="secondary" (click)="logout()" >LogOut</ion-button>
       </div>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
