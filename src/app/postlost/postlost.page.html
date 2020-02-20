@@ -18,6 +18,21 @@
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
           <div padding>
+            <ion-list>
+              <ion-radio-group value="biff">
+                <ion-list-header>
+                  <ion-label>Type</ion-label>
+                </ion-list-header>
+                <ion-item>
+                  <ion-label>Person</ion-label>
+                  <ion-radio slot="start" value="person"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Item</ion-label>
+                  <ion-radio slot="start" value="item"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
             <ion-item>
               <ion-input name="title" type="text" placeholder="Title" ></ion-input>
             </ion-item>
