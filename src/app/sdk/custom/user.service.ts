@@ -25,4 +25,16 @@ export class UserService {
 
     return this.http.post(url, credentials);
   }
+  public PostLostProduct(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + '/PostLostProduct';
+
+    return this.http.post(url, credentials);
+  }
+
+  public PostLostPerson(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + '/PostLostPerson';
+
+    return this.http.post(url, credentials);
+  }
+
 }

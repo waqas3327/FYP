@@ -1,8 +1,16 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+
+//schemas
+const Client = require('./models/client');
+const LostProduct = require('./models/lostProduct');
+const LostPerson = require('./models/lostPerson');
+
+
 const app = express();
 let nodemailer = require('nodemailer');
 mongoose.connect('mongodb+srv://waqas3327:03105593105@cluster0-kv7vt.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true,useUnifiedTopology:true});
@@ -11,15 +19,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-const DataTable = mongoose.model('DataTable', {
-    name: String,
-    email: String,
-    password: String,
-   });
-   var PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log('application running on the localhost:3000');
+
+const db = "mongodb+srv://waqas3327:03105593105@cluster0-kv7vt.mongodb.net/test?retryWrites=true&w=majority"
+mongoose.Promise = global.Promise;
+mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+  if (err) {
+    console.error("Error ! " + err);
+  }
 });
+
 app.post('/register', async (req, res) => { 
   try{
   const body = req.body;
@@ -32,10 +40,10 @@ app.post('/register', async (req, res) => {
 
     console.log('hash - > ', hash);
     body.password = hash;
-    const result = await DataTable.findOne({"email":  email});
+    const result = await Client.findOne({"email":  email});
     if(!result) // this means result is null
     {
-   const student = new DataTable(body);
+   const student = new Client(body);
    const result = await student.save(); 
    res.send({ message: 'Student signup successful!!'});
     }
@@ -49,6 +57,33 @@ app.post('/register', async (req, res) => {
     console.log('ex',ex)
   } 
   });
+
+  app.post('/PostLostProduct', async (req, res) => { 
+    try{
+    const body = req.body;
+    console.log('req.body', body);
+     const lostprod = new LostProduct(body);
+     const result = await lostprod.save(); 
+     res.send({ message: 'Data posted!!'});
+    }
+    catch(ex){
+      console.log('ex',ex)
+    } 
+    });
+
+    app.post('/PostLostPerson', async (req, res) => { 
+      try{
+      const body = req.body;
+      console.log('req.body', body);
+       const lostpers = new LostPerson(body);
+       const result = await lostpers.save(); 
+       res.send({ message: 'Data posted!!'});
+      }
+      catch(ex){
+        console.log('ex',ex)
+      } 
+      });
+
   app.post('/login',  async (req, res) => { 
     const body = req.body;
     console.log('req.body', body);
@@ -57,7 +92,7 @@ app.post('/register', async (req, res) => {
 
     // lets check if email exists 
 
-    const result = await DataTable.findOne({"email":  email});
+    const result = await Client.findOne({"email":  email});
     if(!result) // this means result is null
     {
       res.status(401).send({
@@ -86,13 +121,13 @@ app.post('/register', async (req, res) => {
         }
     }
   });
-    app.post('/sendmail', async (req, res) => {
+  app.post('/sendmail', async (req, res) => {
     try {
     const body = req.body;
     let pass = "";
     console.log('req.body', body);
     const email = body.email;
-    const result = await DataTable.findOne({"email":  email});
+    const result = await Client.findOne({"email":  email});
     if(!result) // this means result is null
     {
       res.status(401).send({
@@ -131,7 +166,14 @@ app.post('/register', async (req, res) => {
     console.log('ex',ex)
   }
   });
-app.get('/',  function (req, res) {
+  app.get('/',  function (req, res) {
   res.status(200).send({
     message: 'Express server'});
 });
+// app.get('*', (req, res) => {
+//     res.send('Page doesnot exists');
+//   });
+const port = 3000;
+  app.listen(port, function(){
+    console.log('Express application running on localhost:' + port);
+  });
