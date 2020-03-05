@@ -3,6 +3,11 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../sdk/custom/user.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 declare var google:any;
 @Component({
@@ -15,7 +20,15 @@ export class PostlostPage {
   latitude: number;
   longitude: number;
   marker: any;
-  constructor(private geolocation: Geolocation, private mediaCapture: MediaCapture) { }
+  getLostData: FormGroup;
+  constructor(
+    private geolocation: Geolocation, 
+    private mediaCapture: MediaCapture,
+    private alertController: AlertController, 
+    private router: Router, 
+    private formBuilder: FormBuilder, 
+    private service: UserService
+    ){}
     map: google.maps.Map;
     lat = 30.3753;
     lng = 69.3451;
@@ -93,14 +106,70 @@ export class PostlostPage {
       };
       // this.filePresent = true;
     }
-  //   openImage(){
-  //     // alert('opened');
-  //     let options: CaptureImageOptions = { limit: 3 }
-  //     this.mediaCapture.captureImage(options)
-  // .then(
-  //   (data: MediaFile[]) => console.log(data),
-  //   (err: CaptureError) => console.error(err)
-  // );
-  //   }
+
+    SaveProduct(){
+      try {
+        const getLostData = this.getLostData.value;
+        console.log('loginData', getLostData);
+        this.service.PostLostProduct(getLostData).subscribe(
+          data => {
+            alert('successfully posted!')
+            console.log('got response from server', data);
+            // this.router.navigate(['geolocation']);
+          },
+          error => {
+            console.log('error', error);
+            alert('Problem posting data!');
+          }
+        );
+        } catch (ex) {
+            console.log('ex', ex);
+          }
+    }
+    savePerson(){
+      try {
+        const getLostData = this.getLostData.value;
+        console.log('loginData', getLostData);
+        this.service.PostLostPerson(getLostData).subscribe(
+          data => {
+            alert('successfully posted!')
+            console.log('got response from server', data);
+            // this.router.navigate(['geolocation']);
+          },
+          error => {
+            console.log('error', error);
+            alert('Wrong email or password!');
+          }
+        );
+        } catch (ex) {
+            console.log('ex', ex);
+          }
+    }
+    
+    SaveToDB() {
+     
+    var value;
+    value = this.getLostData.controls['lostType'].value;
+    console.log(value);
+    if(value == 'item'){
+      this.SaveProduct();
+    }
+    if(value == 'person'){
+      this.savePerson();
+    }
+  }
+    ngOnInit(){
+      this.formInitializer();
+    }
+  
+    
+  formInitializer() {
+    this.getLostData = this.formBuilder.group({
+       title: [null, [Validators.required]],
+       description: [null, [Validators.required]],
+       reward: [null, [Validators.required]],
+       lostType: [null, [Validators.required]]
+    });
+  }
 }
 
