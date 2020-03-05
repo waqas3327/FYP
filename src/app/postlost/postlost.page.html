@@ -33,15 +33,53 @@
                 </ion-item>
               </ion-radio-group>
             </ion-list>
+            <div class="col-lg-10">
+              <label>
+                <input
+                  type="file"
+                  #inputFile
+                  style="display:none"
+                  (change)="onFileChange($event)"
+                />
+                <img
+                  [src]="userInfo?.avatar"
+                  class="fixed-size"
+                  onError="this.src='assets/images/placeholder.jpg'"
+                />
+              </label>
+              <button
+                *ngIf="userInfo?.touched"
+                type="button"
+                (click)="uploadImage()"
+                class="btn btn-green round"
+                [disabled]="isLoadingImgUpload"
+              >
+                <i
+                  *ngIf="isLoadingImgUpload"
+                  class="fa fa-circle-o-notch fa-spin btn-spinner"
+                ></i>
+                <span *ngIf="!isLoadingImgUpload"
+                  >Upload Image
+                </span>
+              </button>
+            </div>
             <ion-item>
               <ion-input name="title" type="text" placeholder="Title" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-input name="description" type="text" placeholder="Description" ></ion-input>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
               <ion-input (click)="openImage()" name="image" placeholder="Add Image" ></ion-input>
-            </ion-item>
+            </ion-item> -->
+            <ion-list>
+              <ion-item *ngFor="let item of items">
+                <ion-thumbnail slot="start">
+                  <ion-img [src]="item.src"></ion-img>
+                </ion-thumbnail>
+                <ion-label>Images</ion-label>
+              </ion-item>
+            </ion-list>
             <ion-item>
               <ion-input name="reward" type="text" placeholder="Offer Reward" ></ion-input>
             </ion-item>

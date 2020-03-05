@@ -78,14 +78,29 @@ export class PostlostPage {
         console.log('Error in getting the locations', error);
       });
     }
-    openImage(){
-      // alert('opened');
-      let options: CaptureImageOptions = { limit: 3 }
-      this.mediaCapture.captureImage(options)
-  .then(
-    (data: MediaFile[]) => console.log(data),
-    (err: CaptureError) => console.error(err)
-  );
+
+    onFileChange(e) {
+      console.log('e', e);
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = event => {
+        // this.userInfo = {};
+        // this.userInfo.touched = true;
+        // this.userInfo.avatar = (<FileReader>event.target).result;
+        // this.userInfo.file = file;
+        // this.userInfo.extension = file.name.split('.').pop();
+      };
+      // this.filePresent = true;
     }
+  //   openImage(){
+  //     // alert('opened');
+  //     let options: CaptureImageOptions = { limit: 3 }
+  //     this.mediaCapture.captureImage(options)
+  // .then(
+  //   (data: MediaFile[]) => console.log(data),
+  //   (err: CaptureError) => console.error(err)
+  // );
+  //   }
 }
 
