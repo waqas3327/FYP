@@ -36,6 +36,7 @@
     "cordova": "^9.0.0",
     "cordova-android": "^8.1.0",
     "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-media-capture": "^3.0.3",
     "cordova-plugin-splashscreen": "^5.0.2",
     "core-js": "^2.6.11",
