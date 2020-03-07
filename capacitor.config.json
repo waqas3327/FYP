@@ -1,6 +1,6 @@
 {
-  "appId": "com.project.movieterz",
-  "appName": "Movieterz",
+  "appId": "io.ionic.starter",
+  "appName": "MyApp",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
