@@ -11,28 +11,28 @@ export class UserService {
   constructor(private http: HttpClient) { }
   public userLogin(credentials: object): Observable<any> {
 
-    const url = ProjectConfig.getPath() + '/login';
+    const url = ProjectConfig.getPath() + '/user/login';
 
     return this.http.post(url, credentials);
   }
   public userRegister(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + '/register';
+    const url = ProjectConfig.getPath() + '/user/register';
 
     return this.http.post(url, credentials);
   }
   public userForgotPassword(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + '/sendmail';
+    const url = ProjectConfig.getPath() + '/user/sendmail';
 
     return this.http.post(url, credentials);
   }
   public PostLostProduct(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + '/PostLostProduct';
+    const url = ProjectConfig.getPath() + '/product/PostLostProduct';
 
     return this.http.post(url, credentials);
   }
 
   public PostLostPerson(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + '/PostLostPerson';
+    const url = ProjectConfig.getPath() + '/person/PostLostPerson';
 
     return this.http.post(url, credentials);
   }
