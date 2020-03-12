@@ -9,6 +9,7 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 
 import { PostlostPage } from './postlost.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     PostlostPageRoutingModule
   ],
   declarations: [PostlostPage],
-  providers: [Geolocation, MediaCapture]
+  providers: [Geolocation, MediaCapture, Camera]
 })
 export class PostlostPageModule {}

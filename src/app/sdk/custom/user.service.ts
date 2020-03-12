@@ -37,4 +37,20 @@ export class UserService {
     return this.http.post(url, credentials);
   }
 
+  public uploadAvatar(
+    user_info: any,
+    image: any,
+    user_id: any
+  ): Observable<any> {
+    const url = ProjectConfig.getPath() + `/user/avatar/${user_id}`;
+
+    const file_location = `avatar-${user_id}.${user_info.extension}`;
+    const formData: FormData = new FormData();
+    formData.append('file', image, file_location);
+
+    return this.http
+      .put(url, formData, {
+      })
+  }
+
 }

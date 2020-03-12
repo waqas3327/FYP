@@ -9,7 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
+
 declare var google:any;
+
 @Component({
   selector: 'app-postlost',
   templateUrl: './postlost.page.html',
@@ -21,6 +23,11 @@ export class PostlostPage {
   longitude: number;
   marker: any;
   getLostData: FormGroup;
+  userInfo;
+  filePresent;
+  isLoadingImgUpload = false;
+  isLoading = false;
+  
   constructor(
     private geolocation: Geolocation, 
     private mediaCapture: MediaCapture,
@@ -92,20 +99,52 @@ export class PostlostPage {
       });
     }
 
-    onFileChange(e) {
-      console.log('e', e);
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = event => {
-        // this.userInfo = {};
-        // this.userInfo.touched = true;
-        // this.userInfo.avatar = (<FileReader>event.target).result;
-        // this.userInfo.file = file;
-        // this.userInfo.extension = file.name.split('.').pop();
-      };
-      // this.filePresent = true;
-    }
+    // onFileChange(e) {
+    //   console.log('e', e);
+    //   const file = e.target.files[0];
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    //   reader.onload = event => {
+    //      this.userInfo = {};
+    //      this.userInfo.touched = true;
+    //      this.userInfo.avatar = (<FileReader>event.target).result;
+    //      this.userInfo.file = file;
+    //      this.userInfo.extension = file.name.split('.').pop();
+    //   };
+    //    this.filePresent = true;
+    // }
+
+
+    // uploadImage() {
+    //   if (this.filePresent) {
+    //     this.isLoadingImgUpload = true;
+    //     const id = this.getLostData.controls.id.value;
+  
+    //     this.service
+    //       .uploadAvatar(this.userInfo, this.userInfo.file, id)
+    //       .subscribe(
+    //         async response => {
+    //           console.log('respoe->', response);
+    //           this.isLoadingImgUpload = false;
+    //           // this.toasterService.pop('success', 'Image uploaded successfully!');
+    //           // // this.appInfoForm.patchValue(response.data);
+    //           // this.slimScroll.complete();
+    //         },
+    //         error => {
+    //           console.log('error', error);
+    //           this.isLoadingImgUpload = false;
+    //           // this.toasterService.pop(
+    //           //   'error',
+    //           //   'There are some error while uploading Image'
+    //           // );
+  
+    //           // this.slimScroll.complete();
+    //         }
+    //       );
+    //   }
+    // }
+
+
 
     SaveProduct(){
       try {
