@@ -25,10 +25,10 @@ export class UserService {
 
     return this.http.post(url, credentials);
   }
-  public PostLostProduct(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + '/product/PostLostProduct';
+  public PostLostProduct(credentials: object, id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + '/product/updatePostLostProduct/' + id;
 
-    return this.http.post(url, credentials);
+    return this.http.put(url, credentials);
   }
 
   public PostLostPerson(credentials: object): Observable<any> {
@@ -39,17 +39,18 @@ export class UserService {
 
   public uploadAvatar(
     user_info: any,
-    image: any,
-    user_id: any
+    image: any
+   // user_id: any
   ): Observable<any> {
-    const url = ProjectConfig.getPath() + `/user/avatar/${user_id}`;
+    // /user/avatar/${user_id}
+    const url = ProjectConfig.getPath() + '/product/PostLostProduct';
 
-    const file_location = `avatar-${user_id}.${user_info.extension}`;
+    const file_location = `avatar.${user_info.extension}`;
     const formData: FormData = new FormData();
     formData.append('file', image, file_location);
 
     return this.http
-      .put(url, formData, {
+      .post(url, formData, {
       })
   }
 

@@ -7,12 +7,12 @@ const upload = require('../config/upload');
 
 
 router.post("/PostLostProduct", upload.single('file'), lostproductController.PostLostProduct);
-router.post("/postlost",lostproductController.postlostproduct);
+router.put('/updatePostLostProduct/:_id', lostproductController.updateUser);
 
-//copied
-router.put("/update/:_id", lostproductController.updateUser);
-router.delete("/:_id", lostproductController.deleteUser);
-router.put("/upload/:id",upload.single('file'), lostproductController.uploadAvatar);
+// router.post("/postlost",lostproductController.postlostproduct);
+// router.put("/update/:_id", lostproductController.updateUser);
+// router.delete("/:_id", lostproductController.deleteUser);
+// router.put("/upload/:id",upload.single('file'), lostproductController.uploadAvatar);
 
 
 

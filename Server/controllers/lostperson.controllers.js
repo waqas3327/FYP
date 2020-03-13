@@ -18,7 +18,7 @@ lostpersonController.PostLostPerson = async (req, res) => {
     
          const lostpers = new LostPerson(body);
          const result = await lostpers.save(); 
-         res.send({ message: 'Data posted!!'});
+         res.send(result);
         }
         catch(ex){
           console.log('ex',ex)

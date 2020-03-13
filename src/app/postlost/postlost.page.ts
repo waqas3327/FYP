@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 
 
 declare var google:any;
@@ -21,6 +21,7 @@ export class PostlostPage {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
+  ID: String;
   marker: any;
   getLostData: FormGroup;
   userInfo;
@@ -99,62 +100,65 @@ export class PostlostPage {
       });
     }
 
-    // onFileChange(e) {
-    //   console.log('e', e);
-    //   const file = e.target.files[0];
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   reader.onload = event => {
-    //      this.userInfo = {};
-    //      this.userInfo.touched = true;
-    //      this.userInfo.avatar = (<FileReader>event.target).result;
-    //      this.userInfo.file = file;
-    //      this.userInfo.extension = file.name.split('.').pop();
-    //   };
-    //    this.filePresent = true;
-    // }
+    onFileChange(e) {
+      console.log('e', e);
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = event => {
+         this.userInfo = {};
+         this.userInfo.touched = true;
+         this.userInfo.avatar = (<FileReader>event.target).result;
+         this.userInfo.file = file;
+         this.userInfo.extension = file.name.split('.').pop();
+      };
+       this.filePresent = true;
+    }
 
 
-    // uploadImage() {
-    //   if (this.filePresent) {
-    //     this.isLoadingImgUpload = true;
-    //     const id = this.getLostData.controls.id.value;
+    uploadImage() {
+      if (this.filePresent) {
+        this.isLoadingImgUpload = true;
+        //const id = this.getLostData.controls._id;
+        this.service
+          .uploadAvatar(this.userInfo, this.userInfo.file)
+          .subscribe(
+            async response => {
+              console.log('respoe->', response);
+              this.isLoadingImgUpload = false;
+              // this.toasterService.pop('success', 'Image uploaded successfully!');
+              // // this.appInfoForm.patchValue(response.data);
+              // this.slimScroll.complete();
+              this.ID = response._id;
+              console.log('iddd= ',this.ID);
+            },
+            error => {
+              console.log('error', error);
+              this.isLoadingImgUpload = false;
+              // this.toasterService.pop(
+              //   'error',
+              //   'There are some error while uploading Image'
+              // );
   
-    //     this.service
-    //       .uploadAvatar(this.userInfo, this.userInfo.file, id)
-    //       .subscribe(
-    //         async response => {
-    //           console.log('respoe->', response);
-    //           this.isLoadingImgUpload = false;
-    //           // this.toasterService.pop('success', 'Image uploaded successfully!');
-    //           // // this.appInfoForm.patchValue(response.data);
-    //           // this.slimScroll.complete();
-    //         },
-    //         error => {
-    //           console.log('error', error);
-    //           this.isLoadingImgUpload = false;
-    //           // this.toasterService.pop(
-    //           //   'error',
-    //           //   'There are some error while uploading Image'
-    //           // );
-  
-    //           // this.slimScroll.complete();
-    //         }
-    //       );
-    //   }
-    // }
+              // this.slimScroll.complete();
+            }
+          );
+      }
+    }
 
 
 
     SaveProduct(){
+      
       try {
+      
+        
         const getLostData = this.getLostData.value;
-        console.log('loginData', getLostData);
-        this.service.PostLostProduct(getLostData).subscribe(
+        console.log('lost data', getLostData);
+        this.service.PostLostProduct(getLostData,this.ID).subscribe(
           data => {
             alert('successfully posted!')
             console.log('got response from server', data);
-            // this.router.navigate(['geolocation']);
           },
           error => {
             console.log('error', error);
@@ -174,6 +178,8 @@ export class PostlostPage {
             alert('successfully posted!')
             console.log('got response from server', data);
             // this.router.navigate(['geolocation']);
+          const id = data._id;
+          console.log('id =', id);
           },
           error => {
             console.log('error', error);
