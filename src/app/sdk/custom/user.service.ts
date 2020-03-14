@@ -34,6 +34,14 @@ export class UserService {
     const url = ProjectConfig.getPath() + '/product/updatePostLostProduct/' + id;
     return this.http.put(url, credentials);
   }
+//found product
+public PostfoundProduct(credentials: object, id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundproduct/updatePostfoundProduct/' + id;
+  return this.http.put(url, credentials);
+}
+
+
+
 
   public uploadAvatar(
     user_info: any,
@@ -64,6 +72,38 @@ export class UserService {
 
 
 
+  public uploadAvatarfound(
+    user_info: any,
+    image: any,
+    value: any,
+    randomNumber:any
+   // user_id: any
+  ): Observable<any> {
+    // /user/avatar/${user_id}
+    var file_location;
+    var url;  
+    if(value == 'item'){
+       url = ProjectConfig.getPath() + '/foundproduct/PostfoundProduct';
+       file_location = `foundproduct-${randomNumber}.${user_info.extension}`;  
+    }
+    if(value == 'person'){
+       url = ProjectConfig.getPath() + '/foundperson/PostfoundPerson';
+       file_location = `foundperson-${randomNumber}.${user_info.extension}`;
+        
+    }
+    const formData: FormData = new FormData();
+    formData.append('file', image, file_location);
+
+    return this.http
+      .post(url, formData, {
+      })
+  }
+
+
+
+
+
+
 
   //person
   public PostLostPerson(credentials: object, id: String): Observable<any> {
@@ -71,6 +111,15 @@ export class UserService {
 
     return this.http.put(url, credentials);
   }
+
+//found person
+public PostfoundPerson(credentials: object, id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundperson/updatePostfoundPerson/' + id;
+
+  return this.http.put(url, credentials);
+}
+
+
 
   // public uploadAvatarPerson(
   //   user_info: any,
