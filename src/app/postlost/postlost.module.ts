@@ -10,10 +10,6 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { PostlostPage } from './postlost.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {HttpModule} from '@angular/http';
-import {Camera} from '@ionic-native/camera/ngx';
-import {FileTransfer} from '@ionic-native/file-transfer/ngx';
-import {File} from '@ionic-native/file';
-import {FileChooser} from '@ionic-native/file-chooser/ngx';
 
 
 
@@ -28,7 +24,7 @@ import {FileChooser} from '@ionic-native/file-chooser/ngx';
   ],
   declarations: [PostlostPage],
   
-  providers: [ Geolocation, MediaCapture,Camera,FileTransfer,FileChooser]
+  providers: [ Geolocation, MediaCapture]
   
 })
 export class PostlostPageModule {}

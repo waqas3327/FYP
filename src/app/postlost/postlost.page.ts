@@ -7,9 +7,6 @@ import { AlertController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
-import {Camera} from '@ionic-native/camera/ngx';
-import { File} from '@ionic-native/file';
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
 
@@ -37,6 +34,8 @@ export class PostlostPage {
   map: google.maps.Map;
   lat = 30.3753;
   lng = 69.3451;
+  lat1;
+  lng1;
   private markers =[];
   coordinates = new google.maps.LatLng(this.lat, this.lng);
 
@@ -52,9 +51,7 @@ export class PostlostPage {
     private router: Router, 
     private formBuilder: FormBuilder, 
     private service: UserService,
-    private actionSheetCtrl:ActionSheetController,
-    private camera:Camera,
-    private fileChooser:FileChooser,
+    private actionSheetCtrl:ActionSheetController
     ){}
 
     
@@ -113,10 +110,10 @@ export class PostlostPage {
 
       let content: string = 'remove';
       this.addInfoWindow(marker, content);
-      var lat1 = marker.getPosition().lat();
-      var lng1 = marker.getPosition().lng();
-      console.log(lat1);
-      console.log(lng1);
+      this.lat1 = marker.getPosition().lat();
+      this.lng1 = marker.getPosition().lng();
+      console.log(this.lat1);
+      console.log(this.lng1);
 
     }
 
@@ -129,46 +126,6 @@ export class PostlostPage {
     clearMarkers() {
       this.setMapOnAll(null);
     }
-
-    async presentActionSheet() {
-      let actionSheet =   await this.actionSheetCtrl.create({
-        //title: 'Select Image Source',
-        buttons: [
-          {
-            text: 'Load from Library',
-            handler:  () => {
-              this.fileChooser.open()
-              .then(uri => console.log(uri))
-              .catch(e => console.log(e));
-              //this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-            }
-          },
-          {
-            text: 'Use Camera',
-            handler: async () => {
-              this.takePicture(this.camera.PictureSourceType.CAMERA); 
-          }
-          },
-          {
-            text: 'Cancel',
-            role: 'cancel'
-          }
-        ]
-      });
-      actionSheet.present();
-    }
-    public takePicture(sourceType) {
-      // Create options for the Camera Dialog
-      var options = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: sourceType,
-        saveToPhotoAlbum: false,
-        correctOrientation: true
-      };
-   
-    }
-
 
     
     getLocation(){
@@ -264,6 +221,8 @@ export class PostlostPage {
     SaveProduct(){
       try {       
         const getLostData = this.getLostData.value;
+        getLostData['lat']=this.lat1;
+        getLostData['lng']=this.lng1;
         getLostData['youremail']=this.emaildisplay;
         console.log('lost data', getLostData);
         this.service.PostLostProduct(getLostData,this.ID).subscribe(
@@ -284,11 +243,10 @@ export class PostlostPage {
     //start
      savePerson(){
       try {
-        const latt= 323232;
-        const lngg = 323323;
+        
         const getLostData = this.getLostData.value;
-        getLostData['lat']=latt;
-        getLostData['lng']=lngg;
+        getLostData['lat']=this.lat1;
+        getLostData['lng']=this.lng1;
         getLostData['youremail']=this.emaildisplay;
         console.log('lostdata', getLostData);
         this.service.PostLostPerson(getLostData, this.ID).subscribe(
