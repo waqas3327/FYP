@@ -170,7 +170,7 @@ export class PostlostPage {
     SaveProduct(){
       try {       
         const getLostData = this.getLostData.value;
-        
+        getLostData['youremail']=this.emaildisplay;
         console.log('lost data', getLostData);
         this.service.PostLostProduct(getLostData,this.ID).subscribe(
           data => {
@@ -195,6 +195,7 @@ export class PostlostPage {
         const getLostData = this.getLostData.value;
         getLostData['lat']=latt;
         getLostData['lng']=lngg;
+        getLostData['youremail']=this.emaildisplay;
         console.log('lostdata', getLostData);
         this.service.PostLostPerson(getLostData, this.ID).subscribe(
            async data => {
@@ -229,13 +230,13 @@ export class PostlostPage {
   }
     ngOnInit(){
       this.formInitializer();
-      this.getLostData.patchValue({youremail: this.emaildisplay});
+      //this.getLostData.patchValue({youremail: this.emaildisplay});
     }
   
     
   formInitializer() {
     this.getLostData = this.formBuilder.group({
-       youremail: [ ],
+      // youremail: [ ],
        title: [null, [Validators.required]],
        description: [null, [Validators.required]],
        reward: [null, [Validators.required]],
