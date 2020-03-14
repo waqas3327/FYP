@@ -1,13 +1,9 @@
 <ion-header>
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
   <ion-toolbar color="primary">
-    <!-- <ion-buttons slot="start">
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons> -->
-    <!-- <ion-title>
-      Lost & Found
-    </ion-title> -->
-
+    </ion-buttons> 
      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar> 
   </ion-toolbar>
 </ion-header>
@@ -16,7 +12,7 @@
 <ion-content>
   <div #mapContainer  id="map"></div>
 
-  <ion-list [hidden]="autocompleteItems.length == 0">
+  <ion-list  [hidden]="autocompleteItems.length == 0">
     <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
       {{ item.description }}
     </ion-item>
