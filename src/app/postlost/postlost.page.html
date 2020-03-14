@@ -24,10 +24,8 @@
                 </ion-list-header>
                 <ion-item>
                   <ion-label>Person</ion-label>
-                  <ion-radio slot="start" value="person"></ion-radio>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Item</ion-label>
+                  <ion-radio value="person"></ion-radio>
+                  <ion-label slot="end">Item</ion-label>
                   <ion-radio slot="start" value="item"></ion-radio>
                 </ion-item>
               </ion-radio-group>
@@ -64,6 +62,8 @@
                 </span>
               </button>
             </div>
+
+
 <!-- end of code alamgir sir -->
 
             <!-- <ion-item>
@@ -91,8 +91,13 @@
               <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
             </ion-button>
           </div>
+
         </ion-col>
       </ion-row>
     </ion-grid>
   </form>
+  <ion-fab right bottom>
+    <button ion-fab (click)="presentActionSheet()"><ion-icon name="camera"></ion-icon></button>
+  </ion-fab>
+
 </ion-content>
