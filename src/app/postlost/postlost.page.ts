@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
+import { async } from '@angular/core/testing';
 
 
 declare var google:any;
@@ -22,12 +23,14 @@ export class PostlostPage {
   latitude: number;
   longitude: number;
   ID: String;
+  IDperson: String;
   marker: any;
   getLostData: FormGroup;
   userInfo;
   filePresent;
   isLoadingImgUpload = false;
   isLoading = false;
+  randomNumber: any;
   
   constructor(
     private geolocation: Geolocation, 
@@ -41,8 +44,11 @@ export class PostlostPage {
     lat = 30.3753;
     lng = 69.3451;
 
+    emaildisplay = localStorage.getItem('name');
     coordinates = new google.maps.LatLng(this.lat, this.lng);
 
+
+    
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
      disableDefaultUI: true,
@@ -70,6 +76,8 @@ export class PostlostPage {
       this.mapOptions);
       //this.marker.setMap(this.map);
     }
+
+    
     getLocation(){
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
@@ -100,6 +108,9 @@ export class PostlostPage {
       });
     }
 
+
+
+    //image upload logic
     onFileChange(e) {
       console.log('e', e);
       const file = e.target.files[0];
@@ -114,14 +125,22 @@ export class PostlostPage {
       };
        this.filePresent = true;
     }
-
-
+    getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+    
     uploadImage() {
+    var value1;
+    value1 = this.getLostData.controls['lostType'].value;
+    console.log(value1);
+      
+      console.log('random number:',this.getRandomInt(500000));
+      this.randomNumber = this.getRandomInt(500000);
       if (this.filePresent) {
         this.isLoadingImgUpload = true;
         //const id = this.getLostData.controls._id;
         this.service
-          .uploadAvatar(this.userInfo, this.userInfo.file)
+          .uploadAvatar(this.userInfo, this.userInfo.file,value1,this.randomNumber)
           .subscribe(
             async response => {
               console.log('respoe->', response);
@@ -149,11 +168,9 @@ export class PostlostPage {
 
 
     SaveProduct(){
-      
-      try {
-      
-        
+      try {       
         const getLostData = this.getLostData.value;
+        
         console.log('lost data', getLostData);
         this.service.PostLostProduct(getLostData,this.ID).subscribe(
           data => {
@@ -169,17 +186,22 @@ export class PostlostPage {
             console.log('ex', ex);
           }
     }
-    savePerson(){
+
+    //start
+     savePerson(){
       try {
+        const latt= 323232;
+        const lngg = 323323;
         const getLostData = this.getLostData.value;
-        console.log('loginData', getLostData);
-        this.service.PostLostPerson(getLostData).subscribe(
-          data => {
-            alert('successfully posted!')
+        getLostData['lat']=latt;
+        getLostData['lng']=lngg;
+        console.log('lostdata', getLostData);
+        this.service.PostLostPerson(getLostData, this.ID).subscribe(
+           async data => {
+            //alert('successfully posted!')
             console.log('got response from server', data);
             // this.router.navigate(['geolocation']);
-          const id = data._id;
-          console.log('id =', id);
+          
           },
           error => {
             console.log('error', error);
@@ -190,7 +212,8 @@ export class PostlostPage {
             console.log('ex', ex);
           }
     }
-    
+
+   
     SaveToDB() {
      
     var value;
@@ -202,14 +225,17 @@ export class PostlostPage {
     if(value == 'person'){
       this.savePerson();
     }
+    //end
   }
     ngOnInit(){
       this.formInitializer();
+      this.getLostData.patchValue({youremail: this.emaildisplay});
     }
   
     
   formInitializer() {
     this.getLostData = this.formBuilder.group({
+       youremail: [ ],
        title: [null, [Validators.required]],
        description: [null, [Validators.required]],
        reward: [null, [Validators.required]],
@@ -218,3 +244,77 @@ export class PostlostPage {
   }
 }
 
+
+
+
+
+
+//code for saving formdata and updating image later on, with id of person..
+// savePerson(){
+//   try {
+//     const getLostData = this.getLostData.value;
+//     console.log('loginData', getLostData);
+//     this.service.PostLostPerson(getLostData).subscribe(
+//        async data => {
+//         //alert('successfully posted!')
+//         console.log('got response from server', data);
+//         // this.router.navigate(['geolocation']);
+//       this.IDperson = data._id;
+//       console.log('id babloo wali: =', this.IDperson);
+//       },
+//       error => {
+//         console.log('error', error);
+//         alert('Wrong email or password!');
+//       }
+//     );
+//     } catch (ex) {
+//         console.log('ex', ex);
+//       }
+// }
+
+// imageuploadperson(id: String){
+//   //test upload image data
+//   console.log('random number:',this.getRandomInt(500000));
+//   this.randomNumber = this.getRandomInt(500000);
+//   if (this.filePresent) {
+//     this.isLoadingImgUpload = true;
+//     //const id = this.getLostData.controls._id;
+//     console.log('idr b id ari ha', this.IDperson);
+//     this.service
+//       .uploadAvatarPerson(this.userInfo, this.userInfo.file,id,this.randomNumber)
+//       .subscribe(
+//         async response => {
+//           console.log('respoe->', response);
+//           this.isLoadingImgUpload = false;
+//           // this.toasterService.pop('success', 'Image uploaded successfully!');
+//           // // this.appInfoForm.patchValue(response.data);
+//           // this.slimScroll.complete();
+//           this.ID = response._id;
+//           console.log('iddd= ',this.ID);
+//         },
+//         error => {
+//           console.log('error', error);
+//           this.isLoadingImgUpload = false;
+//           // this.toasterService.pop(
+//           //   'error',
+//           //   'There are some error while uploading Image'
+//           // );
+
+//           // this.slimScroll.complete();
+//         }
+//       );
+//   }
+// }
+
+// SaveToDB() {
+ 
+// var value;
+// value = this.getLostData.controls['lostType'].value;
+// console.log(value);
+// if(value == 'item'){
+//   this.SaveProduct();
+// }
+// if(value == 'person'){
+//   this.savePerson();
+//   this.imageuploadperson(this.IDperson);
+// }

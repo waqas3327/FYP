@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 
 const LostPerson = new Schema({
-    //imageUrl: String,
+    imageUrl: String,
+    youremail: String,
     title: String,
     description: String,
     reward: String,
