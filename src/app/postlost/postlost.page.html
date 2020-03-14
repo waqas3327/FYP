@@ -84,7 +84,7 @@
           <div padding class="ion-text-center" #mapContainer  id="map"></div>
 
           <div padding id="buttons">
-            <ion-button size="small" shape="round" type="submit" (click)="SaveToDB()">Post
+            <ion-button size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">Post
               <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
             </ion-button>
             <ion-button  size="small" shape="round" (click)="cancel()">Cancel

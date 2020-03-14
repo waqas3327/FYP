@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
-
+import { ToastService } from '../sdk/custom/toast.service';
 
 declare var google:any;
 
@@ -51,18 +51,18 @@ export class PostlostPage {
     private router: Router, 
     private formBuilder: FormBuilder, 
     private service: UserService,
+    private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController
     ){}
 
     
     emaildisplay = localStorage.getItem('name');
     
-
-
     
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
+      
       zoom: 7
     };
 
@@ -196,21 +196,14 @@ export class PostlostPage {
             async response => {
               console.log('respoe->', response);
               this.isLoadingImgUpload = false;
-              // this.toasterService.pop('success', 'Image uploaded successfully!');
-              // // this.appInfoForm.patchValue(response.data);
-              // this.slimScroll.complete();
               this.ID = response._id;
               console.log('iddd= ',this.ID);
+              const msg = "Success! Image Uploaded Successfully.";
+              this.toastservice.presentToast(msg);
             },
             error => {
               console.log('error', error);
               this.isLoadingImgUpload = false;
-              // this.toasterService.pop(
-              //   'error',
-              //   'There are some error while uploading Image'
-              // );
-  
-              // this.slimScroll.complete();
             }
           );
       }
@@ -227,8 +220,10 @@ export class PostlostPage {
         console.log('lost data', getLostData);
         this.service.PostLostProduct(getLostData,this.ID).subscribe(
           data => {
-            alert('successfully posted!')
+            const msgg = "Success! Data Posted Successfully.";
+            this.toastservice.presentToast(msgg);
             console.log('got response from server', data);
+            this.router.navigate(['geolocation']);
           },
           error => {
             console.log('error', error);
@@ -252,8 +247,10 @@ export class PostlostPage {
         this.service.PostLostPerson(getLostData, this.ID).subscribe(
            async data => {
             //alert('successfully posted!')
+            const msgg = "Success! Data Posted Successfully.";
+            this.toastservice.presentToast(msgg);
             console.log('got response from server', data);
-            // this.router.navigate(['geolocation']);
+            this.router.navigate(['geolocation']);
           
           },
           error => {

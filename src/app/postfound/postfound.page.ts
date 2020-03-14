@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
+import { ToastService } from '../sdk/custom/toast.service';
 
 declare var google:any;
 @Component({
@@ -47,6 +48,7 @@ export class PostfoundPage {
     private router: Router, 
     private formBuilder: FormBuilder, 
     private service: UserService,
+    private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController
     ){}
 
@@ -196,9 +198,8 @@ export class PostfoundPage {
             async response => {
               console.log('respoe->', response);
               this.isLoadingImgUpload = false;
-              // this.toasterService.pop('success', 'Image uploaded successfully!');
-              // // this.appInfoForm.patchValue(response.data);
-              // this.slimScroll.complete();
+              const msg = "Success! Image uploaded successfully.";
+              this.toastservice.presentToast(msg);
               this.ID = response._id;
               console.log('iddd= ',this.ID);
             },
@@ -227,8 +228,10 @@ export class PostfoundPage {
         console.log('lost data', getfoundData);
         this.service.PostfoundProduct(getfoundData,this.ID).subscribe(
           data => {
-            alert('successfully posted!')
+            const msg = "Success! Data Posted Successfully.";
+              this.toastservice.presentToast(msg);
             console.log('got response from server', data);
+            this.router.navigate(['geolocation']);
           },
           error => {
             console.log('error', error);
@@ -251,9 +254,10 @@ export class PostfoundPage {
         console.log('lostdata', getfoundData);
         this.service.PostfoundPerson(getfoundData, this.ID).subscribe(
            async data => {
-            //alert('successfully posted!')
+            const msg = "Success! Data Posted Successfully.";
+              this.toastservice.presentToast(msg);
             console.log('got response from server', data);
-            // this.router.navigate(['geolocation']);
+            this.router.navigate(['geolocation']);
           
           },
           error => {
