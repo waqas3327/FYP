@@ -24,15 +24,14 @@
                 </ion-list-header>
                 <ion-item>
                   <ion-label>Person</ion-label>
-                  <ion-radio slot="start" value="person"></ion-radio>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Item</ion-label>
+                  <ion-radio value="person"></ion-radio>
+                  <ion-label slot="end">Item</ion-label>
                   <ion-radio slot="start" value="item"></ion-radio>
                 </ion-item>
               </ion-radio-group>
             </ion-list>
-            <!-- <div class="col-lg-10">
+
+            <div class="col-lg-10" style="width:50%;height:50% ;position: relative;left: 25%;">
               <label>
                 <input
                   type="file"
@@ -61,7 +60,9 @@
                   >Upload Image
                 </span>
               </button>
-            </div> -->
+            </div>
+
+
             <ion-item>
               <ion-input name="title" formControlName="title" type="text" placeholder="Title" ></ion-input>
             </ion-item>
@@ -84,8 +85,13 @@
               <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
             </ion-button>
           </div>
+
         </ion-col>
       </ion-row>
     </ion-grid>
   </form>
+  <ion-fab right bottom>
+    <button ion-fab (click)="presentActionSheet()"><ion-icon name="camera"></ion-icon></button>
+  </ion-fab>
+
 </ion-content>

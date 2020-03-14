@@ -3,42 +3,57 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+import {Camera} from '@ionic-native/camera/ngx';
+import { File} from '@ionic-native/file';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
 
 declare var google:any;
+
 @Component({
   selector: 'app-postlost',
   templateUrl: './postlost.page.html',
   styleUrls: ['./postlost.page.scss'],
 })
+
 export class PostlostPage {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
+
+                                            //Variables declared
   latitude: number;
   longitude: number;
   marker: any;
   getLostData: FormGroup;
+  userInfo;
+  filePresent;
+  map: google.maps.Map;
+  lat = 30.3753;
+  lng = 69.3451;
+  private markers =[];
+  coordinates = new google.maps.LatLng(this.lat, this.lng);
+
+                                           //Constructor
   constructor(
     private geolocation: Geolocation, 
     private mediaCapture: MediaCapture,
     private alertController: AlertController, 
     private router: Router, 
     private formBuilder: FormBuilder, 
-    private service: UserService
+    private service: UserService,
+    private actionSheetCtrl:ActionSheetController,
+    private camera:Camera,
+    private fileChooser:FileChooser,
     ){}
-    map: google.maps.Map;
-    lat = 30.3753;
-    lng = 69.3451;
 
-    coordinates = new google.maps.LatLng(this.lat, this.lng);
+    
 
     mapOptions: google.maps.MapOptions = {
-     center: this.coordinates,
-     disableDefaultUI: true,
-     zoom: 7
+      center: this.coordinates,
+      disableDefaultUI: true,
+      zoom: 7
     };
 
     mapOptions1: google.maps.MapOptions = {
@@ -47,12 +62,6 @@ export class PostlostPage {
       zoom: 18
      };
 
-    // marker = new google.maps.Marker({
-    //   position: this.coordinates,
-    //   map: this.map,
-    // });
-
-
     ngAfterViewInit() {
       this.mapInitializer();
     }
@@ -60,8 +69,94 @@ export class PostlostPage {
     mapInitializer() {
       this.map = new google.maps.Map(this.gmap.nativeElement, 
       this.mapOptions);
-      //this.marker.setMap(this.map);
+      this.map.addListener('click', (event) => {
+      this.addMarker(event.latLng);
+      });
     }
+
+    addInfoWindow(marker, content: string) {
+      let infoWindow = new google.maps.InfoWindow({
+        content: content
+      });
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(this.map, marker);
+      })
+    }
+
+    addMarker(location) {
+       this.clearMarkers();
+      if (!location) {
+        location = this.map.getCenter();
+      }
+      
+      let marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        position: location,
+        draggable:true,
+  
+      });
+      this.markers.push(marker);
+
+      let content: string = 'remove';
+      this.addInfoWindow(marker, content);
+      var lat1 = marker.getPosition().lat();
+      var lng1 = marker.getPosition().lng();
+      console.log(lat1);
+      console.log(lng1);
+
+    }
+
+    setMapOnAll(map) {
+      for (var i = 0; i < this.markers.length; i++) {
+        this.markers[i].setMap(map);
+      }
+    }
+
+    clearMarkers() {
+      this.setMapOnAll(null);
+    }
+
+    async presentActionSheet() {
+      let actionSheet =   await this.actionSheetCtrl.create({
+        //title: 'Select Image Source',
+        buttons: [
+          {
+            text: 'Load from Library',
+            handler:  () => {
+              this.fileChooser.open()
+              .then(uri => console.log(uri))
+              .catch(e => console.log(e));
+              //this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+            }
+          },
+          {
+            text: 'Use Camera',
+            handler: async () => {
+              this.takePicture(this.camera.PictureSourceType.CAMERA); 
+          }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          }
+        ]
+      });
+      actionSheet.present();
+    }
+    public takePicture(sourceType) {
+      // Create options for the Camera Dialog
+      var options = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        sourceType: sourceType,
+        saveToPhotoAlbum: false,
+        correctOrientation: true
+      };
+   
+    }
+
+
     getLocation(){
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
@@ -98,15 +193,15 @@ export class PostlostPage {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = event => {
-        // this.userInfo = {};
-        // this.userInfo.touched = true;
-        // this.userInfo.avatar = (<FileReader>event.target).result;
-        // this.userInfo.file = file;
-        // this.userInfo.extension = file.name.split('.').pop();
+        this.userInfo = {};
+        this.userInfo.touched = true;
+        this.userInfo.avatar = (<FileReader>event.target).result;
+        this.userInfo.file = file;
+        this.userInfo.extension = file.name.split('.').pop();
       };
-      // this.filePresent = true;
+      this.filePresent = true;
     }
-
+    
     SaveProduct(){
       try {
         const getLostData = this.getLostData.value;
@@ -158,6 +253,7 @@ export class PostlostPage {
       this.savePerson();
     }
   }
+
     ngOnInit(){
       this.formInitializer();
     }
@@ -171,5 +267,5 @@ export class PostlostPage {
        lostType: [null, [Validators.required]]
     });
   }
-}
 
+}

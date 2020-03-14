@@ -4,6 +4,7 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
+  "windowsAndroidStudioPath": "C:\\android-studio\\bin\\studio64.exe",
   "cordova": {
     "preferences": {
       "ScrollEnabled": "false",
