@@ -16,6 +16,7 @@ import {File} from '@ionic-native/file';
 import {FileChooser} from '@ionic-native/file-chooser/ngx';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,5 +29,6 @@ import {FileChooser} from '@ionic-native/file-chooser/ngx';
   declarations: [PostlostPage],
   
   providers: [ Geolocation, MediaCapture,Camera,FileTransfer,FileChooser]
+  
 })
 export class PostlostPageModule {}

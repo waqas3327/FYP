@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 
 
 const LostProduct = new Schema({
-    // imageUrl: String,
-    // imageExt: String,
+    imageUrl: String,
+    youremail: String,
+    //imageExt: String,
     title: String,
     description: String,
     reward: String,
