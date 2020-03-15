@@ -14,23 +14,26 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
-  marker: any;
+  geoMarker: any;
   autocomplete={input:''};
   autocompleteItems = [];
   completeService = new google.maps.places.AutocompleteService();
   geocoder = new google.maps.Geocoder;
   markers = [];
-  lostproductsdata;
-  //sub: any;
-    //data being recieved by post lost and post found page..
-  // uniqueID;
-  // latt;
-  // lngg;
-  // //*************************************************** */
-
+  marker: any;
+  lat1;
+  lng1;
+  //lostproductsdata;
+  
+  myLatLng = [{lat: 33.63185723796178, lng: 73.07031135641037},
+    {lat: 33.63185723796841, lng: 74.07031135641052},
+    {lat: 34.63185723796852, lng: 75.07031135641456},
+    {lat: 35.63185723796896, lng: 76.07031135641895},
+    {lat: 36.63185723796178, lng: 77.07031135641037}];
+  
   constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
-    lat = 30.3753;
+    lat = 30.3760;
     lng = 69.3451;
     
  
@@ -52,8 +55,6 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 
 
 ngOnInit(){
-  
-  //code for recieving data through queryparams
   // this.sub = this.route
   // .queryParams
   // .subscribe(params => {
@@ -67,6 +68,7 @@ ngOnInit(){
   //   console.log('lngg:',this.lngg);
   // }); 
   //getting data from lost products 
+  /*
   this.userService.getAllLostProducts().subscribe(
     alllostproducts => {
       console.log("1st record  products", alllostproducts);
@@ -75,11 +77,12 @@ ngOnInit(){
       
     },
     err => {
-      console.log("api error in all request retreaval", err);
+      console.log("api error in all request retrieval", err);
     }
-  );
+  );*/ 
 
 }
+
 
 
 
@@ -92,7 +95,84 @@ ngOnInit(){
     mapInitializer() {
       this.map = new google.maps.Map(this.gmap.nativeElement, 
       this.mapOptions);
+
+     //Runtime add marker
+      this.map.addListener('click', (event) => {
+        this.addMarker(event.latLng);
+        });
+        
     }
+    
+
+    addInfoWindow(marker, content: string) {
+      let infoWindow = new google.maps.InfoWindow({
+        content: content
+      });
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(this.map, marker);
+      })
+    }
+
+    addMarker(location) {
+     // this.clearMarkers();
+     if (!location) {
+       location = this.map.getCenter();
+     }
+     
+     this.marker = new google.maps.Marker({
+       map: this.map,
+       animation: google.maps.Animation.DROP,
+       position: location,
+       title:'hello world',
+       lable:'Adil ',
+       store_id: '123456',
+       //position:{lat:42.2222,lng:-70,9495},
+       draggable:true,
+ 
+     });
+     this.markers.push(this.marker);
+     console.log(this.marker.get('store_id'));
+     let content: string = 'remove';
+     this.addInfoWindow(this.marker, content);
+     this.lat1 = this.marker.getPosition().lat();
+     this.lng1 = this.marker.getPosition().lng();
+     console.log(this.lat1);
+    console.log(this.lng1);
+  }
+  setMapOnAll(map) {
+    for (var i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(map);
+    }
+  }
+
+  clearMarkers() {
+    this.setMapOnAll(null);
+  }
+
+
+  displayallmarkers() {
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      console.log(this.myLatLng[i]);
+
+       this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+
+      });
+      console.log(this.marker.position);
+      //this.marker.setMap(this.map);
+     //this.markers.push(marker);
+    }
+  }
+
+  addMaarker(coords){
+    var marker =new google.maps.Marker({
+      position:coords,
+      map:this.map
+    });
+  }
+
+
 
     updateSearchResults(){
       if (this.autocomplete.input == '') {
@@ -120,6 +200,7 @@ ngOnInit(){
 
 
     getLocation(){
+      console.log(this.myLatLng[3]);
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
@@ -143,14 +224,14 @@ ngOnInit(){
         infoWindow.setContent('Location found.');
         infoWindow.open(this.map);
         this.map.setCenter(pos);
-        this.marker.setMap(this.map);
+        this.geoMarker.setMap(this.map);
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
-      
+      /*
 for(var i = 0; i<this.lostproductsdata.length; i++){
   console.log('data one by one:', this.lostproductsdata[i].lat);
-}
+}*/
 
     }
 
