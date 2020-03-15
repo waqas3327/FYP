@@ -124,38 +124,6 @@ export class PostfoundPage {
     }
 
     
-    getLocation(){
-      this.geolocation.getCurrentPosition().then((resp) => {
-        this.latitude = resp.coords.latitude;
-        this.longitude = resp.coords.longitude;
-        this.map = new google.maps.Map(this.gmap.nativeElement, 
-          this.mapOptions1);
-        const infoWindow = new google.maps.InfoWindow;
-        const pos = {
-          lat: this.latitude,
-          lng: this.longitude
-        };
-        const icon = {
-          url: '<img src="https://img.icons8.com/android/24/000000/place-marker.png"/>', // image url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
-        };
-        const marker = new google.maps.Marker({
-             position: pos,
-             map: this.map,
-             icon: icon
-          });
-      
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(this.map);
-        this.map.setCenter(pos);
-        this.marker.setMap(this.map);
-      }).catch((error) => {
-        console.log('Error in getting the locations', error);
-      });
-    }
-
-
 
     //image upload logic
     onFileChange(e) {
@@ -218,7 +186,7 @@ export class PostfoundPage {
     }
 
 
-
+//this function will save the posted products in database..
     SaveProduct(){
       try {       
         const getfoundData = this.getfoundData.value;
@@ -243,10 +211,9 @@ export class PostfoundPage {
           }
     }
 
-    //start
+//this function will save the posted personss in database....
      savePerson(){
-      try {
-        
+      try {   
         const getfoundData = this.getfoundData.value;
         getfoundData['lat']=this.lat1;
         getfoundData['lng']=this.lng1;
@@ -258,11 +225,10 @@ export class PostfoundPage {
               this.toastservice.presentToast(msg);
             console.log('got response from server', data);
             this.router.navigate(['geolocation']);
-          
           },
           error => {
             console.log('error', error);
-            alert('Wrong email or password!');
+            alert('Problem posting data!');
           }
         );
         } catch (ex) {
@@ -272,7 +238,6 @@ export class PostfoundPage {
 
    
     SaveToDB() {
-     
     var value;
     value = this.getfoundData.controls['lostType'].value;
     console.log(value);
@@ -282,7 +247,6 @@ export class PostfoundPage {
     if(value == 'person'){
       this.savePerson();
     }
-    //end
   }
 
     ngOnInit(){
