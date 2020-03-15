@@ -85,4 +85,19 @@ async function runUpdate(_id, updates, res) {
     }
 }
 
+lostproductController.getAllLostProducts = async (req, res) => {
+  // const lostproducts = await LostProduct.find();
+  // console.log('all lost products', lostproducts);
+  LostProduct.find({})
+  .exec(function (err, LostProduct) {
+    if (err) {
+      console.log('Error while retrieving All buyer');
+    } else {
+      res.json(LostProduct);
+    }
+  })
+
+}
+
+
    module.exports = lostproductController;

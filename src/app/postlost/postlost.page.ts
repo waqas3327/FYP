@@ -192,8 +192,8 @@ export class PostlostPage {
             const msgg = "Success! Data Posted Successfully.";
             this.toastservice.presentToast(msgg);
             console.log('got response from server', data);
-           // this.router.navigate(['geolocation']);
-            this.router.navigate(['geolocation'], { queryParams: { uniqueid: this.ID, laatitude: this.lat1,loongitude:this.lng1 } });
+            this.router.navigate(['geolocation']);
+            //this.router.navigate(['geolocation'], { queryParams: { uniqueid: this.ID, laatitude: this.lat1,loongitude:this.lng1 } });
           },
           error => {
             console.log('error', error);
