@@ -118,14 +118,16 @@ export class GeolocationPage implements AfterViewInit {
 
   displayallmarkers() {
     for (var i = 0; i < this.myLatLng.length; i++) {
-  
-      this.marker = new google.maps.Marker({
+      console.log(this.myLatLng[i]);
+
+       this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
 
       });
-      this.marker.setMap(this.map);
-      this.markers.push(this.marker);
+      console.log(this.marker.position);
+      //this.marker.setMap(this.map);
+     //this.markers.push(marker);
     }
   }
 
