@@ -148,6 +148,8 @@ ngOnInit(){
 
       });
       console.log(this.marker.position);
+      let content: string = 'remove';
+      this.addInfoWindow(this.marker, content);
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
