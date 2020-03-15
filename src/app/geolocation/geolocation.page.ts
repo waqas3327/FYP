@@ -2,8 +2,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,NgZone, Input, OnDestroy} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
-import { Content } from '@angular/compiler/src/render3/r3_ast';
-
+import { UserService } from '../sdk/custom/user.service';
+import { analyzeFile } from '@angular/compiler';
 declare var google:any;
 @Component({
   selector: 'app-geolocation',
@@ -23,17 +23,15 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   marker: any;
   lat1;
   lng1;
+  lostproductsdata;
   
   myLatLng = [{lat: 33.63185723796178, lng: 73.07031135641037},
     {lat: 33.63185723796841, lng: 74.07031135641052},
     {lat: 34.63185723796852, lng: 75.07031135641456},
     {lat: 35.63185723796896, lng: 76.07031135641895},
     {lat: 36.63185723796178, lng: 77.07031135641037}];
-
-
   
-
-  constructor(private geolocation: Geolocation,private zone:NgZone) { }
+  constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
     lat = 30.3760;
     lng = 69.3451;
@@ -68,7 +66,21 @@ ngOnInit(){
   //   console.log('ID:',this.uniqueID);
   //   console.log('latt:',this.latt);
   //   console.log('lngg:',this.lngg);
-  // });  
+  // }); 
+  //getting data from lost products 
+  
+  this.userService.getAllLostProducts().subscribe(
+    alllostproducts => {
+      console.log("1st record  products", alllostproducts);
+      this.lostproductsdata = alllostproducts;
+      console.log("all lost products", this.lostproductsdata[0].lat);
+      
+    },
+    err => {
+      console.log("api error in all request retrieval", err);
+    }
+  ); 
+
 }
 
 
@@ -218,6 +230,10 @@ ngOnInit(){
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
+      
+for(var i = 0; i<this.lostproductsdata.length; i++){
+  console.log('data one by one:', this.lostproductsdata[i].lat);
+}
     }
 
     selectSearchResult(item){
@@ -239,5 +255,6 @@ ngOnInit(){
         }
       })
     }
+
 
 }

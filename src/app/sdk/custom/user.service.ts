@@ -39,6 +39,12 @@ public PostfoundProduct(credentials: object, id: String): Observable<any> {
   const url = ProjectConfig.getPath() + '/foundproduct/updatePostfoundProduct/' + id;
   return this.http.put(url, credentials);
 }
+//getting all products
+public getAllLostProducts(): Observable<any> {
+  const url = ProjectConfig.getPath() + '/product/getalllostproducts';
+  //return this.http.get(url, credentials);
+  return this.http.get(url);
+}
 
 
 
