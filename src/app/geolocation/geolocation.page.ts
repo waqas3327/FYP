@@ -23,7 +23,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   marker: any;
   lat1;
   lng1;
-  //lostproductsdata;
+  lostproductsdata;
   
   myLatLng = [{lat: 33.63185723796178, lng: 73.07031135641037},
     {lat: 33.63185723796841, lng: 74.07031135641052},
@@ -68,7 +68,7 @@ ngOnInit(){
   //   console.log('lngg:',this.lngg);
   // }); 
   //getting data from lost products 
-  /*
+  
   this.userService.getAllLostProducts().subscribe(
     alllostproducts => {
       console.log("1st record  products", alllostproducts);
@@ -79,7 +79,7 @@ ngOnInit(){
     err => {
       console.log("api error in all request retrieval", err);
     }
-  );*/ 
+  ); 
 
 }
 
@@ -228,11 +228,10 @@ ngOnInit(){
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
-      /*
+      
 for(var i = 0; i<this.lostproductsdata.length; i++){
   console.log('data one by one:', this.lostproductsdata[i].lat);
-}*/
-
+}
     }
 
     selectSearchResult(item){
