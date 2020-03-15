@@ -10,6 +10,7 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { PostlostPage } from './postlost.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {HttpModule} from '@angular/http';
+import { GeolocationPage } from '../geolocation/geolocation.page';
 
 
 

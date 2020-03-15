@@ -1,7 +1,8 @@
 
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,NgZone} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,NgZone, Input, OnDestroy} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare var google:any;
 @Component({
@@ -9,7 +10,7 @@ declare var google:any;
   templateUrl: './geolocation.page.html',
   styleUrls: ['./geolocation.page.scss'],
 })
-export class GeolocationPage implements AfterViewInit {
+export class GeolocationPage implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
@@ -19,11 +20,19 @@ export class GeolocationPage implements AfterViewInit {
   completeService = new google.maps.places.AutocompleteService();
   geocoder = new google.maps.Geocoder;
   markers = [];
+  sub: any;
+  queryParameters: number;
+  //data being recieved by post lost and post found page..
+  uniqueID;
+  latt;
+  lngg;
+  //*************************************************** */
 
-  constructor(private geolocation: Geolocation,private zone:NgZone) { }
+  constructor(private geolocation: Geolocation,private route: ActivatedRoute,private zone:NgZone) { }
     map: google.maps.Map;
     lat = 30.3753;
     lng = 69.3451;
+    
  
 
     coordinates = new google.maps.LatLng(this.lat, this.lng);
@@ -41,8 +50,31 @@ export class GeolocationPage implements AfterViewInit {
       zoom: 18
      };
 
+
+ngOnInit(){
+  this.sub = this.route
+  .queryParams
+  .subscribe(params => {
+    // Defaults to 0 if no query param provided.
+    this.queryParameters = +params['page'] || 0;
+    this.uniqueID=params.uniqueid;
+    this.latt = params.laatitude;
+    this.lngg = params.loongitude;
+    console.log('ID:',this.uniqueID);
+    console.log('latt:',this.latt);
+    console.log('lngg:',this.lngg);
+  });  
+}
+ngOnDestroy() {
+  this.sub.unsubscribe();
+}
+
+
+
+
     ngAfterViewInit() {
       this.mapInitializer();
+      
   }
 
     mapInitializer() {

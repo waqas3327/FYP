@@ -25,7 +25,8 @@ export class PostlostPage {
   //Variables declared
   latitude: number;
   longitude: number;
-  ID: String;
+  public ID: String;
+  
   IDperson: String;
   marker: any;
   getLostData: FormGroup;
@@ -62,7 +63,6 @@ export class PostlostPage {
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
-      
       zoom: 7
     };
 
@@ -93,6 +93,9 @@ export class PostlostPage {
       })
     }
 
+
+
+  //droping marker on the selected location
     addMarker(location) {
        this.clearMarkers();
       if (!location) {
@@ -107,56 +110,22 @@ export class PostlostPage {
   
       });
       this.markers.push(marker);
-
       let content: string = 'remove';
       this.addInfoWindow(marker, content);
       this.lat1 = marker.getPosition().lat();
       this.lng1 = marker.getPosition().lng();
       console.log(this.lat1);
       console.log(this.lng1);
-
     }
-
     setMapOnAll(map) {
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(map);
       }
     }
-
     clearMarkers() {
       this.setMapOnAll(null);
     }
-
-    
-    getLocation(){
-      this.geolocation.getCurrentPosition().then((resp) => {
-        this.latitude = resp.coords.latitude;
-        this.longitude = resp.coords.longitude;
-        this.map = new google.maps.Map(this.gmap.nativeElement, 
-          this.mapOptions1);
-        const infoWindow = new google.maps.InfoWindow;
-        const pos = {
-          lat: this.latitude,
-          lng: this.longitude
-        };
-        const icon = {
-          url: 'https://img.icons8.com/doodle/48/000000/street-view.png', // image url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
-        };
-        const marker = new google.maps.Marker({
-             position: pos,
-             map: this.map,
-             icon: icon
-          });
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(this.map);
-        this.map.setCenter(pos);
-        this.marker.setMap(this.map);
-      }).catch((error) => {
-        console.log('Error in getting the locations', error);
-      });
-    }
+///****************************************
 
 
 
@@ -223,7 +192,8 @@ export class PostlostPage {
             const msgg = "Success! Data Posted Successfully.";
             this.toastservice.presentToast(msgg);
             console.log('got response from server', data);
-            this.router.navigate(['geolocation']);
+           // this.router.navigate(['geolocation']);
+            this.router.navigate(['geolocation'], { queryParams: { uniqueid: this.ID, laatitude: this.lat1,loongitude:this.lng1 } });
           },
           error => {
             console.log('error', error);
