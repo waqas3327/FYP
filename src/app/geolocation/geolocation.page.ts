@@ -2,6 +2,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild,NgZone} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 declare var google:any;
 @Component({
@@ -13,16 +14,28 @@ export class GeolocationPage implements AfterViewInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
   longitude: number;
-  marker: any;
+  geoMarker: any;
   autocomplete={input:''};
   autocompleteItems = [];
   completeService = new google.maps.places.AutocompleteService();
   geocoder = new google.maps.Geocoder;
   markers = [];
+  marker: any;
+  lat1;
+  lng1;
+  
+  myLatLng = [{lat: 33.63185723796178, lng: 73.07031135641037},
+    {lat: 33.63185723796841, lng: 73.07031135641052},
+    {lat: 33.63185723796852, lng: 73.07031135641456},
+    {lat: 33.63185723796896, lng: 73.07031135641895},
+    {lat: 33.63185723796178, lng: 73.07031135641037}];
+
+
+  
 
   constructor(private geolocation: Geolocation,private zone:NgZone) { }
     map: google.maps.Map;
-    lat = 30.3753;
+    lat = 30.3760;
     lng = 69.3451;
  
 
@@ -48,7 +61,75 @@ export class GeolocationPage implements AfterViewInit {
     mapInitializer() {
       this.map = new google.maps.Map(this.gmap.nativeElement, 
       this.mapOptions);
+
+     //Runtime add marker
+      this.map.addListener('click', (event) => {
+        this.addMarker(event.latLng);
+        });
+        
     }
+    
+
+    addInfoWindow(marker, content: string) {
+      let infoWindow = new google.maps.InfoWindow({
+        content: content
+      });
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(this.map, marker);
+      })
+    }
+
+    addMarker(location) {
+     // this.clearMarkers();
+     if (!location) {
+       location = this.map.getCenter();
+     }
+     
+     this.marker = new google.maps.Marker({
+       map: this.map,
+       animation: google.maps.Animation.DROP,
+       position: location,
+       title:'hello world',
+       lable:'Adil ',
+       store_id: '123456',
+       //position:{lat:42.2222,lng:-70,9495},
+       draggable:true,
+ 
+     });
+     this.markers.push(this.marker);
+     console.log(this.marker.get('store_id'));
+     let content: string = 'remove';
+     this.addInfoWindow(this.marker, content);
+     this.lat1 = this.marker.getPosition().lat();
+     this.lng1 = this.marker.getPosition().lng();
+     console.log(this.lat1);
+    console.log(this.lng1);
+  }
+  setMapOnAll(map) {
+    for (var i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(map);
+    }
+  }
+
+  clearMarkers() {
+    this.setMapOnAll(null);
+  }
+
+
+  displayallmarkers() {
+    for (var i = 0; i < this.myLatLng.length; i++) {
+  
+      this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+
+      });
+      this.marker.setMap(this.map);
+      this.markers.push(this.marker);
+    }
+  }
+
+
 
     updateSearchResults(){
       if (this.autocomplete.input == '') {
@@ -76,6 +157,7 @@ export class GeolocationPage implements AfterViewInit {
 
 
     getLocation(){
+      console.log(this.myLatLng[3]);
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
@@ -99,7 +181,7 @@ export class GeolocationPage implements AfterViewInit {
         infoWindow.setContent('Location found.');
         infoWindow.open(this.map);
         this.map.setCenter(pos);
-        this.marker.setMap(this.map);
+        this.geoMarker.setMap(this.map);
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });

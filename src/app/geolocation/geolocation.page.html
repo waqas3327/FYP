@@ -3,16 +3,15 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons> 
-     <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar> 
+    </ion-buttons>
+    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-  <div #mapContainer  id="map"></div>
-
-  <ion-list  [hidden]="autocompleteItems.length == 0">
+  <div #mapContainer id="map"></div>
+  <ion-list [hidden]="autocompleteItems.length == 0">
     <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
       {{ item.description }}
     </ion-item>
@@ -32,11 +31,17 @@
     </ion-fab-list>
   </ion-fab>
 
-  <ion-fab vertical="top" horizontal="start" slot="fixed">
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button color="white" (click)="getLocation()">
       <img style="width: 28px" src="../../assets/icon/loc.png">
-  </ion-fab-button>
+    </ion-fab-button>
+    <ion-fab-button color="white" (click)="displayallmarkers()">
+      <img style="width: 28px" src="../../assets/icon/eye-off-outline.svg">
+    </ion-fab-button>
+    <ion-fab-button color="white" (click)="getLocation()">
+      <img style="width: 28px" src="../../assets/icon/eye-outline.svg">
+    </ion-fab-button>
   </ion-fab>
-  
+
 
 </ion-content>
