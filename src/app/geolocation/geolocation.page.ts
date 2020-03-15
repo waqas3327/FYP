@@ -87,7 +87,7 @@ export class GeolocationPage implements AfterViewInit {
           lng: this.longitude
         };
         const icon = {
-          url: 'https://img.icons8.com/doodle/48/000000/street-view.png', // image url
+          url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
           scaledSize: new google.maps.Size(50, 50), // scaled size
         };
         const marker = new google.maps.Marker({

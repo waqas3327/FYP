@@ -22,6 +22,8 @@ app.use(
 const UserRoutes = require('./routes/user.routes');
 const lostproductRoutes = require('./routes/lostproduct.routes');
 const lostpersonRoutes = require('./routes/lostperson.routes');
+const foundproductRoutes = require('./routes/foundproduct.routes');
+const foundpersonRoutes = require('./routes/foundperson.routes');
 
 
 // connection to mongoose
@@ -52,6 +54,9 @@ app.use(cors());
 app.use("/user",UserRoutes);
 app.use("/product", lostproductRoutes);
 app.use("/person", lostpersonRoutes);
+app.use("/foundproduct", foundproductRoutes);
+app.use("/foundperson", foundpersonRoutes);
+
 
 
 app.use(errorHandler);
