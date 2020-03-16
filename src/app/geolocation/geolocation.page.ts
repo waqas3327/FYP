@@ -146,22 +146,17 @@ ngOnInit(){
       //   });
     }
     
-    navigateToDescription(){
-      this.router.navigate(['descripion-page']);
-    }
+   
 
     addInfoWindow(marker, content: string) {
       let infoWindow = new google.maps.InfoWindow({
         content: content
       });
-      // this.marker.addListener('click',
-      //   this.router.navigate(['descripion-page'])
-      // )
-      //google.maps.event.addListener('click',this.router.navigate(['descripion-page']))
+     
        google.maps.event.addListener(marker, 'click', function () {
        
          infoWindow.open(this.map, marker);
-        this.navigateToDescription();
+       
         this.router.navigate(['description-page']);
       })
 
