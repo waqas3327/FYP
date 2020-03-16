@@ -151,42 +151,11 @@ ngOnInit(){
       let infoWindow = new google.maps.InfoWindow({
         content: content
       });
-      google.maps.event.addListener(marker, 'click', function () {
-        this.router.navigate(['description-page']);
+      google.maps.event.addListener(marker, 'click',  () => {
         infoWindow.open(this.map, marker);
+       this.router.navigate(['/description-page']);
       })
-     
-     
     }
-
-    //onclick add marker
-  //   addMarker(location) {
-  //    // this.clearMarkers();
-  //    if (!location) {
-  //      location = this.map.getCenter();
-  //    }
-     
-  //    this.marker = new google.maps.Marker({
-  //      map: this.map,
-  //      animation: google.maps.Animation.DROP,
-  //      position: location,
-  //      title:'hello world',
-  //      lable:'Adil ',
-  //      store_id: '123456',
-  //      //position:{lat:42.2222,lng:-70,9495},
-  //      draggable:true,
- 
-  //    });
-  //    this.markers.push(this.marker);
-  //    console.log(this.marker.get('store_id'));
-  //    let content: string = 'remove';
-  //    this.addInfoWindow(this.marker, content);
-  //    this.lat1 = this.marker.getPosition().lat();
-  //    this.lng1 = this.marker.getPosition().lng();
-  //    console.log(this.lat1);
-  //   console.log(this.lng1);
-  // }
-
 
   setMapOnAll(map) {
     for (var i = 0; i < this.markers.length; i++) {
@@ -212,6 +181,9 @@ ngOnInit(){
       //console.log(this.lostproductsdata[i]._id);
       let content: string = 'Lost Product';
       this.addInfoWindow(this.marker, content);
+      // this.marker.addListener('click', function() {
+      //   this.router.navigate(['/description-page']);
+      // });
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
@@ -297,7 +269,6 @@ ngOnInit(){
 
 
     getLocation(){
-      console.log(this.myLatLng[3]);
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
@@ -325,8 +296,7 @@ ngOnInit(){
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
-      
-
+this.displayallmarkers();      
     }
 
     selectSearchResult(item){
