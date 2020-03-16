@@ -40,6 +40,7 @@ export class PostfoundPage {
   isLoadingImgUpload = false;
   isLoading = false;
   randomNumber: any;
+  geoMarker: any;
   
   constructor(
     private geolocation: Geolocation, 
@@ -59,7 +60,7 @@ export class PostfoundPage {
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
-      zoom: 7
+      zoom: 300
     };
 
     mapOptions1: google.maps.MapOptions = {
@@ -103,7 +104,6 @@ export class PostfoundPage {
   
       });
       this.markers.push(marker);
-
       let content: string = 'remove';
       this.addInfoWindow(marker, content);
       this.lat1 = marker.getPosition().lat();
@@ -264,6 +264,5 @@ export class PostfoundPage {
        lostType: [null, [Validators.required]]
     });
   }
-
 }
 

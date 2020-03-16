@@ -1,39 +1,39 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Post Found
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-back-button defaultHref="geolocation"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Post Found
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-back-button defaultHref="geolocation"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form [formGroup]="getfoundData">
-    <ion-grid>
-      <ion-row color="primary" justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div padding>
-            <ion-list>
-              <ion-radio-group formControlName="lostType">
-                <ion-list-header>
-                  <ion-label>Type</ion-label>
-                </ion-list-header>
-                <ion-item>
-                  <ion-label>Item</ion-label>
-                  <ion-radio value="person"></ion-radio>
-                  <ion-label slot="end">Person</ion-label>
-                  <ion-radio slot="start" value="item"></ion-radio>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
-      
-      <!-- code from sir alamgir -->
-            <div class="col-lg-10">
-              <label>
+    <form [formGroup]="getfoundData">
+        <ion-grid>
+            <ion-row color="primary" justify-content-center>
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                    <div padding>
+                        <ion-list>
+                            <ion-radio-group formControlName="lostType">
+                                <ion-list-header>
+                                    <ion-label>Type</ion-label>
+                                </ion-list-header>
+                                <ion-item>
+                                    <ion-label>Item</ion-label>
+                                    <ion-radio value="person"></ion-radio>
+                                    <ion-label slot="end">Person</ion-label>
+                                    <ion-radio slot="start" value="item"></ion-radio>
+                                </ion-item>
+                            </ion-radio-group>
+                        </ion-list>
+
+                        <!-- code from sir alamgir -->
+                        <div class="col-lg-10">
+                            <label>
                 <input
                   type="file"
                   #inputFile
@@ -46,13 +46,7 @@
                   onError="this.src='assets/images/placeholder.jpg'"
                 />
               </label>
-              <button
-                *ngIf="userInfo?.touched"
-                type="button"
-                (click)="uploadImage()"
-                class="btn btn-green round"
-                [disabled]="isLoadingImgUpload"
-              >
+                            <button *ngIf="userInfo?.touched" type="button" (click)="uploadImage()" class="btn btn-green round" [disabled]="isLoadingImgUpload">
                 <i
                   *ngIf="isLoadingImgUpload"
                   class="fa fa-circle-o-notch fa-spin btn-spinner"
@@ -61,39 +55,39 @@
                   >Upload Image
                 </span>
               </button>
-            </div>
+                        </div>
 
 
-<!-- end of code alamgir sir -->
+                        <!-- end of code alamgir sir -->
 
-            <!-- <ion-item>
+                        <!-- <ion-item>
               <ion-input name="youremail" formControlName="youremail" type="text" value={{emaildisplay}} readonly ></ion-input>
             </ion-item> -->
-            <ion-item>
-              <ion-input name="title" formControlName="title" type="text" placeholder="title"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="description" formControlName="description" type="text" placeholder="Description" ></ion-input>
-            </ion-item>
-           
-            <ion-item>
-              <ion-input name="reward" formControlName="reward" type="text" placeholder="Offer Reward" ></ion-input>
-            </ion-item>
-          </div>
-          
-          <div padding class="ion-text-center" #mapContainer  id="map"></div>
+                        <ion-item>
+                            <ion-input name="title" formControlName="title" type="text" placeholder="title"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input name="description" formControlName="description" type="text" placeholder="Description"></ion-input>
+                        </ion-item>
 
-          <div padding id="buttons">
-            <ion-button size="small" shape="round" [disabled]="getfoundData.invalid" type="submit" (click)="SaveToDB()">Post
-              <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
-            </ion-button>
-            <ion-button  size="small" shape="round" (click)="cancel()">Cancel
-              <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
-            </ion-button>
-          </div>
+                        <ion-item>
+                            <ion-input name="reward" formControlName="reward" type="text" placeholder="Offer Reward"></ion-input>
+                        </ion-item>
+                    </div>
 
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+                    <div padding class="ion-text-center" #mapContainer id="map"></div>
+
+                    <div padding id="buttons">
+                        <ion-button size="small" shape="round" [disabled]="getfoundData.invalid" type="submit" (click)="SaveToDB()">Post
+                            <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
+                        </ion-button>
+                        <ion-button size="small" shape="round" (click)="cancel()">Cancel
+                            <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
+                        </ion-button>
+                    </div>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 </ion-content>
