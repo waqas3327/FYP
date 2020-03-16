@@ -171,13 +171,19 @@ ngOnInit(){
     this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
       console.log(this.myLatLng[i]);
+      this.myLatLng[i].lat=this.lostproductsdata[i].lat;
 
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        store_id: this.lostproductsdata[i]._id,
+
 
       });
-      console.log(this.marker.position);
+      console.log(this.marker.get('store_id'));
+      //console.log(this.lostproductsdata[i]._id);
+      let content: string = 'remove';
+      this.addInfoWindow(this.marker, content);
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
