@@ -5,6 +5,7 @@ import { LocationStrategy } from '@angular/common';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
+
 declare var google:any;
 @Component({
   selector: 'app-geolocation',
@@ -106,7 +107,7 @@ ngOnInit(){
   this.userService.getAllFoundProducts().subscribe(
     allfoundproducts => {
       this.foundproductsdata = allfoundproducts;
-      console.log("all found products", this.foundproductsdata[0].lat);
+     // console.log("all found products", this.foundproductsdata[0].lat);
       
     },
     err => {
@@ -145,6 +146,7 @@ ngOnInit(){
       //   });
     }
     
+   
 
     addInfoWindow(marker, content: string) {
       let infoWindow = new google.maps.InfoWindow({
@@ -161,6 +163,9 @@ ngOnInit(){
         }
       })
     }
+    
+
+    
 
   setMapOnAll(map) {
     for (var i = 0; i < this.markers.length; i++) {
@@ -174,6 +179,7 @@ ngOnInit(){
 
 
   displayallmarkers() {
+    
     //lost product markers
     this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
