@@ -8,6 +8,9 @@ const uploadPerson = require('../config/uploadPerson');
 
 router.post("/PostLostPerson", uploadPerson.single('file'), lostpersonController.PostLostPerson);
 router.put('/updatePostLostPerson/:_id', lostpersonController.updateUser);
+router.get("/getalllostpersons", lostpersonController.getAllLostPersons);
+
+
 
 //router.post("/PostLostPerson", lostpersonController.PostLostPerson);
 

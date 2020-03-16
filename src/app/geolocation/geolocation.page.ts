@@ -24,29 +24,32 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   lat1;
   lng1;
   lostproductsdata;
-  
-  myLatLng = [{lat: 33.63185723796178, lng: 73.07031135641037},
-    {lat: 33.63185723796841, lng: 74.07031135641052},
-    {lat: 34.63185723796852, lng: 75.07031135641456},
-    {lat: 35.63185723796896, lng: 76.07031135641895},
-    {lat: 36.63185723796178, lng: 77.07031135641037}];
+  myLatLng; 
   
   constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
     lat = 30.3760;
     lng = 69.3451;
-    
+
+
+    datacollector(){
+      this.myLatLng = this.lostproductsdata;
+      for(var i = 0; i<this.lostproductsdata.length; i++){
+        this.myLatLng[i].lat=this.lostproductsdata[i].lat;
+        this.myLatLng[i].lng=this.lostproductsdata[i].lng;
+      }
+    }
  
 
     coordinates = new google.maps.LatLng(this.lat, this.lng);
     
-
+// page mapoptions
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
      disableDefaultUI: true,
      zoom: 7
     };
-
+//map options for geolocation
     mapOptions1: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
@@ -151,6 +154,7 @@ ngOnInit(){
 
 
   displayallmarkers() {
+    this.datacollector();
     for (var i = 0; i < this.myLatLng.length; i++) {
       console.log(this.myLatLng[i]);
 
@@ -231,9 +235,7 @@ ngOnInit(){
         console.log('Error in getting the locations', error);
       });
       
-for(var i = 0; i<this.lostproductsdata.length; i++){
-  console.log('data one by one:', this.lostproductsdata[i].lat);
-}
+
     }
 
     selectSearchResult(item){

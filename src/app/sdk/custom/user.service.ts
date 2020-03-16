@@ -124,7 +124,12 @@ public PostfoundPerson(credentials: object, id: String): Observable<any> {
 
   return this.http.put(url, credentials);
 }
-
+//getting all lost persons
+public getAllLostPersons(): Observable<any> {
+  const url = ProjectConfig.getPath() + '/person/getalllostpersons';
+  //return this.http.get(url, credentials);
+  return this.http.get(url);
+}
 
 
   // public uploadAvatarPerson(
