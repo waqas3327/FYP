@@ -5,7 +5,6 @@ import { LocationStrategy } from '@angular/common';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
-import { DescriptionPagePage } from '../description-page/description-page.page';
 declare var google:any;
 @Component({
   selector: 'app-geolocation',

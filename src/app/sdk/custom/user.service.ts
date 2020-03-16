@@ -45,14 +45,19 @@ public getAllLostProducts(): Observable<any> {
   //return this.http.get(url, credentials);
   return this.http.get(url);
 }
-
 //getting all found products
 public getAllFoundProducts(): Observable<any> {
   const url = ProjectConfig.getPath() + '/foundproduct/getallfoundproducts';
   //return this.http.get(url, credentials);
   return this.http.get(url);
 }
+//getting single lost product
+public getSingleLostProduct(id: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/product/getsinglelostproduct/' + id;
+  return this.http.get(url);
 
+  //return this.http.get(url);
+}
 
 
 
