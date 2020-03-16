@@ -36,9 +36,14 @@ const routes: Routes = [
     path: 'postfound',
     loadChildren: () => import('./postfound/postfound.module').then( m => m.PostfoundPageModule)
   },  {
-    path: 'description-page',
-    loadChildren: () => import('./description-page/description-page.module').then( m => m.DescriptionPagePageModule)
+    path: 'lost',
+    loadChildren: () => import('./lost/lost.module').then( m => m.LostPageModule)
+  },
+  {
+    path: 'found',
+    loadChildren: () => import('./found/found.module').then( m => m.FoundPageModule)
   }
+
 
 
 ];

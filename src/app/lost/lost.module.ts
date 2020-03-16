@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DescriptionPagePageRoutingModule } from './description-page-routing.module';
+import { LostPageRoutingModule } from './lost-routing.module';
 
-import { DescriptionPagePage } from './description-page.page';
+import { LostPage } from './lost.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DescriptionPagePageRoutingModule
+    LostPageRoutingModule
   ],
-  declarations: [DescriptionPagePage]
+  declarations: [LostPage]
 })
-export class DescriptionPagePageModule {}
+export class LostPageModule {}
