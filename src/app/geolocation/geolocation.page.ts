@@ -24,6 +24,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   lat1;
   lng1;
   lostproductsdata;
+  lostpersonsdata;
   myLatLng; 
   
   constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
@@ -32,11 +33,11 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     lng = 69.3451;
 
 
-    datacollector(){
-      this.myLatLng = this.lostproductsdata;
-      for(var i = 0; i<this.lostproductsdata.length; i++){
-        this.myLatLng[i].lat=this.lostproductsdata[i].lat;
-        this.myLatLng[i].lng=this.lostproductsdata[i].lng;
+    datacollector(data){
+      this.myLatLng = data;
+      for(var i = 0; i<data.length; i++){
+        this.myLatLng[i].lat=data[i].lat;
+        this.myLatLng[i].lng=data[i].lng;
       }
     }
  
@@ -70,8 +71,8 @@ ngOnInit(){
   //   console.log('latt:',this.latt);
   //   console.log('lngg:',this.lngg);
   // }); 
+
   //getting data from lost products 
-  
   this.userService.getAllLostProducts().subscribe(
     alllostproducts => {
       console.log("1st record  products", alllostproducts);
@@ -81,6 +82,18 @@ ngOnInit(){
     },
     err => {
       console.log("api error in all request retrieval", err);
+    }
+  ); 
+
+  //getting data from lost persons 
+  this.userService.getAllLostPersons().subscribe(
+    alllostpersons => {
+      console.log("1st record  products", alllostpersons);
+      this.lostpersonsdata = alllostpersons;
+      //console.log("all lost products", this.lostproductsdata[0].lat);
+    },
+    err => {
+      console.log("api error in data retrieval", err);
     }
   ); 
 
@@ -154,7 +167,8 @@ ngOnInit(){
 
 
   displayallmarkers() {
-    this.datacollector();
+    //lost product markers
+    this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
       console.log(this.myLatLng[i]);
 
@@ -167,6 +181,22 @@ ngOnInit(){
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
+    //lost person markers
+    this.datacollector(this.lostpersonsdata);
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      console.log(this.myLatLng[i]);
+
+       this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+
+      });
+      console.log(this.marker.position);
+      //this.marker.setMap(this.map);
+     //this.markers.push(marker);
+    }
+
+
   }
 
   addMaarker(coords){
