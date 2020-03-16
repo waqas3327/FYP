@@ -35,7 +35,11 @@ const routes: Routes = [
   {
     path: 'postfound',
     loadChildren: () => import('./postfound/postfound.module').then( m => m.PostfoundPageModule)
+  },  {
+    path: 'description-page',
+    loadChildren: () => import('./description-page/description-page.module').then( m => m.DescriptionPagePageModule)
   }
+
 
 ];
 
