@@ -4,6 +4,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
+import { Router } from '@angular/router';
+import { DescriptionPagePage } from '../description-page/description-page.page';
 declare var google:any;
 @Component({
   selector: 'app-geolocation',
@@ -30,7 +32,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
  
   myLatLng; 
   
-  constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
+  constructor(private router:Router,private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
     lat = 30.3760;
     lng = 69.3451;
@@ -150,8 +152,11 @@ ngOnInit(){
         content: content
       });
       google.maps.event.addListener(marker, 'click', function () {
+        this.router.navigate(['description-page']);
         infoWindow.open(this.map, marker);
       })
+     
+     
     }
 
     //onclick add marker
@@ -219,7 +224,6 @@ ngOnInit(){
         store_id: this.lostpersonsdata[i]._id,
       });
       console.log('this is markers id:',this.marker.get('store_id'));
-      console.log(this.marker.position);
       let content: string = 'Lost Person';
       this.addInfoWindow(this.marker, content);      
       //this.marker.setMap(this.map);
