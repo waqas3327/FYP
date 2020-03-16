@@ -30,41 +30,23 @@
                 </ion-item>
               </ion-radio-group>
             </ion-list>
-      
-      <!-- code from sir alamgir -->
+
+            <!-- code from sir alamgir -->
             <div class="col-lg-10">
               <label>
-                <input
-                  type="file"
-                  #inputFile
-                  style="display:none"
-                  (change)="onFileChange($event)"
-                />
-                <img
-                  [src]="userInfo?.avatar"
-                  class="fixed-size"
-                  onError="this.src='assets/images/placeholder.jpg'"
-                />
+                <input type="file" #inputFile style="display:none" (change)="onFileChange($event)" />
+                <img [src]="userInfo?.avatar" class="fixed-size" onError="this.src='assets/images/placeholder.jpg'" />
               </label>
-              <button
-                *ngIf="userInfo?.touched"
-                type="button"
-                (click)="uploadImage()"
-                class="btn btn-green round"
-                [disabled]="isLoadingImgUpload"
-              >
-                <i
-                  *ngIf="isLoadingImgUpload"
-                  class="fa fa-circle-o-notch fa-spin btn-spinner"
-                ></i>
-                <span *ngIf="!isLoadingImgUpload"
-                  >Upload Image
+              <button *ngIf="userInfo?.touched" type="button" (click)="uploadImage()" class="btn btn-green round"
+                [disabled]="isLoadingImgUpload">
+                <i *ngIf="isLoadingImgUpload" class="fa fa-circle-o-notch fa-spin btn-spinner"></i>
+                <span *ngIf="!isLoadingImgUpload">Upload Image
                 </span>
               </button>
             </div>
 
 
-<!-- end of code alamgir sir -->
+            <!-- end of code alamgir sir -->
 
             <!-- <ion-item>
               <ion-input name="youremail" formControlName="youremail" type="text" value={{emaildisplay}} readonly ></ion-input>
@@ -73,21 +55,23 @@
               <ion-input name="title" formControlName="title" type="text" placeholder="title"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="description" formControlName="description" type="text" placeholder="Description" ></ion-input>
+              <ion-input name="description" formControlName="description" type="text" placeholder="Description">
+              </ion-input>
             </ion-item>
-           
+
             <ion-item>
-              <ion-input name="reward" formControlName="reward" type="text" placeholder="Offer Reward" ></ion-input>
+              <ion-input name="reward" formControlName="reward" type="text" placeholder="Offer Reward"></ion-input>
             </ion-item>
           </div>
-          
-          <div padding class="ion-text-center" #mapContainer  id="map"></div>
+
+          <div padding class="ion-text-center" #mapContainer id="map"></div>
 
           <div padding id="buttons">
-            <ion-button size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">Post
+            <ion-button size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">
+              Post
               <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
             </ion-button>
-            <ion-button  size="small" shape="round" (click)="cancel()">Cancel
+            <ion-button size="small" shape="round" (click)="cancel()">Cancel
               <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
             </ion-button>
           </div>
