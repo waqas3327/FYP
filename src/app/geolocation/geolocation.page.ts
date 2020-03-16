@@ -107,7 +107,7 @@ ngOnInit(){
   this.userService.getAllFoundProducts().subscribe(
     allfoundproducts => {
       this.foundproductsdata = allfoundproducts;
-      console.log("all found products", this.foundproductsdata[0].lat);
+     // console.log("all found products", this.foundproductsdata[0].lat);
       
     },
     err => {
@@ -146,18 +146,29 @@ ngOnInit(){
       //   });
     }
     
+    navigateToDescription(){
+      this.router.navigate(['descripion-page']);
+    }
 
     addInfoWindow(marker, content: string) {
       let infoWindow = new google.maps.InfoWindow({
         content: content
       });
-      google.maps.event.addListener(marker, 'click', function () {
+      // this.marker.addListener('click',
+      //   this.router.navigate(['descripion-page'])
+      // )
+      //google.maps.event.addListener('click',this.router.navigate(['descripion-page']))
+       google.maps.event.addListener(marker, 'click', function () {
+       
+         infoWindow.open(this.map, marker);
+        this.navigateToDescription();
         this.router.navigate(['description-page']);
-        infoWindow.open(this.map, marker);
       })
-     
-     
+
     }
+    
+
+    
 
     //onclick add marker
   //   addMarker(location) {
@@ -200,6 +211,7 @@ ngOnInit(){
 
 
   displayallmarkers() {
+    
     //lost product markers
     this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
