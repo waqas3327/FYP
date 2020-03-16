@@ -12,8 +12,6 @@ const foundProduct = new Schema({
     reward: String,
     lat: { type: Intl, default: 0 },
     lng: { type: Intl, default: 0 }
-   });
-   foundProduct.plugin(mongoosePaginate);
+});
+foundProduct.plugin(mongoosePaginate);
 module.exports = mongoose.model('foundproduct', foundProduct);
-
-

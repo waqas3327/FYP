@@ -23,8 +23,11 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   marker: any;
   lat1;
   lng1;
-  lostproductsdata;
-  lostpersonsdata;
+  lostproductsdata; //getting lost products
+  lostpersonsdata; //getting lost persons
+  foundproductsdata; //getting found products
+  foundpersonsdata; //getting found persons
+ 
   myLatLng; 
   
   constructor(private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
@@ -97,6 +100,29 @@ ngOnInit(){
     }
   ); 
 
+  
+  //getting data from found products 
+  this.userService.getAllFoundProducts().subscribe(
+    allfoundproducts => {
+      this.foundproductsdata = allfoundproducts;
+      console.log("all found products", this.foundproductsdata[0].lat);
+      
+    },
+    err => {
+      console.log("api error in all request retrieval", err);
+    }
+  ); 
+
+  //getting data from found persons 
+  this.userService.getAllFoundPersons().subscribe(
+    allfoundpersons => {
+      this.foundpersonsdata = allfoundpersons;
+      //console.log("all lost products", this.lostproductsdata[0].lat);
+    },
+    err => {
+      console.log("api error in data retrieval", err);
+    }
+  ); 
 }
 
 
@@ -116,7 +142,6 @@ ngOnInit(){
       // this.map.addListener('click', (event) => {
       //   this.addMarker(event.latLng);
       //   });
-        
     }
     
 
@@ -196,6 +221,37 @@ ngOnInit(){
       console.log('this is markers id:',this.marker.get('store_id'));
       console.log(this.marker.position);
       let content: string = 'Lost Person';
+      this.addInfoWindow(this.marker, content);      
+      //this.marker.setMap(this.map);
+     //this.markers.push(marker);
+    }
+
+    //found product markers
+    this.datacollector(this.foundproductsdata);
+    for (var i = 0; i < this.myLatLng.length; i++) {
+       this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        store_id: this.foundproductsdata[i]._id,
+      });
+      console.log('this is markers id:',this.marker.get('store_id'));
+      //console.log(this.lostproductsdata[i]._id);
+      let content: string = 'Found Product';
+      this.addInfoWindow(this.marker, content);
+      //this.marker.setMap(this.map);
+     //this.markers.push(marker);
+    }
+    //lost person markers
+    this.datacollector(this.foundpersonsdata);
+    for (var i = 0; i < this.myLatLng.length; i++) {
+       this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        store_id: this.foundpersonsdata[i]._id,
+      });
+      console.log('this is markers id:',this.marker.get('store_id'));
+      console.log(this.marker.position);
+      let content: string = 'Found Person';
       this.addInfoWindow(this.marker, content);      
       //this.marker.setMap(this.map);
      //this.markers.push(marker);

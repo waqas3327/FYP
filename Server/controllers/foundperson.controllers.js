@@ -4,30 +4,29 @@ const path = require('path');
 
 
 
-foundpersonController.PostfoundPerson = async (req, res) => {
-    try{
+foundpersonController.PostfoundPerson = async(req, res) => {
+    try {
         const body = req.body;
         console.log('req.body', body);
-    
+
         // fahad code for image
-         const filePath = `uploadfoundperson/${req./*params.*/file.originalname}`;
+        const filePath = `uploadfoundperson/${req./*params.*/file.originalname}`;
         // const ext = path.extname(req.file.originalname);
-         body.imageUrl = filePath;
+        body.imageUrl = filePath;
         // body.imageExt =  ext;
         // console.log(body.avatar);
-    
-         const foundpers = new foundPerson(body);
-         const result = await foundpers.save(); 
-         res.send(result);
-        }
-        catch(ex){
-          console.log('ex',ex)
-        } 
-   };
-  
 
-   //updating
-   foundpersonController.updateUser = async (req, res) => {
+        const foundpers = new foundPerson(body);
+        const result = await foundpers.save();
+        res.send(result);
+    } catch (ex) {
+        console.log('ex', ex)
+    }
+};
+
+
+//updating
+foundpersonController.updateUser = async(req, res) => {
     if (!req.params._id) {
         res.status(500).send({
             message: 'ID missing'
@@ -36,18 +35,18 @@ foundpersonController.PostfoundPerson = async (req, res) => {
     try {
         const _id = req.params._id;
         //console.log('here is id,',req.params._id);
-        
+
 
         // const filePath = `uploadPerson/${req./*params.*/file.originalname}`;
         // // const ext = path.extname(req.file.originalname);
         // req.body.imageUrl = filePath;
-      
 
-        
+
+
         let updates = req.body;
         //console.log('here is body,',req.body);
-            runUpdate(_id, updates, res);
-      
+        runUpdate(_id, updates, res);
+
 
     } catch (error) {
         console.log('error', error);
@@ -94,4 +93,19 @@ async function runUpdate(_id, updates, res) {
     }
 }
 
-   module.exports = foundpersonController;
+foundpersonController.getAllFoundPersons = async(req, res) => {
+    // const lostproducts = await LostProduct.find();
+    // console.log('all lost products', lostproducts);
+    foundPerson.find({})
+        .exec(function(err, foundPerson) {
+            if (err) {
+                console.log('Error while retrieving ');
+            } else {
+                res.json(foundPerson);
+            }
+        })
+}
+
+
+
+module.exports = foundpersonController;

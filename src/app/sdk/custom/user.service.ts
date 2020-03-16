@@ -39,12 +39,20 @@ public PostfoundProduct(credentials: object, id: String): Observable<any> {
   const url = ProjectConfig.getPath() + '/foundproduct/updatePostfoundProduct/' + id;
   return this.http.put(url, credentials);
 }
-//getting all products
+//getting all lost products
 public getAllLostProducts(): Observable<any> {
   const url = ProjectConfig.getPath() + '/product/getalllostproducts';
   //return this.http.get(url, credentials);
   return this.http.get(url);
 }
+
+//getting all found products
+public getAllFoundProducts(): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundproduct/getallfoundproducts';
+  //return this.http.get(url, credentials);
+  return this.http.get(url);
+}
+
 
 
 
@@ -124,6 +132,14 @@ public PostfoundPerson(credentials: object, id: String): Observable<any> {
 
   return this.http.put(url, credentials);
 }
+
+//getting all found persons
+public getAllFoundPersons(): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundperson/getallfoundpersons';
+  //return this.http.get(url, credentials);
+  return this.http.get(url);
+}
+
 //getting all lost persons
 public getAllLostPersons(): Observable<any> {
   const url = ProjectConfig.getPath() + '/person/getalllostpersons';
