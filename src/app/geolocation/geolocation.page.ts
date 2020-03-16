@@ -113,9 +113,9 @@ ngOnInit(){
       this.mapOptions);
 
      //Runtime add marker
-      this.map.addListener('click', (event) => {
-        this.addMarker(event.latLng);
-        });
+      // this.map.addListener('click', (event) => {
+      //   this.addMarker(event.latLng);
+      //   });
         
     }
     
@@ -129,32 +129,35 @@ ngOnInit(){
       })
     }
 
-    addMarker(location) {
-     // this.clearMarkers();
-     if (!location) {
-       location = this.map.getCenter();
-     }
+    //onclick add marker
+  //   addMarker(location) {
+  //    // this.clearMarkers();
+  //    if (!location) {
+  //      location = this.map.getCenter();
+  //    }
      
-     this.marker = new google.maps.Marker({
-       map: this.map,
-       animation: google.maps.Animation.DROP,
-       position: location,
-       title:'hello world',
-       lable:'Adil ',
-       store_id: '123456',
-       //position:{lat:42.2222,lng:-70,9495},
-       draggable:true,
+  //    this.marker = new google.maps.Marker({
+  //      map: this.map,
+  //      animation: google.maps.Animation.DROP,
+  //      position: location,
+  //      title:'hello world',
+  //      lable:'Adil ',
+  //      store_id: '123456',
+  //      //position:{lat:42.2222,lng:-70,9495},
+  //      draggable:true,
  
-     });
-     this.markers.push(this.marker);
-     console.log(this.marker.get('store_id'));
-     let content: string = 'remove';
-     this.addInfoWindow(this.marker, content);
-     this.lat1 = this.marker.getPosition().lat();
-     this.lng1 = this.marker.getPosition().lng();
-     console.log(this.lat1);
-    console.log(this.lng1);
-  }
+  //    });
+  //    this.markers.push(this.marker);
+  //    console.log(this.marker.get('store_id'));
+  //    let content: string = 'remove';
+  //    this.addInfoWindow(this.marker, content);
+  //    this.lat1 = this.marker.getPosition().lat();
+  //    this.lng1 = this.marker.getPosition().lng();
+  //    console.log(this.lat1);
+  //   console.log(this.lng1);
+  // }
+
+
   setMapOnAll(map) {
     for (var i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(map);
@@ -170,19 +173,14 @@ ngOnInit(){
     //lost product markers
     this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
-      console.log(this.myLatLng[i]);
-      this.myLatLng[i].lat=this.lostproductsdata[i].lat;
-
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
         store_id: this.lostproductsdata[i]._id,
-
-
       });
-      console.log(this.marker.get('store_id'));
+      console.log('this is markers id:',this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'remove';
+      let content: string = 'Lost Product';
       this.addInfoWindow(this.marker, content);
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
@@ -190,19 +188,18 @@ ngOnInit(){
     //lost person markers
     this.datacollector(this.lostpersonsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
-      console.log(this.myLatLng[i]);
-
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
-
+        store_id: this.lostpersonsdata[i]._id,
       });
+      console.log('this is markers id:',this.marker.get('store_id'));
       console.log(this.marker.position);
+      let content: string = 'Lost Person';
+      this.addInfoWindow(this.marker, content);      
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
-
-
   }
 
   addMaarker(coords){
