@@ -170,7 +170,7 @@ ngOnInit(){
     //lost product markers
     this.datacollector(this.lostproductsdata);
     for (var i = 0; i < this.myLatLng.length; i++) {
-      console.log(this.myLatLng[i]);
+      
       this.myLatLng[i].lat=this.lostproductsdata[i].lat;
 
        this.marker = new google.maps.Marker({
@@ -195,9 +195,11 @@ ngOnInit(){
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        store_id: this.lostpersonsdata[i]._id,
 
       });
       console.log(this.marker.position);
+      console.log(this.marker.get('store_id'));
       //this.marker.setMap(this.map);
      //this.markers.push(marker);
     }
