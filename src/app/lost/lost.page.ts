@@ -27,6 +27,9 @@ export class LostPage implements OnInit {
   lat = 30.3753;
   lng = 69.3451;
 
+  //myLatLng = {lat: 30.292330116167804, lng:  69.46869619140627};
+  myLatLng = {lat: 30.292330116167804, lng:  69.46869619140627};
+  
   coordinates = new google.maps.LatLng(this.lat, this.lng);
 
   map: google.maps.Map;
@@ -53,6 +56,7 @@ export class LostPage implements OnInit {
 
   ngAfterViewInit() {
     this.mapInitializer();
+    this.addMarker();
   }
 
   mapInitializer() {
@@ -64,6 +68,20 @@ export class LostPage implements OnInit {
   }
   
  //mini map code[end]
+ addMarker() {
+
+  let marker = new google.maps.Marker({
+    map: this.map,
+    animation: google.maps.Animation.DROP,
+    position:this.myLatLng ,
+    draggable:true,
+
+  });
+
+  let content: string = 'remove';
+ // this.addInfoWindow(marker, content);
+
+}
 
   ngOnInit() {
     //getting data from query params

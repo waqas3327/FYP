@@ -97,6 +97,7 @@ export class PostlostPage {
 
   //droping marker on the selected location
     addMarker(location) {
+      console.log(location);
        this.clearMarkers();
       if (!location) {
         location = this.map.getCenter();
