@@ -24,21 +24,38 @@
                 <!-- Place holder div -->
                 <div style="border-style: solid; border-width: 2px;border-color: blue;position: relative; top:30px; width: 100%; ">
                     <ion-item style="font: size 11;font-family: sans-serif;color:blue; ">
-                        Title :
+                        <ion-label style="font: size 11;font-family: sans-serif;color:blue;" position="stacked">Title</ion-label>
                         <ion-input name="title " type="text " value={{dataretrieved?.data?.title}}></ion-input>
+                       
                     </ion-item>
                     <ion-item style="font: size 11;font-family: sans-serif;color:blue; ">
-                        Posted By :
+                        <ion-label position="stacked">Posted By</ion-label>
+                        <ion-input name="name " type="text " value={{dataretrieved?.data?.youremail}}>
+                        </ion-input>
+                    </ion-item>
+                    <ion-item style="font: size 11;font-family: sans-serif;color:blue; ">
+                        <ion-label position="stacked">Reward</ion-label>
                         <ion-input name="name " type="text " value={{dataretrieved?.data?.youremail}}>
                         </ion-input>
                     </ion-item>
                 </div>
                 <!-- div for description -->
                 <div style="border-style: solid; border-width: 2px;border-color: blue;position: relative;top:40px; width: 100%; ">
-                    <ion-item>
+                    <!-- <ion-item>
+                        Description :
                         <ion-input name="description " type="text " value={{dataretrieved?.data?.description}}></ion-input>
-                    </ion-item>
+                    </ion-item> -->
+                    <ion-item>
+                        <ion-label position="stacked">Description</ion-label>
+                        <ion-textarea auto-grow="true"
+                          disabled
+                          readonly
+                          value={{dataretrieved?.data?.description}}>
+                        </ion-textarea>
+                      </ion-item>
                 </div>
+                   <!-- div for displaying map -->
+                <div padding class="ion-text-center" #mapContainer id="map"></div>
 
 
             </ion-col>
