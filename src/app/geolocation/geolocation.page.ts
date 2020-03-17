@@ -155,11 +155,11 @@ ngOnInit(){
       google.maps.event.addListener(marker, 'click',  () => {
         infoWindow.open(this.map, marker);
        //this.router.navigate(['/description-page']);
-       if(marker.get('markerType') === 'lost'){
-       this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id') } });
+       if(marker.get('markerType') === 'lostperson' || 'lostproduct'){
+       this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') }});
        }
-       if(marker.get('markerType') === 'found'){
-        this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id') } });
+       if(marker.get('markerType') === 'foundperson' || 'foundproduct'){
+        this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') } });
         }
       })
     }
@@ -187,7 +187,7 @@ ngOnInit(){
         position: this.myLatLng[i],
         map: this.map,
         store_id: this.lostproductsdata[i]._id,
-        markerType: 'lost'
+        markerType: 'lostproduct'
       });
       console.log('this is markers id:',this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
@@ -206,7 +206,7 @@ ngOnInit(){
         position: this.myLatLng[i],
         map: this.map,
         store_id: this.lostpersonsdata[i]._id,
-        markerType: 'lost'
+        markerType: 'lostperson',
       });
       console.log('this is markers id:',this.marker.get('store_id'));
       console.log('this is markers type:',this.marker.get('markerType'));
@@ -223,7 +223,7 @@ ngOnInit(){
         position: this.myLatLng[i],
         map: this.map,
         store_id: this.foundproductsdata[i]._id,
-        markerType: 'found'
+        markerType: 'foundproduct'
       });
       console.log('this is markers id:',this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
@@ -239,7 +239,7 @@ ngOnInit(){
         position: this.myLatLng[i],
         map: this.map,
         store_id: this.foundpersonsdata[i]._id,
-        markerType: 'found'
+        markerType: 'foundperson'
       });
       console.log('this is markers id:',this.marker.get('store_id'));
       console.log('this is markers type:',this.marker.get('markerType'));

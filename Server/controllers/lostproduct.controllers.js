@@ -111,7 +111,6 @@ lostproductController.getSingleLostProduct = async(req, res) => {
         console.log('error', error);
         return res.status(500).send(error);
     }
-
 }
 
 

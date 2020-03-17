@@ -151,6 +151,13 @@ public getAllLostPersons(): Observable<any> {
   //return this.http.get(url, credentials);
   return this.http.get(url);
 }
+//getting single lost person
+public getSingleLostPerson(id: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/person/getsinglelostperson/' + id;
+  return this.http.get(url);
+
+  //return this.http.get(url);
+}
 
 
   // public uploadAvatarPerson(
