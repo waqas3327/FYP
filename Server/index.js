@@ -62,7 +62,7 @@ app.use("/foundperson", foundpersonRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploadfoundperson', express.static(path.join(__dirname, 'uploadfoundperson')));
 app.use('/uploadfoundproduct', express.static(path.join(__dirname, 'uploadfoundproduct')));
-app.use('/uploadPerson', express.static(path.join(__dirname, 'uploadPerson')));
+app.use('/uploadsPerson', express.static(path.join(__dirname, 'uploadsPerson')));
 
 
 

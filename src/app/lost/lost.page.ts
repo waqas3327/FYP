@@ -39,7 +39,7 @@ export class LostPage implements OnInit {
     // Defaults to 0 if no query param provided.
     this.queryParameters = +params['page'] || 0;
     this.uniqueID=params.markerID;
-    this.markertype = params.markerType;
+    this.markertype = params.markertype;
     console.log('ID:',this.uniqueID);
     console.log('markerType: ',this.markertype);
   });   
