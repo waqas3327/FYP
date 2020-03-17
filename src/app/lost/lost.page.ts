@@ -62,6 +62,7 @@ export class LostPage implements OnInit {
    // this.addMarker(event.latLng);
     });
   }
+  
  //mini map code[end]
 
   ngOnInit() {
@@ -104,9 +105,6 @@ export class LostPage implements OnInit {
         }
       );
     }//end if
+    
   }
-
-
-
-
 }

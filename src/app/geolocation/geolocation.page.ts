@@ -125,6 +125,7 @@ ngOnInit(){
       console.log("api error in data retrieval", err);
     }
   ); 
+  //this.displayallmarkers();
 }
 
 

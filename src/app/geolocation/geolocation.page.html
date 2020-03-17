@@ -1,47 +1,44 @@
 <ion-header>
-  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
-    </ion-searchbar>
-  </ion-toolbar>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
+        </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div #mapContainer id="map"></div>
-  <ion-list [hidden]="autocompleteItems.length == 0">
-    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-      {{ item.description }}
-    </ion-item>
-  </ion-list>
+    <div #mapContainer id="map"></div>
+    <ion-list [hidden]="autocompleteItems.length == 0">
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+            {{ item.description }}
+        </ion-item>
+    </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button href="../postlost" color="danger">
-        <ion-icon name="gift"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button href="../postfound" color="danger">
-        <ion-icon name="search"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <ion-fab-button href="../postlost" color="danger">
+                <ion-icon name="gift"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button href="../postfound" color="danger">
+                <ion-icon name="search"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
 
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button color="white" (click)="getLocation()">
-      <img style="width: 28px" src="../../assets/icon/loc.png">
-    </ion-fab-button>
-    <ion-fab-button color="white" (click)="displayallmarkers()">
-      <img style="width: 28px" src="../../assets/icon/eye-off-outline.svg">
-    </ion-fab-button>
-    <ion-fab-button color="white" (click)="getLocation()">
-      <img style="width: 28px" src="../../assets/icon/eye-outline.svg">
-    </ion-fab-button>
-  </ion-fab>
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button color="white" (click)="getLocation()">
+            <img style="width: 28px" src="../../assets/icon/loc.png">
+        </ion-fab-button>
+        <ion-fab-button color="white" (click)="displayallmarkers()">
+            <img style="width: 28px" src="../../assets/icon/eye-off-outline.svg">
+        </ion-fab-button>
+    </ion-fab>
 
 
 </ion-content>
