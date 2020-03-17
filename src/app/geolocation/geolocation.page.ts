@@ -159,7 +159,7 @@ ngOnInit(){
        this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') }});
        }
        if(marker.get('markerType') === 'foundperson' || 'foundproduct'){
-        this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') } });
+        this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') } });
         }
       })
     }
