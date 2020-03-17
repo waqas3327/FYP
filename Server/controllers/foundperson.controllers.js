@@ -106,6 +106,22 @@ foundpersonController.getAllFoundPersons = async(req, res) => {
         })
 }
 
+foundpersonController.getSingleFoundPerson = async(req, res) => {
+    try {
+        const _id = req.params._id
+        person = await foundPerson.findOne({ "_id": _id });
+        res.status(200).send({
+            code: 200,
+            message: 'Successful',
+            data: person
+        });
+
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
 
 
 module.exports = foundpersonController;

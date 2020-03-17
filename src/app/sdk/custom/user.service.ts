@@ -19,13 +19,10 @@ export class UserService {
   }
   public userRegister(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + '/user/register';
-
     return this.http.post(url, credentials);
   }
   public userForgotPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + '/user/sendmail';
-
-
     return this.http.post(url, credentials);
   }
 
@@ -51,12 +48,15 @@ public getAllFoundProducts(): Observable<any> {
   //return this.http.get(url, credentials);
   return this.http.get(url);
 }
+//getting single found product
+public getSingleFoundProduct(id: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/foundproduct/getsinglefoundproduct/' + id;
+  return this.http.get(url);
+}
 //getting single lost product
 public getSingleLostProduct(id: String): Observable<any>{
   const url = ProjectConfig.getPath() + '/product/getsinglelostproduct/' + id;
   return this.http.get(url);
-
-  //return this.http.get(url);
 }
 
 
@@ -155,9 +155,14 @@ public getAllLostPersons(): Observable<any> {
 public getSingleLostPerson(id: String): Observable<any>{
   const url = ProjectConfig.getPath() + '/person/getsinglelostperson/' + id;
   return this.http.get(url);
-
   //return this.http.get(url);
 }
+//getting single found person
+public getSingleFoundPerson(id: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/foundperson/getsinglefoundperson/' + id;
+  return this.http.get(url);
+}
+
 
 
   // public uploadAvatarPerson(

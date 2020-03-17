@@ -9,6 +9,7 @@ const uploadfoundproduct = require('../config/uploadfoundproduct');
 router.post("/PostfoundProduct", uploadfoundproduct.single('file'), foundproductController.PostfoundProduct);
 router.put('/updatePostfoundProduct/:_id', foundproductController.updateUser);
 router.get("/getallfoundproducts", foundproductController.getAllFoundProducts);
+router.get('/getsinglefoundproduct/:_id', foundproductController.getSingleFoundProduct);
 
 
 

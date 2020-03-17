@@ -8,29 +8,22 @@ import { ProjectConfig } from '../sdk/project.config';
   styleUrls: ['./lost.page.scss'],
 })
 export class LostPage implements OnInit {
+  
   sub: any;
   queryParameters: number;
   uniqueID: any;
   markertype;
 
   dataretrieved;
-  lostproductsData;
-  title;
-  description;
   imageurl;
-
-  foundproductsData;
-  lostpeopleData;
-  foundpeopleData;
   youremail: any;
+
 
   user = {
     src: ''
   };
 
-
   constructor(private route: ActivatedRoute, private userservice: UserService) { }
-
   ngOnInit() {
     //getting data from query params
     this.sub = this.route
