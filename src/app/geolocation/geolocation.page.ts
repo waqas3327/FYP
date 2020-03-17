@@ -154,13 +154,16 @@ ngOnInit(){
       });
       google.maps.event.addListener(marker, 'click',  () => {
         infoWindow.open(this.map, marker);
+        console.log('clicked marker, markerType value:',marker.get('markerType'));
        //this.router.navigate(['/description-page']);
-       if(marker.get('markerType') === 'lostperson' || 'lostproduct'){
+       if((marker.get('markerType') == 'lostperson')||(marker.get('markerType') == 'lostproduct')){
        this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') }});
-       }
-       if(marker.get('markerType') === 'foundperson' || 'foundproduct'){
+      console.log('inside lost url: markertype value',marker.get('markerType')); 
+      }
+       else if((marker.get('markerType') == 'foundperson')||(marker.get('markerType') == 'foundproduct')){
         this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id'),markertype: marker.get('markerType') } });
-        }
+        console.log('inside found url: markertype value',marker.get('markerType'));  
+      }
       })
     }
     
@@ -193,11 +196,6 @@ ngOnInit(){
       //console.log(this.lostproductsdata[i]._id);
       let content: string = 'Lost Product';
       this.addInfoWindow(this.marker, content);
-      // this.marker.addListener('click', function() {
-      //   this.router.navigate(['/description-page']);
-      // });
-      //this.marker.setMap(this.map);
-     //this.markers.push(marker);
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
