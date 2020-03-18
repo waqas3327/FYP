@@ -54,6 +54,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
      center: this.coordinates,
      disableDefaultUI: true,
      zoom: 7
+     //mapTypeId: 'satellite'
     };
 //map options for geolocation
     mapOptions1: google.maps.MapOptions = {
@@ -309,6 +310,7 @@ ngOnInit(){
 
 
     getLocation(){
+
       this.geolocation.getCurrentPosition().then((resp) => {
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
@@ -338,7 +340,7 @@ ngOnInit(){
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
-this.displayallmarkers();      
+      this.displayallmarkers();      
     }
 
     selectSearchResult(item){
