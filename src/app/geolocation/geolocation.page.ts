@@ -36,6 +36,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   Searchposition:any;
   myLatLng;
   address: any;
+  public isSearchbarOpen=false;
 
   constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService) { }
   map: google.maps.Map;
@@ -348,7 +349,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     
        this.map = new google.maps.Map(this.gmap.nativeElement,
         this.mapOptions2);
-    // this.clearMarkers();
+     this.clearMarkers();
     this.autocompleteItems = [];
 
     this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
