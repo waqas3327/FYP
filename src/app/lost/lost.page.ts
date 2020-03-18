@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { ProjectConfig } from '../sdk/project.config';
@@ -27,9 +27,6 @@ export class LostPage implements OnInit {
   lat = 30.3753;
   lng = 69.3451;
 
-  //myLatLng = {lat: 30.292330116167804, lng:  69.46869619140627};
-  myLatLng = {lat: 30.292330116167804, lng:  69.46869619140627};
-  
   coordinates = new google.maps.LatLng(this.lat, this.lng);
 
   map: google.maps.Map;
@@ -38,6 +35,8 @@ export class LostPage implements OnInit {
   user = {
     src: ''
   };
+  address: any;
+
 
   constructor(private route: ActivatedRoute, private userservice: UserService) { }
 
@@ -56,8 +55,8 @@ export class LostPage implements OnInit {
 
   ngAfterViewInit() {
     this.mapInitializer();
-    this.addMarker();
   }
+
 
   mapInitializer() {
     this.map = new google.maps.Map(this.gmap.nativeElement, 
@@ -68,20 +67,6 @@ export class LostPage implements OnInit {
   }
   
  //mini map code[end]
- addMarker() {
-
-  let marker = new google.maps.Marker({
-    map: this.map,
-    animation: google.maps.Animation.DROP,
-    position:this.myLatLng ,
-    draggable:true,
-
-  });
-
-  let content: string = 'remove';
- // this.addInfoWindow(marker, content);
-
-}
 
   ngOnInit() {
     //getting data from query params
@@ -102,7 +87,22 @@ export class LostPage implements OnInit {
         alllostproducts => {
           console.log("1st record  products", alllostproducts.data);
           this.dataretrieved = alllostproducts;
-          this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
+              // For conversion of lat lng into address..
+              let geocoder = new google.maps.Geocoder;
+              let latlng = {lat: this.dataretrieved.data.lat, lng: this.dataretrieved.data.lng};
+              geocoder.geocode({'location': latlng}, (results, status) => {
+              console.log(results[0].formatted_address); // read data from here
+              this.address = results[0].formatted_address;
+              //for placing marker
+              let marker = new google.maps.Marker({
+                map: this.map,
+                animation: google.maps.Animation.DROP,
+                position:latlng ,
+              });
+              this.map.setCenter(latlng);
+           //console.log(status);
+        });
+        this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
           console.log('imageurl:', this.user.src);
         },
         err => {
@@ -116,6 +116,23 @@ export class LostPage implements OnInit {
           console.log("1st record  products", alllostproducts.data);
           this.dataretrieved = alllostproducts;
           this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
+              // For conversion of lat lng into address..
+          let geocoder = new google.maps.Geocoder;
+          let latlng = {lat: this.dataretrieved.data.lat, lng: this.dataretrieved.data.lng};
+          geocoder.geocode({'location': latlng}, (results, status) => {
+          console.log(results[0].formatted_address); // read data from here
+          this.address = results[0].formatted_address;
+
+          //for placing marker
+          let marker = new google.maps.Marker({
+            map: this.map,
+            animation: google.maps.Animation.DROP,
+            position:latlng ,
+          });
+          this.map.setCenter(latlng);
+       //console.log(status);
+    });
+
           console.log('imageurl:', this.user.src);
         },
         err => {
@@ -124,5 +141,8 @@ export class LostPage implements OnInit {
       );
     }//end if
     
+
+
   }
+
 }

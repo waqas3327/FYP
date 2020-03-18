@@ -186,10 +186,16 @@ ngOnInit(){
     
     //lost product markers
     this.datacollector(this.lostproductsdata);
+    const icon = {
+      url: '../../assets/icon/LOST PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon,
         store_id: this.lostproductsdata[i]._id,
         markerType: 'lostproduct'
       });
@@ -200,10 +206,16 @@ ngOnInit(){
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
+    const icon1 = {
+      url: '../../assets/icon/LOST PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon1,
         store_id: this.lostpersonsdata[i]._id,
         markerType: 'lostperson',
       });
@@ -217,10 +229,16 @@ ngOnInit(){
 
     //found product markers
     this.datacollector(this.foundproductsdata);
+    const icon2 = {
+      url: '../../assets/icon/FOUND PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon2,
         store_id: this.foundproductsdata[i]._id,
         markerType: 'foundproduct'
       });
@@ -233,10 +251,16 @@ ngOnInit(){
     }
     //lost person markers
     this.datacollector(this.foundpersonsdata);
+    const icon3 = {
+      url: '../../assets/icon/FOUND PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon3,
         store_id: this.foundpersonsdata[i]._id,
         markerType: 'foundperson'
       });
@@ -296,9 +320,11 @@ ngOnInit(){
           lng: this.longitude
         };
         const icon = {
-          url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+          url: '../../assets/icon/YOU ARE HERE.png',
+          //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
           scaledSize: new google.maps.Size(50, 50), // scaled size
         };
+        
         const marker = new google.maps.Marker({
              position: pos,
              map: this.map,

@@ -35,6 +35,7 @@ export class FoundPage implements OnInit {
   user = {
     src: ''
   };
+  address: any;
 
   constructor(private route: ActivatedRoute, private userservice: UserService) { }
 
@@ -85,6 +86,24 @@ export class FoundPage implements OnInit {
           this.dataretrieved = alllostproducts;
           this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
           console.log('imageurl:', this.user.src);
+       // For conversion of lat lng into address..
+       let geocoder = new google.maps.Geocoder;
+       let latlng = {lat: this.dataretrieved.data.lat, lng: this.dataretrieved.data.lng};
+       geocoder.geocode({'location': latlng}, (results, status) => {
+       console.log(results[0].formatted_address); // read data from here
+       this.address = results[0].formatted_address;
+
+       //for placing marker
+       let marker = new google.maps.Marker({
+         map: this.map,
+         animation: google.maps.Animation.DROP,
+         position:latlng ,
+       });
+       this.map.setCenter(latlng);
+    //console.log(status);
+ });
+
+          
         },
         err => {
           console.log("api error in all request retrieval", err);
@@ -98,6 +117,22 @@ export class FoundPage implements OnInit {
           this.dataretrieved = alllostproducts;
           this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
           console.log('imageurl:', this.user.src);
+                 // For conversion of lat lng into address..
+                 let geocoder = new google.maps.Geocoder;
+                 let latlng = {lat: this.dataretrieved.data.lat, lng: this.dataretrieved.data.lng};
+                 geocoder.geocode({'location': latlng}, (results, status) => {
+                 console.log(results[0].formatted_address); // read data from here
+                 this.address = results[0].formatted_address;
+       
+                 //for placing marker
+                 let marker = new google.maps.Marker({
+                   map: this.map,
+                   animation: google.maps.Animation.DROP,
+                   position:latlng ,
+                 });
+                 this.map.setCenter(latlng);
+              //console.log(status);
+           });
         },
         err => {
           console.log("api error in all request retrieval", err);
