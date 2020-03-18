@@ -5,6 +5,7 @@ import { LocationStrategy } from '@angular/common';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 declare var google:any;
 @Component({
@@ -19,7 +20,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   geoMarker: any;
   autocomplete={input:''};
   autocompleteItems = [];
-  completeService = new google.maps.places.AutocompleteService();
+  GoogleAutocomplete = new google.maps.places.AutocompleteService();
   geocoder = new google.maps.Geocoder;
   markers = [];
   marker: any;
@@ -29,15 +30,19 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   lostpersonsdata; //getting lost persons
   foundproductsdata; //getting found products
   foundpersonsdata; //getting found persons
+
+  searchTerm='';
+  results:Observable<any>;
  
   myLatLng; 
+  address: any;
   
   constructor(private router:Router,private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
     lat = 30.3760;
     lng = 69.3451;
 
-
+    
     datacollector(data){
       this.myLatLng = data;
       for(var i = 0; i<data.length; i++){
@@ -128,10 +133,21 @@ ngOnInit(){
   ); 
   //this.displayallmarkers();
 }
+////////////////////////////////////////Current search bar test
+/*
+ionViewLoaded() {
+  let elem = <HTMLInputElement>document.getElementsByClassName('searchbar-input')[0];
+  this.autocomplete = new google.maps.places.Autocomplete(elem);
+}
 
-
-
-
+getAddress(place: Object) {       
+  this.address = place['formatted_address'];
+  var location = place['geometry']['location'];
+  var lat =  location.lat();
+  var lng = location.lng();
+  console.log('Address Object', place);
+}*/
+///////////////////////////////////////////////////////////////
 
     ngAfterViewInit() {
       this.mapInitializer();
@@ -284,30 +300,36 @@ ngOnInit(){
 
 
 
-    updateSearchResults(){
-      if (this.autocomplete.input == '') {
-        this.autocompleteItems = [];
-        return;
-      }
-      this.completeService.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
-        this.autocompleteItems = [];
-        this.zone.run(function(){
-          predictions=predictions || [];
-          predictions.forEach(function(prediction){
-            console.log(prediction);
-            this.autocompleteItems.push(prediction);
-          });
+  updateSearchResults(){
+    if (this.autocomplete.input == '') {
+      this.autocompleteItems = [];
+      return;
+    }
+    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+    (predictions, status) => {
+      this.autocompleteItems = [];
+      this.zone.run(() => {
+        predictions.forEach((prediction) => {
+          this.autocompleteItems.push(prediction);
         });
+      });
+    });
+  }  
+        // this.zone.run(function(){
+        //   predictions=predictions || [];
+        //   predictions.forEach(function(prediction){
+        //     console.log(prediction);
+        //     //this.autocompleteItems.push(prediction);
+        //     this.autocompleteItems.push(prediction);
+        //   });
+        // });
         // this.zone.run(()=>{
         //   predictions.forEach((prediction)=>{
         //     this.autocompleteItems.push(prediction);
         //   });
         // });
-        console.log(this.autocompleteItems);
-      });
-    }
-
+        //console.log("this.autocompleteItems);
+      
 
     getLocation(){
 
