@@ -5,6 +5,7 @@ import { LocationStrategy } from '@angular/common';
 import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 declare var google:any;
 @Component({
@@ -19,7 +20,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   geoMarker: any;
   autocomplete={input:''};
   autocompleteItems = [];
-  completeService = new google.maps.places.AutocompleteService();
+  GoogleAutocomplete = new google.maps.places.AutocompleteService();
   geocoder = new google.maps.Geocoder;
   markers = [];
   marker: any;
@@ -29,15 +30,19 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   lostpersonsdata; //getting lost persons
   foundproductsdata; //getting found products
   foundpersonsdata; //getting found persons
+
+  searchTerm='';
+  results:Observable<any>;
  
   myLatLng; 
+  address: any;
   
   constructor(private router:Router,private geolocation: Geolocation,private zone:NgZone, private userService: UserService) { }
     map: google.maps.Map;
     lat = 30.3760;
     lng = 69.3451;
 
-
+    
     datacollector(data){
       this.myLatLng = data;
       for(var i = 0; i<data.length; i++){
@@ -127,10 +132,21 @@ ngOnInit(){
   ); 
   //this.displayallmarkers();
 }
+////////////////////////////////////////Current search bar test
+/*
+ionViewLoaded() {
+  let elem = <HTMLInputElement>document.getElementsByClassName('searchbar-input')[0];
+  this.autocomplete = new google.maps.places.Autocomplete(elem);
+}
 
-
-
-
+getAddress(place: Object) {       
+  this.address = place['formatted_address'];
+  var location = place['geometry']['location'];
+  var lat =  location.lat();
+  var lng = location.lng();
+  console.log('Address Object', place);
+}*/
+///////////////////////////////////////////////////////////////
 
     ngAfterViewInit() {
       this.mapInitializer();
@@ -186,10 +202,16 @@ ngOnInit(){
     
     //lost product markers
     this.datacollector(this.lostproductsdata);
+    const icon = {
+      url: '../../assets/icon/LOST PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon,
         store_id: this.lostproductsdata[i]._id,
         markerType: 'lostproduct'
       });
@@ -200,10 +222,16 @@ ngOnInit(){
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
+    const icon1 = {
+      url: '../../assets/icon/LOST PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon1,
         store_id: this.lostpersonsdata[i]._id,
         markerType: 'lostperson',
       });
@@ -217,10 +245,16 @@ ngOnInit(){
 
     //found product markers
     this.datacollector(this.foundproductsdata);
+    const icon2 = {
+      url: '../../assets/icon/FOUND PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon2,
         store_id: this.foundproductsdata[i]._id,
         markerType: 'foundproduct'
       });
@@ -233,10 +267,16 @@ ngOnInit(){
     }
     //lost person markers
     this.datacollector(this.foundpersonsdata);
+    const icon3 = {
+      url: '../../assets/icon/FOUND PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
     for (var i = 0; i < this.myLatLng.length; i++) {
        this.marker = new google.maps.Marker({
         position: this.myLatLng[i],
         map: this.map,
+        icon: icon3,
         store_id: this.foundpersonsdata[i]._id,
         markerType: 'foundperson'
       });
@@ -259,30 +299,36 @@ ngOnInit(){
 
 
 
-    updateSearchResults(){
-      if (this.autocomplete.input == '') {
-        this.autocompleteItems = [];
-        return;
-      }
-      this.completeService.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
-        this.autocompleteItems = [];
-        this.zone.run(function(){
-          predictions=predictions || [];
-          predictions.forEach(function(prediction){
-            console.log(prediction);
-            this.autocompleteItems.push(prediction);
-          });
+  updateSearchResults(){
+    if (this.autocomplete.input == '') {
+      this.autocompleteItems = [];
+      return;
+    }
+    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+    (predictions, status) => {
+      this.autocompleteItems = [];
+      this.zone.run(() => {
+        predictions.forEach((prediction) => {
+          this.autocompleteItems.push(prediction);
         });
+      });
+    });
+  }  
+        // this.zone.run(function(){
+        //   predictions=predictions || [];
+        //   predictions.forEach(function(prediction){
+        //     console.log(prediction);
+        //     //this.autocompleteItems.push(prediction);
+        //     this.autocompleteItems.push(prediction);
+        //   });
+        // });
         // this.zone.run(()=>{
         //   predictions.forEach((prediction)=>{
         //     this.autocompleteItems.push(prediction);
         //   });
         // });
-        console.log(this.autocompleteItems);
-      });
-    }
-
+        //console.log("this.autocompleteItems);
+      
 
     getLocation(){
       this.geolocation.getCurrentPosition().then((resp) => {
@@ -296,9 +342,11 @@ ngOnInit(){
           lng: this.longitude
         };
         const icon = {
-          url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+          url: '../../assets/icon/YOU ARE HERE.png',
+          //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
           scaledSize: new google.maps.Size(50, 50), // scaled size
         };
+        
         const marker = new google.maps.Marker({
              position: pos,
              map: this.map,
@@ -312,7 +360,7 @@ ngOnInit(){
       }).catch((error) => {
         console.log('Error in getting the locations', error);
       });
-this.displayallmarkers();      
+      this.displayallmarkers();      
     }
 
     selectSearchResult(item){
