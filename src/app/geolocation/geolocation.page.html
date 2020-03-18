@@ -6,23 +6,19 @@
         </ion-buttons>
         <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
         </ion-searchbar>
-        <ion-list [hidden]="autocompleteItems.length == 0">
-            <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-                {{ item.description }}
-            </ion-item>
-        </ion-list> 
-        <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)"></ion-searchbar>
-        -->
+        
+     
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div #mapContainer id="map"></div>
-    <!-- <ion-list [hidden]="autocompleteItems.length == 0">
+    <ion-list [hidden]="autocompleteItems.length == 0">
         <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
             {{ item.description }}
         </ion-item>
-    </ion-list> -->
+    </ion-list> 
+    <div #mapContainer id="map"></div>
+   
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button>
