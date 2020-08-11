@@ -1,15 +1,15 @@
 <ion-header>
 
-    <ion-toolbar color="primary">
-           <ion-title *ngIf="!isSearchbarOpen">Traistaaa</ion-title> 
+    <ion-toolbar color="secondary">
+        <ion-title *ngIf="!isSearchbarOpen">Lost & Found</ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
 
         <ion-searchbar *ngIf="isSearchbarOpen" showCancelButton="true" (ionCancel)="isSearchbarOpen=false" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
         </ion-searchbar>
-        <ion-button slot="end" *ngIf="!isSearchbarOpen" (click)="isSearchbarOpen=true">
-                <ion-icon name="search"></ion-icon>
+        <ion-button color="secondary" slot="end" *ngIf="!isSearchbarOpen" (click)="isSearchbarOpen=true">
+            <ion-icon name="search"></ion-icon>
 
         </ion-button>
 
@@ -27,7 +27,7 @@
 
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button>
+        <ion-fab-button color="secondary">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
         <ion-fab-list side="top">

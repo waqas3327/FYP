@@ -44,7 +44,7 @@ export class LostPage implements OnInit {
   mapOptions: google.maps.MapOptions = {
     center: this.coordinates,
     disableDefaultUI: true,
-    zoom: 7
+    zoom: 15
   };
 
   mapOptions1: google.maps.MapOptions = {

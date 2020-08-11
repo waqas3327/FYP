@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="secondary">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -22,9 +22,9 @@
                     <img [src]="user.src" onError="this.src='assets/images/avatar.jpg'" />
                 </div>
                 <!-- Place holder div -->
-                <div style="border-style: solid; border-width: 2px;border-color: blue;position: relative; top:30px; width: 100%; ">
+                <div style="position: relative; top:30px; width: 100%; ">
                     <ion-item style="font: size 11;font-family: sans-serif;color:blue; ">
-                        <ion-label style="font: size 11;font-family: sans-serif;color:blue;" position="stacked">Title</ion-label>
+                        <ion-label style="font: size 11;font-family: sans-serif;color:secondary;" position="stacked">Title</ion-label>
                         <ion-input name="title " type="text" readonly value={{dataretrieved?.data?.title}}></ion-input>
 
                     </ion-item>
@@ -36,7 +36,7 @@
 
                 </div>
                 <!-- div for description -->
-                <div style="border-style: solid; border-width: 2px;border-color: blue;position: relative;top:40px; width: 100%; ">
+                <div style="position: relative;top:40px; width: 100%; ">
                     <!-- <ion-item>
                         Description :
                         <ion-input name="description " type="text " value={{dataretrieved?.data?.description}}></ion-input>
@@ -48,7 +48,7 @@
                     </ion-item>
                 </div><br>
                 <!-- div for displaying address -->
-                <div style="border-style: solid; border-width: 2px;border-color: blue;position: relative;top:40px; width: 100%; ">
+                <div style="position: relative;top:40px; width: 100%; ">
                     <ion-item>
                         <ion-label position="stacked">Address</ion-label>
                         <ion-textarea auto-grow="true" readonly value={{address}}>
