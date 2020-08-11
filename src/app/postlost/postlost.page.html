@@ -63,14 +63,14 @@
                         </ion-item>
                     </div>
 
-                    <div padding class="ion-text-center" #mapContainer id="map"></div>
-                    <!--<ion-searchbar *ngIf="isSearchbarOpen" showCancelButton="true" (ionCancel)="isSearchbarOpen=false" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
-                    </ion-searchbar>
-                    <ion-buttons slot="end" size="medium" *ngIf="!isSearchbarOpen">
-                        <button ion-buton icon-only (click)="isSearchbarOpen=true">
-                  <ion-icon slot="icon-only" name="search"></ion-icon>
-              </button>
-                    </ion-buttons> -->
+                    <div color="secondary" padding class="ion-text-center">Last Known Location*
+                        <!-- <ion-button shape="round" color="secondary" slot="end" (click)="getLocation()">
+                            <ion-icon name="locate"></ion-icon>
+                        </ion-button> -->
+                    </div>
+                    <div padding class="ion-text-center" #mapContainer id="map">
+                    </div>
+
 
                     <div padding id="buttons">
                         <ion-button color="secondary" size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">

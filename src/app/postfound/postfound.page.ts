@@ -60,7 +60,7 @@ export class PostfoundPage {
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
-      zoom: 300
+      zoom: 10
     };
 
     mapOptions1: google.maps.MapOptions = {

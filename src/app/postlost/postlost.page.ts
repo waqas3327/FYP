@@ -65,7 +65,7 @@ export class PostlostPage implements OnInit {
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
-      zoom: 16
+      zoom: 10
     };
 
     mapOptions1: google.maps.MapOptions = {
@@ -278,79 +278,7 @@ export class PostlostPage implements OnInit {
     console.log('currentloc',this.lat);
     console.log('currentloc',this.lng);
   }
+  
 
 
 }
-
-
-
-
-//code for saving formdata and updating image later on, with id of person..
-// savePerson(){
-//   try {
-//     const getLostData = this.getLostData.value;
-//     console.log('loginData', getLostData);
-//     this.service.PostLostPerson(getLostData).subscribe(
-//        async data => {
-//         //alert('successfully posted!')
-//         console.log('got response from server', data);
-//         // this.router.navigate(['geolocation']);
-//       this.IDperson = data._id;
-//       console.log('id babloo wali: =', this.IDperson);
-//       },
-//       error => {
-//         console.log('error', error);
-//         alert('Wrong email or password!');
-//       }
-//     );
-//     } catch (ex) {
-//         console.log('ex', ex);
-//       }
-// }
-
-// imageuploadperson(id: String){
-//   //test upload image data
-//   console.log('random number:',this.getRandomInt(500000));
-//   this.randomNumber = this.getRandomInt(500000);
-//   if (this.filePresent) {
-//     this.isLoadingImgUpload = true;
-//     //const id = this.getLostData.controls._id;
-//     console.log('idr b id ari ha', this.IDperson);
-//     this.service
-//       .uploadAvatarPerson(this.userInfo, this.userInfo.file,id,this.randomNumber)
-//       .subscribe(
-//         async response => {
-//           console.log('respoe->', response);
-//           this.isLoadingImgUpload = false;
-//           // this.toasterService.pop('success', 'Image uploaded successfully!');
-//           // // this.appInfoForm.patchValue(response.data);
-//           // this.slimScroll.complete();
-//           this.ID = response._id;
-//           console.log('iddd= ',this.ID);
-//         },
-//         error => {
-//           console.log('error', error);
-//           this.isLoadingImgUpload = false;
-//           // this.toasterService.pop(
-//           //   'error',
-//           //   'There are some error while uploading Image'
-//           // );
-
-//           // this.slimScroll.complete();
-//         }
-//       );
-//   }
-// }
-
-// SaveToDB() {
- 
-// var value;
-// value = this.getLostData.controls['lostType'].value;
-// console.log(value);
-// if(value == 'item'){
-//   this.SaveProduct();
-// }
-// if(value == 'person'){
-//   this.savePerson();
-//   this.imageuploadperson(this.IDperson);
-// }
