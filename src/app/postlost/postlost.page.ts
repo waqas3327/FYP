@@ -19,7 +19,7 @@ declare var google:any;
   styleUrls: ['./postlost.page.scss'],
 })
 
-export class PostlostPage {
+export class PostlostPage implements OnInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
 
   //Variables declared
@@ -33,8 +33,8 @@ export class PostlostPage {
   userInfo;
   filePresent;
   map: google.maps.Map;
-  lat = 30.3753;
-  lng = 69.3451;
+  lat = 33.626057;
+  lng = 73.071442;
   lat1;
   lng1;
   private markers =[];
@@ -57,13 +57,15 @@ export class PostlostPage {
     ){}
 
     
+
+
     emaildisplay = localStorage.getItem('name');
     
     
     mapOptions: google.maps.MapOptions = {
       center: this.coordinates,
       disableDefaultUI: true,
-      zoom: 7
+      zoom: 16
     };
 
     mapOptions1: google.maps.MapOptions = {
@@ -75,6 +77,7 @@ export class PostlostPage {
     ngAfterViewInit() {
       this.mapInitializer();
     }
+
 
     mapInitializer() {
       this.map = new google.maps.Map(this.gmap.nativeElement, 
@@ -251,6 +254,7 @@ export class PostlostPage {
 
     ngOnInit(){
       this.formInitializer();
+      this.getCurrentLocation();
       //this.getLostData.patchValue({youremail: this.emaildisplay});
     }
   
@@ -265,8 +269,18 @@ export class PostlostPage {
     });
   }
 
-}
+  getCurrentLocation() {
 
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude;
+      this.lng = resp.coords.longitude;
+    });
+    console.log('currentloc',this.lat);
+    console.log('currentloc',this.lng);
+  }
+
+
+}
 
 
 
