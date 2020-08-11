@@ -281,7 +281,9 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       map: this.map
     });
   }
-
+  clearSearchResults(){
+    this.autocompleteItems=[];
+  }
 
 
   updateSearchResults() {
