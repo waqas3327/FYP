@@ -24,7 +24,7 @@ public appPages = [
     {
       title: 'GeoLocation',
       url: '/geolocation',
-      icon: 'create'
+      icon: 'locate'
     },
     
     {
@@ -59,15 +59,15 @@ ngDoCheck() {
     this.name = localStorage.getItem('name');
   }
   // tslint:disable-next-line: use-lifecycle-interface
-ngOnDestroy() {
+
+  ngOnDestroy() {
     localStorage.removeItem('name');
   }
+  
   logout(){
     alert('logged out succesfully!');
     localStorage.removeItem('name');
     localStorage.removeItem('token');
-    this.router.navigate(['geolocation']);
-    
+    this.router.navigate(['geolocation']);    
   }
-
 }

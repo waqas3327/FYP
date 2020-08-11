@@ -30,18 +30,23 @@ const routes: Routes = [
   },
   {
     path: 'postlost',
-    loadChildren: () => import('./postlost/postlost.module').then( m => m.PostlostPageModule)
+    loadChildren: () => import('./postlost/postlost.module').then( m => m.PostlostPageModule),
+    canActivate: [GuardService]
   },
   {
     path: 'postfound',
-    loadChildren: () => import('./postfound/postfound.module').then( m => m.PostfoundPageModule)
-  },  {
+    loadChildren: () => import('./postfound/postfound.module').then( m => m.PostfoundPageModule),
+    canActivate: [GuardService]
+  },
+  {
     path: 'lost',
-    loadChildren: () => import('./lost/lost.module').then( m => m.LostPageModule)
+    loadChildren: () => import('./lost/lost.module').then( m => m.LostPageModule),
+    canActivate: [GuardService]
   },
   {
     path: 'found',
-    loadChildren: () => import('./found/found.module').then( m => m.FoundPageModule)
+    loadChildren: () => import('./found/found.module').then( m => m.FoundPageModule),
+    canActivate: [GuardService]
   }
 
 

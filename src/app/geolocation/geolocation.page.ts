@@ -31,6 +31,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   foundproductsdata; //getting found products
   foundpersonsdata; //getting found persons
 
+
   searchTerm = '';
   results: Observable<any>;
   Searchposition:any;
@@ -97,7 +98,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       }
     );
 
-                                                    //getting data from lost persons 
+                                                 //getting data from lost persons 
 
     this.userService.getAllLostPersons().subscribe(
       alllostpersons => {
