@@ -26,7 +26,7 @@ export class PostlostPage implements OnInit {
   latitude: number;
   longitude: number;
   public ID: String;
-  
+  geoMarker: any;
   IDperson: String;
   marker: any;
   getLostData: FormGroup;
@@ -39,6 +39,12 @@ export class PostlostPage implements OnInit {
   lng1;
   private markers =[];
   coordinates = new google.maps.LatLng(this.lat, this.lng);
+  lostproductsdata; //getting lost products
+  lostpersonsdata; //getting lost persons
+  foundproductsdata; //getting found products
+  foundpersonsdata; //getting found persons
+  myLatLng;
+
 
    //Constructor
   isLoadingImgUpload = false;
@@ -55,6 +61,13 @@ export class PostlostPage implements OnInit {
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController
     ){}
+    datacollector(data) {
+      this.myLatLng = data;
+      for (var i = 0; i < data.length; i++) {
+        this.myLatLng[i].lat = data[i].lat;
+        this.myLatLng[i].lng = data[i].lng;
+      }
+    }
 
     
 
@@ -277,6 +290,130 @@ export class PostlostPage implements OnInit {
     });
     console.log('currentloc',this.lat);
     console.log('currentloc',this.lng);
+  }
+  getLocation() {
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+      this.map = new google.maps.Map(this.gmap.nativeElement,
+        this.mapOptions1);
+      const infoWindow = new google.maps.InfoWindow;
+      const pos = {
+        lat: this.latitude,
+        lng: this.longitude
+      };
+      const icon = {
+        url: '../../assets/icon/YOU ARE HERE.png',
+        //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+        scaledSize: new google.maps.Size(50, 50), // scaled size
+      };
+
+      const marker = new google.maps.Marker({
+        position: pos,
+        map: this.map,
+        icon: icon
+      });
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(this.map);
+      this.map.setCenter(pos);
+      this.geoMarker.setMap(this.map);
+    }).catch((error) => {
+      console.log('Error in getting the locations', error);
+    });
+    this.displayallmarkers();
+  }
+  displayallmarkers() {
+
+    //lost product markers
+    this.datacollector(this.lostproductsdata);
+    const icon = {
+      url: '../../assets/icon/LOST PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        icon: icon,
+        store_id: this.lostproductsdata[i]._id,
+        markerType: 'lostproduct'
+      });
+      console.log('this is markers id:', this.marker.get('store_id'));
+      //console.log(this.lostproductsdata[i]._id);
+      let content: string = 'Lost Product';
+      this.addInfoWindow(this.marker, content);
+    }
+    //lost person markers
+    this.datacollector(this.lostpersonsdata);
+    const icon1 = {
+      url: '../../assets/icon/LOST PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        icon: icon1,
+        store_id: this.lostpersonsdata[i]._id,
+        markerType: 'lostperson',
+      });
+      console.log('this is markers id:', this.marker.get('store_id'));
+      console.log('this is markers type:', this.marker.get('markerType'));
+      let content: string = 'Lost Person';
+      this.addInfoWindow(this.marker, content);
+      //this.marker.setMap(this.map);
+      //this.markers.push(marker);
+    }
+
+    //found product markers
+    this.datacollector(this.foundproductsdata);
+    const icon2 = {
+      url: '../../assets/icon/FOUND PROD.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        icon: icon2,
+        store_id: this.foundproductsdata[i]._id,
+        markerType: 'foundproduct'
+      });
+      console.log('this is markers id:', this.marker.get('store_id'));
+      //console.log(this.lostproductsdata[i]._id);
+      let content: string = 'Found Product';
+      this.addInfoWindow(this.marker, content);
+      //this.marker.setMap(this.map);
+      //this.markers.push(marker);
+    }
+    //lost person markers
+    this.datacollector(this.foundpersonsdata);
+    const icon3 = {
+      url: '../../assets/icon/FOUND PEOP.png',
+      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+      scaledSize: new google.maps.Size(50, 50), // scaled size
+    };
+    for (var i = 0; i < this.myLatLng.length; i++) {
+      this.marker = new google.maps.Marker({
+        position: this.myLatLng[i],
+        map: this.map,
+        icon: icon3,
+        store_id: this.foundpersonsdata[i]._id,
+        markerType: 'foundperson'
+      });
+      console.log('this is markers id:', this.marker.get('store_id'));
+      console.log('this is markers type:', this.marker.get('markerType'));
+      console.log(this.marker.position);
+      let content: string = 'Found Person';
+      this.addInfoWindow(this.marker, content);
+      //this.marker.setMap(this.map);
+      //this.markers.push(marker);
+    }
   }
   
 
