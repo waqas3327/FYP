@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="secondary">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -14,7 +14,7 @@
 <ion-content>
     <form [formGroup]="getLostData">
         <ion-grid>
-            <ion-row color="primary" justify-content-center>
+            <ion-row color="secondary" justify-content-center>
                 <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
                     <div padding>
                         <ion-list>
@@ -73,11 +73,11 @@
                     </ion-buttons> -->
 
                     <div padding id="buttons">
-                        <ion-button size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">
+                        <ion-button color="secondary" size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">
                             Post
                             <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
                         </ion-button>
-                        <ion-button size="small" shape="round" (click)="cancel()">Cancel
+                        <ion-button color="secondary" size="small" shape="round" (click)="cancel()">Cancel
                             <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
                         </ion-button>
                     </div>
