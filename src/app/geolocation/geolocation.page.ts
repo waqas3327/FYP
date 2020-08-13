@@ -44,7 +44,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   lat = 30.3760;
   lng = 69.3451;
 
-
+//gets the position where marker is supposed to be placed
   datacollector(data) {
     this.myLatLng = data;
     for (var i = 0; i < data.length; i++) {

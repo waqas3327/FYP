@@ -47,7 +47,11 @@ const routes: Routes = [
     path: 'found',
     loadChildren: () => import('./found/found.module').then( m => m.FoundPageModule),
     canActivate: [GuardService]
+  },  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
+
 
 
 

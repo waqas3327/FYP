@@ -21,6 +21,21 @@ export class UserService {
     const url = ProjectConfig.getPath() + '/user/register';
     return this.http.post(url, credentials);
   }
+
+  //getting single user
+public getSingleUser(email: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/user/getsingleuser/' + email;
+  return this.http.get(url);
+}
+
+//update user
+public UpdateUser(credentials: object, email: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/user/updateuser/' + email;
+
+  return this.http.put(url, credentials);
+}
+
+
   public userForgotPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + '/user/sendmail';
     return this.http.post(url, credentials);
@@ -162,25 +177,4 @@ public getSingleFoundPerson(id: String): Observable<any>{
   const url = ProjectConfig.getPath() + '/foundperson/getsinglefoundperson/' + id;
   return this.http.get(url);
 }
-
-
-
-  // public uploadAvatarPerson(
-  //   user_info: any,
-  //   image: any,
-  //   randomNumber:any
-  //  // user_id: any
-  // ): Observable<any> {
-  //   // /user/avatar/${user_id}
-  //   const url = ProjectConfig.getPath() + '/person/PostLostPerson/';
-
-  //   const file_location = `lostperson-${randomNumber}.${user_info.extension}`;
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', image, file_location);
-
-  //   return this.http
-  //     .post(url, formData, {
-  //     })
-  // }
-
 }

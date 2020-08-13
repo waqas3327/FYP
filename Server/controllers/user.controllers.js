@@ -38,11 +38,8 @@ userController.registerUser = async(req, res) => {
 userController.loginUser = async(req, res) => {
     try {
         const body = req.body;
-
         const email = body.email;
-
         // lets check if email exists
-
         const result = await Client.findOne({ email: email });
         if (!result) {
             // this means result is null
@@ -74,6 +71,88 @@ userController.loginUser = async(req, res) => {
         console.log('ex', ex);
     }
 };
+
+userController.getSingleUser = async(req, res) => {
+    try {
+        const email = req.params.email
+        user = await Client.findOne({ "email": email });
+        res.status(200).send({
+            code: 200,
+            message: 'Successful',
+            data: user
+        });
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
+
+
+
+userController.updateUser = async(req, res) => {
+    if (!req.params.email) {
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const email = req.params.email;
+
+        //console.log('here is id,',req.params._id);
+        let updates = req.body;
+        console.log('here is body,', req.body);
+        runUpdate(email, updates, res);
+
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+
+};
+
+async function runUpdate(email, updates, res) {
+    try {
+        const result = await Client.updateOne({
+            email: email
+        }, {
+            $set: updates
+        }, {
+            upsert: true,
+            runValidators: true
+        });
+
+
+        {
+            if (result.nModified == 1) {
+                res.status(200).send({
+                    code: 200,
+                    message: "Updated Successfully"
+                });
+            } else if (result.upserted) {
+                res.status(200).send({
+                    code: 200,
+                    message: "Created Successfully"
+                });
+            } else {
+                res
+                    .status(422)
+                    .send({
+                        code: 422,
+                        message: 'Unprocessible Entity'
+                    });
+            }
+        }
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
+
+
+
+
 
 userController.SendMail = async(req, res) => {
     try {

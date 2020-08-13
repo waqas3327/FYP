@@ -5,11 +5,14 @@ const Schema = mongoose.Schema;
 
 const Client = new Schema({
     name: String,
-    email: String,
-    password: String,
-   });
+    mnumber: String,
+    address: String,
+    email: {
+        type: String,
+        unique: true
+    },
+    password: String
+});
 
-   Client.plugin(mongoosePaginate);
+Client.plugin(mongoosePaginate);
 module.exports = mongoose.model('client', Client);
-
-

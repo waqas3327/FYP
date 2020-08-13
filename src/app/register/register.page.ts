@@ -26,6 +26,8 @@ export class RegisterPage implements OnInit {
   formInitializer() {
     this.getData = this.fb.group({
       name: ['', Validators.required],
+      mnumber: ['', Validators.required],
+      address: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm: [

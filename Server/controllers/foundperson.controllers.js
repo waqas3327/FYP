@@ -8,14 +8,8 @@ foundpersonController.PostfoundPerson = async(req, res) => {
     try {
         const body = req.body;
         console.log('req.body', body);
-
-        // fahad code for image
         const filePath = `uploadfoundperson/${req./*params.*/file.originalname}`;
-        // const ext = path.extname(req.file.originalname);
         body.imageUrl = filePath;
-        // body.imageExt =  ext;
-        // console.log(body.avatar);
-
         const foundpers = new foundPerson(body);
         const result = await foundpers.save();
         res.send(result);
@@ -23,7 +17,6 @@ foundpersonController.PostfoundPerson = async(req, res) => {
         console.log('ex', ex)
     }
 };
-
 
 //updating
 foundpersonController.updateUser = async(req, res) => {
@@ -34,27 +27,13 @@ foundpersonController.updateUser = async(req, res) => {
     }
     try {
         const _id = req.params._id;
-        //console.log('here is id,',req.params._id);
-
-
-        // const filePath = `uploadPerson/${req./*params.*/file.originalname}`;
-        // // const ext = path.extname(req.file.originalname);
-        // req.body.imageUrl = filePath;
-
-
-
         let updates = req.body;
-        //console.log('here is body,',req.body);
         runUpdate(_id, updates, res);
-
-
     } catch (error) {
         console.log('error', error);
         return res.status(500).send(error);
     }
-
 };
-
 async function runUpdate(_id, updates, res) {
     try {
         const result = await foundPerson.updateOne({
@@ -93,9 +72,9 @@ async function runUpdate(_id, updates, res) {
     }
 }
 
+
+
 foundpersonController.getAllFoundPersons = async(req, res) => {
-    // const lostproducts = await LostProduct.find();
-    // console.log('all lost products', lostproducts);
     foundPerson.find({})
         .exec(function(err, foundPerson) {
             if (err) {
@@ -122,6 +101,5 @@ foundpersonController.getSingleFoundPerson = async(req, res) => {
         return res.status(500).send(error);
     }
 }
-
 
 module.exports = foundpersonController;

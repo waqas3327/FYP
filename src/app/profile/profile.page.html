@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Profile
+
+        </ion-title>
+        <ion-button fill="clear" slot="end" color="light" (click)="editclicked()">
+            <ion-icon name="create"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="getProfileData">
+        <ion-grid>
+            <ion-row class="ion-justify-content-center">
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
+
+                    <div style="position: relative; top:30px; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Name</ion-label>
+                            <ion-input name="name" formControlName="name" type="text " value={{dataretrieved?.data?.name}}></ion-input>
+
+                        </ion-item>
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Email</ion-label>
+                            <ion-input name="email" formControlName="email" type="text " value={{dataretrieved?.data?.email}}>
+                            </ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Mobile Number</ion-label>
+                            <ion-input name="mnumber " formControlName="mnumber" type="text " value={{dataretrieved?.data?.mnumber}}>
+                            </ion-input>
+                        </ion-item>
+                    </div>
+
+                    <!-- div for address -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Address</ion-label>
+                            <ion-textarea auto-grow="true" formControlName="address" value={{dataretrieved?.data?.address}}>
+                            </ion-textarea>
+                        </ion-item>
+                    </div>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <br><br>
+        <div padding>
+            <ion-button color="secondary" size="large" type="submit" shape="round" expand="block" *ngIf="clickededit" (click)="update()">Update
+                <ion-spinner name="bubbles" *ngIf="clickedspinner"></ion-spinner>
+            </ion-button>
+        </div>
+    </form>
+</ion-content>

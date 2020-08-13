@@ -22,6 +22,11 @@ public appPages = [
       icon: 'create'
     },
     {
+      title: 'Profile',
+      url: '/profile',
+      icon: 'people'
+    },
+    {
       title: 'GeoLocation',
       url: '/geolocation',
       icon: 'locate'

@@ -10,9 +10,9 @@ router.post("/login", UserController.loginUser);
 router.post("/register", UserController.registerUser);
 // router.post("/register", /*upload.single('file'),*/ UserController.registerUser);
 router.post("/sendmail", UserController.SendMail);
-//router.get("/:_id",UserController.getSingleUser);
+router.get("/getsingleuser/:email", UserController.getSingleUser);
 // router.post("/",UserController.addUser);
-//router.put("/:_id", UserController.updateUser);
+router.put("/updateuser/:email", UserController.updateUser);
 //router.delete("/:_id", UserController.deleteUser);
 
 module.exports = router;
