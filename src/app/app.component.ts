@@ -31,6 +31,11 @@ public appPages = [
       title: 'About',
       url: '/about',
       icon: 'information-circle-outline'
+    },
+    {
+      title: 'Log Out',
+      icon: 'log-out',
+   
     }
   ];
 constructor(
