@@ -118,11 +118,12 @@ foundproductController.getSingleFoundProductEmail = async(req, res) => {
     try {
         const email = req.params.email
         product = await foundProduct.find({ "youremail": email });
-        res.status(200).send({
-            code: 200,
-            message: 'Successful',
-            data: product
-        });
+        res.json(product);
+        // res.status(200).send({
+        //     code: 200,
+        //     message: 'Successful',
+        //     data: product
+        // });
 
 
     } catch (error) {

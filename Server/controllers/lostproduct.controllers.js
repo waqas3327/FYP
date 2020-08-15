@@ -119,11 +119,7 @@ lostproductController.getSingleLostProductEmail = async(req, res) => {
     try {
         const email = req.params.email
         product = await LostProduct.find({ "youremail": email });
-        res.status(200).send({
-            code: 200,
-            message: 'Successful',
-            data: product
-        });
+        res.json(product);
 
     } catch (error) {
         console.log('error', error);
