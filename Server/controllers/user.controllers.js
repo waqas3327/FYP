@@ -101,6 +101,7 @@ userController.updateUser = async(req, res) => {
 
         //console.log('here is id,',req.params._id);
         let updates = req.body;
+        delete updates['email'];
         console.log('here is body,', req.body);
         runUpdate(email, updates, res);
 
@@ -199,4 +200,5 @@ userController.SendMail = async(req, res) => {
     }
 };
 
+module.exports = userController;
 module.exports = userController;

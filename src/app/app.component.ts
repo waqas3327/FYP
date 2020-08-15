@@ -27,6 +27,11 @@ public appPages = [
       icon: 'people'
     },
     {
+      title: 'My Posts',
+      url: '/myposts',
+      icon: 'bookmarks'
+    },
+    {
       title: 'GeoLocation',
       url: '/geolocation',
       icon: 'locate'

@@ -114,4 +114,22 @@ lostproductController.getSingleLostProduct = async(req, res) => {
 }
 
 
+
+lostproductController.getSingleLostProductEmail = async(req, res) => {
+    try {
+        const email = req.params.email
+        product = await LostProduct.find({ "youremail": email });
+        res.status(200).send({
+            code: 200,
+            message: 'Successful',
+            data: product
+        });
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
+
+
 module.exports = lostproductController;

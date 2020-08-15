@@ -29,7 +29,7 @@
                         </ion-item>
                         <ion-item>
                             <ion-label style="color:#0cd1e8;" position="stacked">Email</ion-label>
-                            <ion-input name="email" formControlName="email" type="text " value={{dataretrieved?.data?.email}}>
+                            <ion-input name="email" readonly formControlName="email" type="text " value={{dataretrieved?.data?.email}}>
                             </ion-input>
                         </ion-item>
                         <ion-item>
@@ -48,15 +48,14 @@
                         </ion-item>
                     </div>
 
+                    <br><br>
+                    <div padding>
+                        <ion-button color="secondary" size="large" type="submit" shape="round" expand="block" *ngIf="clickededit" (click)="update()">Update
+                            <ion-spinner name="bubbles" *ngIf="clickedspinner"></ion-spinner>
+                        </ion-button>
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-grid>
-
-        <br><br>
-        <div padding>
-            <ion-button color="secondary" size="large" type="submit" shape="round" expand="block" *ngIf="clickededit" (click)="update()">Update
-                <ion-spinner name="bubbles" *ngIf="clickedspinner"></ion-spinner>
-            </ion-button>
-        </div>
     </form>
 </ion-content>

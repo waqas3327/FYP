@@ -11,6 +11,7 @@ router.put('/updatePostfoundPerson/:_id', foundpersonController.updateUser);
 router.get("/getallfoundpersons", foundpersonController.getAllFoundPersons);
 router.get('/getsinglefoundperson/:_id', foundpersonController.getSingleFoundPerson);
 
+router.get('/getsinglefoundpersonemail/:email', foundpersonController.getSingleFoundPersonEmail);
 
 
 //router.post("/PostLostPerson", lostpersonController.PostLostPerson);

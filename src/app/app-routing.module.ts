@@ -50,6 +50,10 @@ const routes: Routes = [
   },  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'myposts',
+    loadChildren: () => import('./myposts/myposts.module').then( m => m.MypostsPageModule)
   }
 
 

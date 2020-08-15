@@ -114,6 +114,21 @@ foundproductController.getSingleFoundProduct = async(req, res) => {
     }
 }
 
+foundproductController.getSingleFoundProductEmail = async(req, res) => {
+    try {
+        const email = req.params.email
+        product = await foundProduct.find({ "youremail": email });
+        res.status(200).send({
+            code: 200,
+            message: 'Successful',
+            data: product
+        });
 
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
 
 module.exports = foundproductController;

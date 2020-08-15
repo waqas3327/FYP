@@ -53,6 +53,7 @@ export class ProfilePage implements OnInit {
   editclicked(){
     this.clickededit = true;
   }
+  
   update(){
     this.clickedspinner=true;
       try {       

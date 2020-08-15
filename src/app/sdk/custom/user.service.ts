@@ -75,6 +75,20 @@ public getSingleLostProduct(id: String): Observable<any>{
 }
 
 
+//getting single lost & found on the basis of email
+//getting single found product
+public getSingleFoundProductEmail(email: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/foundproduct/getsinglefoundproductemail/' + email;
+  return this.http.get(url);
+}
+//getting single lost product
+public getSingleLostProductEmail(email: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/product/getsinglelostproductemail/' + email;
+  return this.http.get(url);
+}
+
+
+
 
 
   public uploadAvatar(
@@ -175,6 +189,17 @@ public getSingleLostPerson(id: String): Observable<any>{
 //getting single found person
 public getSingleFoundPerson(id: String): Observable<any>{
   const url = ProjectConfig.getPath() + '/foundperson/getsinglefoundperson/' + id;
+  return this.http.get(url);
+}
+
+//getting single lost and found on the basis of email
+public getSingleLostPersonEmail(email: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/person/getsinglelostpersonemail/' + email;
+  return this.http.get(url);
+  //return this.http.get(url);
+}
+public getSingleFoundPersonEmail(email: String): Observable<any>{
+  const url = ProjectConfig.getPath() + '/foundperson/getsinglefoundpersonemail/' + email;
   return this.http.get(url);
 }
 }

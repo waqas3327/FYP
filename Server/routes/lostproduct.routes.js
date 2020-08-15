@@ -10,6 +10,7 @@ router.post("/PostLostProduct", upload.single('file'), lostproductController.Pos
 router.put('/updatePostLostProduct/:_id', lostproductController.updateUser);
 router.get("/getalllostproducts", lostproductController.getAllLostProducts);
 router.get('/getsinglelostproduct/:_id', lostproductController.getSingleLostProduct);
+router.get('/getsinglelostproductemail/:email', lostproductController.getSingleLostProductEmail);
 
 
 // router.post("/postlost",lostproductController.postlostproduct);

@@ -102,4 +102,22 @@ foundpersonController.getSingleFoundPerson = async(req, res) => {
     }
 }
 
+foundpersonController.getSingleFoundPersonEmail = async(req, res) => {
+    try {
+        const email = req.params.email
+        console.log('mail in api', email);
+        person = await foundPerson.find({ "youremail": email });
+        res.status(200).send({
+            code: 200,
+            message: 'Successful',
+            data: person
+        });
+
+
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
+
 module.exports = foundpersonController;
