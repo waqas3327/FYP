@@ -202,4 +202,35 @@ public getSingleFoundPersonEmail(email: String): Observable<any>{
   const url = ProjectConfig.getPath() + '/foundperson/getsinglefoundpersonemail/' + email;
   return this.http.get(url);
 }
+
+//updating posts
+
+public updateLostProductPost(credentials: object, _id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/product/updateLostProductPost/' + _id;
+
+  return this.http.put(url, credentials);
+}
+
+
+public updateLostPersonPost(credentials: object, _id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/person/updateLostPersonPost/' + _id;
+
+  return this.http.put(url, credentials);
+}
+
+
+public updateFoundProductPost(credentials: object, _id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundproduct/updateFoundProductPost/' + _id;
+
+  return this.http.put(url, credentials);
+}
+
+
+public updateFoundPersonPost(credentials: object, _id: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundperson/updateFoundPersonPost/' + _id;
+
+  return this.http.put(url, credentials);
+}
+
+
 }

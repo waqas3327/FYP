@@ -11,16 +11,16 @@ import { Router } from '@angular/router';
 export class AppComponent {
 name = 'No user';
 public appPages = [
-    {
-      title: 'Login',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'Register',
-      url: '/register',
-      icon: 'create'
-    },
+    // {
+    //   title: 'Login',
+    //   url: '/home',
+    //   icon: 'home'
+    // },
+    // {
+    //   title: 'Register',
+    //   url: '/register',
+    //   icon: 'create'
+    // },
     {
       title: 'Profile',
       url: '/profile',
@@ -31,11 +31,11 @@ public appPages = [
       url: '/myposts',
       icon: 'bookmarks'
     },
-    {
-      title: 'GeoLocation',
-      url: '/geolocation',
-      icon: 'locate'
-    },
+    // {
+    //   title: 'GeoLocation',
+    //   url: '/geolocation',
+    //   icon: 'locate'
+    // },
     
     {
       title: 'About',

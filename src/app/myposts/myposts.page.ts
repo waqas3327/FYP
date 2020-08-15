@@ -156,6 +156,9 @@ emailfromlocalstorage:any;
   ngAfterViewInit() {
     this.mapInitializer();
     //this.displayallmarkers();
+    setTimeout (() => {
+      this.displayallmarkers();
+   }, 1000);
 
   }
 
@@ -307,6 +310,7 @@ emailfromlocalstorage:any;
   // ngDoCheck(){
   //   //this.displayallmarkers();
   // }
+  
 
   updateSearchResults() {
     if (this.autocomplete.input == '') {

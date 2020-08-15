@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild, OnChanges } from '@angular/co
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { ProjectConfig } from '../sdk/project.config';
+import { ToastService } from '../sdk/custom/toast.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 declare var google: any;
 
@@ -14,14 +16,20 @@ export class LostPage implements OnInit {
   
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   
+  editclicked = false;
   sub: any;
   queryParameters: number;
   uniqueID: any;
   markertype;
+  sameuser = true;
+  loggeduser = localStorage.getItem('name');
+
+  clicked = false;
 
   dataretrieved;
   imageurl;
   youremail: any;
+  emailfromlocalstorage = localStorage.getItem('name');
 
   
   lat = 30.3753;
@@ -36,9 +44,13 @@ export class LostPage implements OnInit {
     src: ''
   };
   address: any;
+getData: FormGroup;
 
-
-  constructor(private route: ActivatedRoute, private userservice: UserService) { }
+  constructor(private route: ActivatedRoute, private userservice: UserService,
+    private router: Router, 
+private toastservice: ToastService,
+private formbuilder: FormBuilder
+    ) { }
 
   //small map code....
   mapOptions: google.maps.MapOptions = {
@@ -46,6 +58,9 @@ export class LostPage implements OnInit {
     disableDefaultUI: true,
     zoom: 15
   };
+
+
+
 
   mapOptions1: google.maps.MapOptions = {
     center: this.coordinates,
@@ -65,10 +80,69 @@ export class LostPage implements OnInit {
    // this.addMarker(event.latLng);
     });
   }
+
+  update(){
+    this.clicked=true;
+    if(this.markertype === 'lostperson'){
+    try {       
+      const getpdata = this.getData.value;
+      this.userservice.updateLostPersonPost(getpdata,this.dataretrieved.data._id).subscribe(
+        data => {
+          const msg = "Success! Profile Updated Successfully.";
+            this.toastservice.presentToast(msg);
+          console.log('got response from server', data);
+          this.router.navigate(['geolocation']);
+        },
+        error => {
+          console.log('error', error);
+          alert('Problem posting data!');
+        }
+      );
+      } catch (ex) {
+          console.log('ex', ex);
+        }    
+      }
+      if(this.markertype === 'lostproduct'){
+        try {       
+          const getpdata = this.getData.value;
+          this.userservice.updateLostProductPost(getpdata,this.dataretrieved.data._id).subscribe(
+            data => {
+              const msg = "Success! Profile Updated Successfully.";
+                this.toastservice.presentToast(msg);
+              console.log('got response from server', data);
+              this.router.navigate(['geolocation']);
+            },
+            error => {
+              console.log('error', error);
+              alert('Problem posting data!');
+            }
+          );
+          } catch (ex) {
+              console.log('ex', ex);
+            }    
+          }
+
+  }
+  edit(){
+    this.editclicked = true;
+     
+  }
   
  //mini map code[end]
+ formInitializer() {
+  this.getData = this.formbuilder.group({
+    description: ['', Validators.required],
+    youremail: ['', [Validators.required, Validators.email]],
+    reward: ['', Validators.required],
+    title: ['', Validators.required],
+   
+  });
+}
+
+
 
   ngOnInit() {
+    this.formInitializer();
     //getting data from query params
     this.sub = this.route
       .queryParams
@@ -99,6 +173,9 @@ export class LostPage implements OnInit {
                 animation: google.maps.Animation.DROP,
                 position:latlng ,
               });
+              if(this.dataretrieved.data.youremail == this.loggeduser){
+                this.sameuser = true;
+              }
               this.map.setCenter(latlng);
            //console.log(status);
         });
@@ -120,7 +197,7 @@ export class LostPage implements OnInit {
           let geocoder = new google.maps.Geocoder;
           let latlng = {lat: this.dataretrieved.data.lat, lng: this.dataretrieved.data.lng};
           geocoder.geocode({'location': latlng}, (results, status) => {
-          console.log(results[0].formatted_address); // read data from here
+          //console.log(results[0].formatted_address); // read data from here
           this.address = results[0].formatted_address;
 
           //for placing marker
@@ -129,6 +206,9 @@ export class LostPage implements OnInit {
             animation: google.maps.Animation.DROP,
             position:latlng ,
           });
+          if(this.dataretrieved.data.youremail == this.loggeduser){
+            this.sameuser = true;
+          }
           this.map.setCenter(latlng);
        //console.log(status);
     });
@@ -140,7 +220,9 @@ export class LostPage implements OnInit {
         }
       );
     }//end if
-    
+ 
+   
+     
 
 
   }
