@@ -83,6 +83,7 @@ foundpersonController.updatePost = async(req, res) => {
     try {
         const _id = req.params._id;
         let updates = req.body;
+        delete updates['youremail'];
         runUpdate(_id, updates, res);
     } catch (error) {
         console.log('error', error);
@@ -126,6 +127,32 @@ async function runUpdate(_id, updates, res) {
         return res.status(500).send(error);
     }
 }
+
+//deleting post
+foundpersonController.deletePost = async(req, res) => {
+    if (!req.params._id) {
+        Fu;
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const _id = req.params._id;
+
+        const result = await foundPerson.findOneAndDelete({
+            _id: _id
+        });
+
+        res.status(200).send({
+            code: 200,
+            message: 'Deleted Successfully'
+        });
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+};
+
 
 
 

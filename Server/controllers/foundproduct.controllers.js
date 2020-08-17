@@ -97,6 +97,7 @@ foundproductController.updatePost = async(req, res) => {
 
         //console.log('here is id,',req.params._id);
         let updates = req.body;
+        delete updates['youremail'];
         console.log('here is body,', req.body);
         runUpdate(_id, updates, res);
 
@@ -146,6 +147,30 @@ async function runUpdate(_id, updates, res) {
     }
 }
 
+//deleting post
+foundproductController.deletePost = async(req, res) => {
+    if (!req.params._id) {
+        Fu;
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const _id = req.params._id;
+
+        const result = await foundProduct.findOneAndDelete({
+            _id: _id
+        });
+
+        res.status(200).send({
+            code: 200,
+            message: 'Deleted Successfully'
+        });
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+};
 
 
 foundproductController.getAllFoundProducts = async(req, res) => {

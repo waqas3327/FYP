@@ -35,7 +35,7 @@
                         </ion-item>
                         <ion-item>
                             <ion-label style="color:#0cd1e8;" position="stacked">Posted By</ion-label>
-                            <ion-input name="youremail " formControlName="youremail" type="text " value={{dataretrieved?.data?.youremail}}>
+                            <ion-input name="youremail " readonly formControlName="youremail" type="text " value={{dataretrieved?.data?.youremail}}>
                             </ion-input>
                         </ion-item>
 
@@ -58,6 +58,7 @@
                         </ion-item>
                     </div>
                     <!-- div for displaying map -->
+                    <div color="secondary" padding class="ion-text-center">Found At</div>
                     <div padding class="ion-text-center" #mapContainer id="map"></div>
                     <br><br><br><br><br>
                     <div padding>

@@ -4,6 +4,8 @@ import { UserService } from '../sdk/custom/user.service';
 import { ProjectConfig } from '../sdk/project.config';
 import { ToastService } from '../sdk/custom/toast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
+import { observable } from 'rxjs';
 
 declare var google: any;
 
@@ -21,7 +23,7 @@ export class LostPage implements OnInit {
   queryParameters: number;
   uniqueID: any;
   markertype;
-  sameuser = true;
+  sameuser = false;
   loggeduser = localStorage.getItem('name');
 
   clicked = false;
@@ -45,11 +47,14 @@ export class LostPage implements OnInit {
   };
   address: any;
 getData: FormGroup;
+  selectedPost: any;
+  idOfPostToBeDeleted: any; 
 
   constructor(private route: ActivatedRoute, private userservice: UserService,
     private router: Router, 
 private toastservice: ToastService,
-private formbuilder: FormBuilder
+private formbuilder: FormBuilder,
+private alertController: AlertController,
     ) { }
 
   //small map code....
@@ -140,6 +145,77 @@ private formbuilder: FormBuilder
 }
 
 
+async delete() {
+  this.selectedPost = this.dataretrieved.data._id;
+  console.log('id:',this.selectedPost);
+  const alert = await this.alertController.create({
+    header: 'Confirm!',
+    message: 'Are you sure you want to delete the Post?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: blah => {
+          console.log('Confirm Cancel: blah');
+        }
+      },
+      {
+        text: 'Okay',
+        handler: () => {
+          this.deletePost();
+        }
+      }
+    ]
+  });
+  await alert.present();
+}
+async deletePost() {
+if(this.markertype === 'lostperson')
+{
+  try{
+  this.userservice.deleteLostPersonPost(this.selectedPost).subscribe(
+    data => {
+      const msg = "Success! Post Deleted Successfully.";
+        this.toastservice.presentToast(msg);
+      console.log('got response from server', data);
+      this.router.navigate(['geolocation']);
+    },
+    error => {
+      console.log('error', error);
+      alert('Problem posting data!');
+    }
+  );
+  } catch (ex) {
+      console.log('ex', ex);
+    }    
+  }
+if(this.markertype === 'lostproduct')
+{
+  try{
+    this.userservice.deleteLostProductPost(this.selectedPost).subscribe(
+      data => {
+        const msg = "Success! Post Deleted Successfully.";
+          this.toastservice.presentToast(msg);
+        console.log('got response from server', data);
+        this.router.navigate(['geolocation']);
+      },
+      error => {
+        console.log('error', error);
+        alert('Problem posting data!');
+      }
+    );
+    } catch (ex) {
+        console.log('ex', ex);
+      }
+}
+
+
+}
+
+
+
+
 
   ngOnInit() {
     this.formInitializer();
@@ -220,11 +296,6 @@ private formbuilder: FormBuilder
         }
       );
     }//end if
- 
-   
-     
-
-
   }
 
 }

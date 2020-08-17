@@ -231,6 +231,25 @@ public updateFoundPersonPost(credentials: object, _id: String): Observable<any> 
 
   return this.http.put(url, credentials);
 }
+//deleting posts
+public deleteFoundPersonPost(_id: string): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundperson/deleteFoundPersonPost/' + _id;
+  return this.http.delete(url);
+}
 
+public deleteFoundProductPost(_id: string): Observable<any> {
+  const url = ProjectConfig.getPath() + '/foundproduct/deleteFoundProductPost/' + _id;
+  return this.http.delete(url);
+}
+
+public deleteLostPersonPost(_id: string): Observable<any> {
+  const url = ProjectConfig.getPath() + '/person/deleteLostPersonPost/' + _id;
+  return this.http.delete(url);
+}
+
+public deleteLostProductPost(_id: string): Observable<any> {
+  const url = ProjectConfig.getPath() + '/product/deleteLostProductPost/' + _id;
+  return this.http.delete(url);
+}
 
 }

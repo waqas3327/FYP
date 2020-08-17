@@ -47,13 +47,16 @@ const routes: Routes = [
     path: 'found',
     loadChildren: () => import('./found/found.module').then( m => m.FoundPageModule),
     canActivate: [GuardService]
-  },  {
+  },
+  {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [GuardService]
   },
   {
     path: 'myposts',
-    loadChildren: () => import('./myposts/myposts.module').then( m => m.MypostsPageModule)
+    loadChildren: () => import('./myposts/myposts.module').then( m => m.MypostsPageModule),
+    canActivate: [GuardService]
   }
 
 

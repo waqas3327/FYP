@@ -13,6 +13,7 @@ router.put('/updateFoundProductPost/:_id', foundproductController.updatePost);
 router.get("/getallfoundproducts", foundproductController.getAllFoundProducts);
 router.get('/getsinglefoundproduct/:_id', foundproductController.getSingleFoundProduct);
 router.get('/getsinglefoundproductemail/:email', foundproductController.getSingleFoundProductEmail);
+router.delete('/deleteFoundProductPost/:_id', foundproductController.deletePost);
 
 
 

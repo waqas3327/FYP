@@ -4,6 +4,7 @@ import { ProjectConfig } from '../sdk/project.config';
 import { UserService } from '../sdk/custom/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from '../sdk/custom/toast.service';
+import { AlertController } from '@ionic/angular';
 
 declare var google: any;
 
@@ -43,11 +44,13 @@ export class FoundPage implements OnInit {
   loggeduser = localStorage.getItem('name');
   clicked = false;
   editclicked = false;
+  selectedPost: string;
 
   constructor(private route: ActivatedRoute, private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
-    private formbuilder: FormBuilder
+    private formbuilder: FormBuilder,
+    private alertcontroller: AlertController
     ) { }
 
   //small map code....
@@ -67,6 +70,73 @@ export class FoundPage implements OnInit {
     this.mapInitializer();
     
   }
+
+  
+async delete() {
+  this.selectedPost = this.dataretrieved.data._id;
+  console.log('id:',this.selectedPost);
+  const alert = await this.alertcontroller.create({
+    header: 'Confirm!',
+    message: 'Are you sure you want to delete the Post?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: blah => {
+          console.log('Confirm Cancel: blah');
+        }
+      },
+      {
+        text: 'Okay',
+        handler: () => {
+          this.deletePost();
+        }
+      }
+    ]
+  });
+  await alert.present();
+}
+async deletePost() {
+if(this.markertype === 'foundperson')
+{
+  try{
+  this.userservice.deleteFoundPersonPost(this.selectedPost).subscribe(
+    data => {
+      const msg = "Success! Post Deleted Successfully.";
+        this.toastservice.presentToast(msg);
+      console.log('got response from server', data);
+      this.router.navigate(['geolocation']);
+    },
+    error => {
+      console.log('error', error);
+      alert('Problem posting data!');
+    }
+  );
+  } catch (ex) {
+      console.log('ex', ex);
+    }    
+  }
+if(this.markertype === 'foundproduct')
+{
+  try{
+    this.userservice.deleteFoundProductPost(this.selectedPost).subscribe(
+      data => {
+        const msg = "Success! Post Deleted Successfully.";
+          this.toastservice.presentToast(msg);
+        console.log('got response from server', data);
+        this.router.navigate(['geolocation']);
+      },
+      error => {
+        console.log('error', error);
+        alert('Problem posting data!');
+      }
+    );
+    } catch (ex) {
+        console.log('ex', ex);
+      }
+}
+}
 
 
   update(){

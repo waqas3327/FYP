@@ -113,6 +113,7 @@ lostpersonController.updatePost = async(req, res) => {
 
 
         let updates = req.body;
+        delete updates['youremail'];
         //console.log('here is body,',req.body);
         runUpdate(_id, updates, res);
 
@@ -162,7 +163,30 @@ async function runUpdate(_id, updates, res) {
     }
 }
 
+//deleting post
+lostpersonController.deletePost = async(req, res) => {
+    if (!req.params._id) {
+        Fu;
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const _id = req.params._id;
 
+        const result = await LostPerson.findOneAndDelete({
+            _id: _id
+        });
+
+        res.status(200).send({
+            code: 200,
+            message: 'Deleted Successfully'
+        });
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+};
 
 lostpersonController.getAllLostPersons = async(req, res) => {
     // const lostproducts = await LostProduct.find();
