@@ -160,15 +160,15 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     });
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
-      console.log('clicked marker, markerType value:', marker.get('markerType'));
+     // console.log('clicked marker, markerType value:', marker.get('markerType'));
       //this.router.navigate(['/description-page']);
       if ((marker.get('markerType') == 'lostperson') || (marker.get('markerType') == 'lostproduct')) {
         this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'), markertype: marker.get('markerType') } });
-        console.log('inside lost url: markertype value', marker.get('markerType'));
+       // console.log('inside lost url: markertype value', marker.get('markerType'));
       }
       else if ((marker.get('markerType') == 'foundperson') || (marker.get('markerType') == 'foundproduct')) {
         this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id'), markertype: marker.get('markerType') } });
-        console.log('inside found url: markertype value', marker.get('markerType'));
+       // console.log('inside found url: markertype value', marker.get('markerType'));
       }
     })
   }
@@ -186,8 +186,9 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     this.setMapOnAll(null);
   }
 
-
-  displayallmarkers() {
+ 
+  displayalllostmarkers() {
+this.clearMarkers();
 
     //lost product markers
     this.datacollector(this.lostproductsdata);
@@ -207,13 +208,14 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Lost Product';
+      let content: string;
       
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
+      this.markers.push(this.marker);
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
@@ -234,7 +236,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       console.log('this is markers type:', this.marker.get('markerType'));
-      let content: string = 'Lost Person';
+      let content: string;
       
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
@@ -243,8 +245,12 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       infoWindow.open(this.map,this.marker);
       //this.marker.setMap(this.map);
       //this.markers.push(marker);
+      this.markers.push(this.marker);
     }
-
+  }
+  displayallfoundmarkers(){
+   this.clearMarkers();
+   //this.marker.setMap(null);
     //found product markers
     this.datacollector(this.foundproductsdata);
     const icon2 = {
@@ -263,13 +269,14 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Found Product';
+      let content: string;
       
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
+      this.markers.push(this.marker);
     }
     //lost person markers
     this.datacollector(this.foundpersonsdata);
@@ -290,7 +297,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       console.log('this is markers id:', this.marker.get('store_id'));
       console.log('this is markers type:', this.marker.get('markerType'));
       console.log(this.marker.position);
-      let content: string = 'Found Person';
+      let content: string;
      
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
@@ -298,7 +305,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       });
       infoWindow.open(this.map,this.marker);
       //this.marker.setMap(this.map);
-      //this.markers.push(marker);
+      this.markers.push(this.marker);
     }
   }
 
@@ -366,7 +373,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     }).catch((error) => {
       console.log('Error in getting the locations', error);
     });
-    this.displayallmarkers();
+    this.displayalllostmarkers();
+    this.displayallfoundmarkers();
   }
   mapOptions2: google.maps.MapOptions = {
     center: this.Searchposition,

@@ -227,12 +227,18 @@ emailfromlocalstorage:any;
         map: this.map,
         icon: icon,
         store_id: this.lostproductsdata[i]._id,
-        markerType: 'lostproduct'
+        markerType: 'lostproduct',
+        markerContent: this.lostproductsdata[i].title
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Lost Product';
+      let content: string;
+
       this.addInfoWindow(this.marker, content);
+      var infoWindow = new google.maps.InfoWindow({
+        content:this.marker.markerContent
+      });
+      infoWindow.open(this.map,this.marker);
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
@@ -249,13 +255,17 @@ emailfromlocalstorage:any;
         icon: icon1,
         store_id: this.lostpersonsdata[i]._id,
         markerType: 'lostperson',
+        markerContent: this.lostpersonsdata[i].title
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       console.log('this is markers type:', this.marker.get('markerType'));
-      let content: string = 'Lost Person';
+      let content: string;
+      
       this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
+      var infoWindow = new google.maps.InfoWindow({
+        content:this.marker.markerContent
+      });
+      infoWindow.open(this.map,this.marker);
     }
 
     //found product markers
@@ -271,14 +281,18 @@ emailfromlocalstorage:any;
         map: this.map,
         icon: icon2,
         store_id: this.foundproductsdata[i]._id,
-        markerType: 'foundproduct'
+        markerType: 'foundproduct',
+        markerContent: this.foundproductsdata[i].title
       });
       console.log('this is markers id:', this.marker.get('store_id'));
       //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Found Product';
+      let content: string;
+
       this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
+      var infoWindow = new google.maps.InfoWindow({
+        content:this.marker.markerContent
+      });
+      infoWindow.open(this.map,this.marker);
     }
     //lost person markers
     this.datacollector(this.foundpersonsdata);
@@ -293,15 +307,17 @@ emailfromlocalstorage:any;
         map: this.map,
         icon: icon3,
         store_id: this.foundpersonsdata[i]._id,
-        markerType: 'foundperson'
+        markerType: 'foundperson',
+        markerContent: this.foundpersonsdata[i].title
       });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      console.log('this is markers type:', this.marker.get('markerType'));
       console.log(this.marker.position);
-      let content: string = 'Found Person';
+      let content: string;
+
       this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
+      var infoWindow = new google.maps.InfoWindow({
+        content:this.marker.markerContent
+      });
+      infoWindow.open(this.map,this.marker);
     }
   }
 

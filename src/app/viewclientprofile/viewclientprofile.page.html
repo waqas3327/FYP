@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="geolocation"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            {{dataretrieved?.data?.name}}'s profile
+        </ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="getProfileData">
+        <ion-grid>
+            <ion-row class="ion-justify-content-center">
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
+
+                    <div style="position: relative; top:30px; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Name</ion-label>
+                            <ion-input name="name" readonly formControlName="name" type="text " value={{dataretrieved?.data?.name}}></ion-input>
+
+                        </ion-item>
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Email</ion-label>
+                            <ion-input name="email" readonly formControlName="email" type="text " value={{dataretrieved?.data?.email}}>
+                            </ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Mobile Number</ion-label>
+                            <ion-input name="mnumber " readonly formControlName="mnumber" type="text " value={{dataretrieved?.data?.mnumber}}>
+                            </ion-input>
+                        </ion-item>
+                    </div>
+
+                    <!-- div for address -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Address</ion-label>
+                            <ion-textarea auto-grow="true" readonly formControlName="address" value={{dataretrieved?.data?.address}}>
+                            </ion-textarea>
+                        </ion-item>
+                    </div>
+
+                    <br><br><br><br><br><br><br><br><br><br>
+                    <div text-center>
+                        <p>Copyright 2020. All rights reserved.</p>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>
