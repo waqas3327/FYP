@@ -146,7 +146,7 @@ if(this.markertype === 'foundproduct')
       const getpdata = this.getData.value;
       this.userservice.updateFoundPersonPost(getpdata,this.dataretrieved.data._id).subscribe(
         data => {
-          const msg = "Success! Profile Updated Successfully.";
+          const msg = "Success! Post Updated Successfully.";
             this.toastservice.presentToast(msg);
           console.log('got response from server', data);
           this.router.navigate(['geolocation']);
@@ -165,7 +165,7 @@ if(this.markertype === 'foundproduct')
           const getpdata = this.getData.value;
           this.userservice.updateFoundProductPost(getpdata,this.dataretrieved.data._id).subscribe(
             data => {
-              const msg = "Success! Profile Updated Successfully.";
+              const msg = "Success! Post Updated Successfully.";
                 this.toastservice.presentToast(msg);
               console.log('got response from server', data);
               this.router.navigate(['geolocation']);

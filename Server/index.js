@@ -33,6 +33,8 @@ const mongoCon = process.env.mongoCon;
 
 mongoose.connect(mongoCon, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 //mongodb+srv://waqas3327:03105593105@cluster0-kv7vt.mongodb.net/test?retryWrites=true&w=majority
+//mongoCon = mongodb://localhost:27017/fyp2
+
 
 //const fs = require('fs');
 //fs.readdirSync(__dirname + "/models").forEach(function(file) {
