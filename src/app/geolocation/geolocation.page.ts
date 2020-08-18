@@ -228,7 +228,12 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       console.log('this is markers id:', this.marker.get('store_id'));
       console.log('this is markers type:', this.marker.get('markerType'));
       let content: string = 'Lost Person';
+      
       this.addInfoWindow(this.marker, content);
+      var infoWindow = new google.maps.InfoWindow({
+        content:"adil babloo"
+      });
+      infoWindow.open(this.map,this.marker);
       //this.marker.setMap(this.map);
       //this.markers.push(marker);
     }
