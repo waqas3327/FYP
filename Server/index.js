@@ -50,8 +50,9 @@ app.get('/', function(req, res) {
     });
 });
 
-app.set('port', (3005));
+//app.set('port', (3005));
 
+app.set('port', (process.env.PORT));
 app.use(accessControls);
 app.use(cors());
 
