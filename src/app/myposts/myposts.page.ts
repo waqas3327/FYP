@@ -88,7 +88,7 @@ this.emailfromlocalstorage = localStorage.getItem('name');
       alllostpersons => {
         console.log("1st record  products", alllostpersons);
         this.lostpersonsdata = alllostpersons;
-        console.log("all lost products", this.lostproductsdata[0].lat);
+        //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
         console.log("api error in data retrieval", err);
@@ -101,7 +101,7 @@ this.emailfromlocalstorage = localStorage.getItem('name');
     this.userService.getSingleFoundProductEmail(this.emailfromlocalstorage).subscribe(
       allfoundproducts => {
         this.foundproductsdata = allfoundproducts;
-         console.log("all found products", this.foundproductsdata[0].lat);
+         //console.log("all found products", this.foundproductsdata[0].lat);
 
       },
       err => {
@@ -113,7 +113,7 @@ this.emailfromlocalstorage = localStorage.getItem('name');
     this.userService.getSingleFoundPersonEmail(this.emailfromlocalstorage).subscribe(
       allfoundpersons => {
         this.foundpersonsdata = allfoundpersons;
-        console.log("all lost products", this.lostproductsdata[0].lat);
+        //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
         console.log("api error in data retrieval", err);
@@ -169,6 +169,7 @@ babloo(){
 
 
   displayallmarkers() {
+    console.log('Display funtion is called');
 
     console.log('data in lostprod:',this.lostproductsdata);
     //lost product markers
