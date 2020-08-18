@@ -44,7 +44,15 @@ emailfromlocalstorage:any;
   address: any;
   public isSearchbarOpen=false;
 
-  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService) { }
+  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService) {this.backbutton() }
+  backbutton() {
+    console.log('backbutton');
+    document.addEventListener('backbutton', () => {
+      console.log('backbutton1');
+  });
+  }
+  
+  
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;

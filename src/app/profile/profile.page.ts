@@ -20,7 +20,13 @@ export class ProfilePage implements OnInit {
   constructor(private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) { this.backbutton() }
+    backbutton() {
+      console.log('backbutton');
+      document.addEventListener('backbutton', () => {
+        console.log('backbutton1');
+    });
+    }
 
  
 

@@ -51,7 +51,13 @@ export class PostfoundPage {
     private service: UserService,
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController
-    ){}
+    ){this.backbutton()}
+    backbutton() {
+      console.log('backbutton');
+      document.addEventListener('backbutton', () => {
+        console.log('backbutton1');
+    });
+    }
 
     emaildisplay = localStorage.getItem('name');
     

@@ -60,7 +60,13 @@ export class PostlostPage implements OnInit {
     private service: UserService,
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController
-    ){}
+    ){this.backbutton()}
+    backbutton() {
+      console.log('backbutton');
+      document.addEventListener('backbutton', () => {
+        console.log('backbutton1');
+    });
+    }
     datacollector(data) {
       this.myLatLng = data;
       for (var i = 0; i < data.length; i++) {
