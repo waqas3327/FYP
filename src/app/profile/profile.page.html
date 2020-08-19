@@ -48,6 +48,19 @@
                         </ion-item>
                     </div>
 
+                    <!-- div for rating -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">User Rating</ion-label>
+                            <ion-input name="rating" readonly type="text " formControlName="rating" value={{calculatedRating}}>Rating:
+                            </ion-input>
+                        </ion-item>
+
+                        <!-- hidden count -->
+                        <ion-input [hidden] name="count" readonly type="text " formControlName="count">
+                        </ion-input>
+                    </div>
+
                     <br><br>
                     <div padding>
                         <ion-button color="secondary" size="large" type="submit" shape="round" expand="block" *ngIf="clickededit" (click)="update()">Update

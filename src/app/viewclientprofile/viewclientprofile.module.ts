@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ViewclientprofilePageRoutingModule } from './viewclientprofile-routing.module';
-
+import { StarRatingModule } from 'ionic4-star-rating';
 import { ViewclientprofilePage } from './viewclientprofile.page';
 
 @NgModule({
@@ -14,7 +14,8 @@ import { ViewclientprofilePage } from './viewclientprofile.page';
     FormsModule,
     IonicModule,
     ViewclientprofilePageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StarRatingModule
   ],
   declarations: [ViewclientprofilePage]
 })

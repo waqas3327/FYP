@@ -54,6 +54,7 @@
         "font-awesome": "^4.7.0",
         "heroku": "^7.39.0",
         "ionic": "^5.4.13",
+        "ionic4-star-rating": "^1.1.1",
         "jquery": "^3.5.1",
         "mongoose": "^5.9.4",
         "nodemailer": "^6.4.5",

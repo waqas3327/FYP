@@ -44,6 +44,27 @@
                         </ion-item>
                     </div>
 
+                    <!-- div for rating -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">User Rating</ion-label>
+                            <ion-input name="rating" readonly type="text " formControlName="rating" value={{calculatedRating|number}}>Rating:
+                            </ion-input>
+                            <ion-button *ngIf="ratedsuccessfully" slot="end" (click)="rateUser()">RATE</ion-button>
+                        </ion-item>
+
+                        <!-- hidden count -->
+                        <ion-input *ngIf="show" name="count" readonly type="text " formControlName="count">
+                        </ion-input>
+                    </div>
+
+                    <div *ngIf="ratedsuccessfully" text-center style="position: relative;top:40px; width: 100%; ">
+                        <ionic4-star-rating #rating activeIcon="ios-star" *ngIf="rateclicked" defaultIcon="ios-star-outline" activeColor="#3dc2ff" defaultColor="primary" readonly="false" rating="5" fontSize="32px" (ratingChanged)="logRatingChange($event)">
+                        </ionic4-star-rating>
+                    </div>
+                    <div *ngIf="ratedsuccessfully" text-center style="position: relative;top:40px ">
+                        <ion-button *ngIf="rateclicked" slot="end" (click)="userRated()">DONE</ion-button>
+                    </div>
                     <br><br><br><br><br><br><br><br><br><br>
                     <div text-center>
                         <p>Copyright 2020. All rights reserved.</p>

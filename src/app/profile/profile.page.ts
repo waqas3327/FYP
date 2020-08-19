@@ -16,6 +16,7 @@ export class ProfilePage implements OnInit {
   getProfileData: FormGroup;
   clickedspinner = false;
   clickededit = false;
+  calculatedRating: any;
   
   constructor(private userservice: UserService,
     private toastservice: ToastService,
@@ -45,12 +46,31 @@ export class ProfilePage implements OnInit {
       }
   }
 
+  ratingCalculator() {
+    if(this.dataretrieved.data.count !== 0){
+      console.log('count zero ha bhai..');
+    this.calculatedRating = this.dataretrieved.data.rating/this.dataretrieved.data.count;
+    this.calculatedRating = parseFloat(this.calculatedRating).toFixed(1);
+    }
+    else{
+      this.calculatedRating = '  Not rated yet';
+    }
+   }
+
+   ngAfterViewInit() {
+    setTimeout (() => {
+      this.ratingCalculator();
+   }, 1000);
+  }
+
   formInitializer() {
     this.getProfileData = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       mnumber: ['', Validators.required],
       address: ['', Validators.required],
+      rating: ['',Validators.required],
+      count: ['',Validators.required]
      
     });
   }

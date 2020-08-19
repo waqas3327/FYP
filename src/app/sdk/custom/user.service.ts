@@ -34,7 +34,11 @@ public UpdateUser(credentials: object, email: String): Observable<any> {
 
   return this.http.put(url, credentials);
 }
+public UpdateRating(credentials: object, email: String): Observable<any> {
+  const url = ProjectConfig.getPath() + '/user/updaterating/' + email;
 
+  return this.http.put(url, credentials);
+}
 
   public userForgotPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + '/user/sendmail';

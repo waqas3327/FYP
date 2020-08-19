@@ -303,7 +303,10 @@ if(this.markertype === 'lostproduct')
         }
       );
     }//end if
+ 
   }
+
+  
 
 
   viewprofile() {
