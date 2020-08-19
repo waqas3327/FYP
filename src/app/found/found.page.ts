@@ -40,7 +40,7 @@ export class FoundPage implements OnInit {
     src: ''
   };
   address: any;
-  sameuser = false;
+  sameuser = true;
   loggeduser = localStorage.getItem('name');
   clicked = false;
   editclicked = false;
@@ -205,6 +205,13 @@ if(this.markertype === 'foundproduct')
   }
  //mini map code[end]
 
+
+
+ viewprofile() {
+  this.router.navigate(['/viewclientprofile'], { queryParams: { emailID: this.dataretrieved.data.youremail } });
+
+}
+
   ngOnInit() {
     this.formInitializer();
     //getting data from query params
@@ -243,6 +250,9 @@ if(this.markertype === 'foundproduct')
        if(this.dataretrieved.data.youremail == this.loggeduser){
         this.sameuser = true;
       }
+      else{
+        this.sameuser = false;
+        }
        this.map.setCenter(latlng);
     //console.log(status);
  });
@@ -277,6 +287,9 @@ if(this.markertype === 'foundproduct')
                  if(this.dataretrieved.data.youremail == this.loggeduser){
                   this.sameuser = true;
                 }
+                else{
+                  this.sameuser = false;
+                  }
                  this.map.setCenter(latlng);
               //console.log(status);
            });

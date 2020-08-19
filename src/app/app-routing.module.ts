@@ -57,7 +57,12 @@ const routes: Routes = [
     path: 'myposts',
     loadChildren: () => import('./myposts/myposts.module').then( m => m.MypostsPageModule),
     canActivate: [GuardService]
+  },
+  {
+    path: 'viewclientprofile',
+    loadChildren: () => import('./viewclientprofile/viewclientprofile.module').then( m => m.ViewclientprofilePageModule)
   }
+
 
 
 

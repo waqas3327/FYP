@@ -14,7 +14,7 @@ import { LostPage } from './lost.page';
     FormsModule,
     IonicModule,
     LostPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [LostPage]
 })

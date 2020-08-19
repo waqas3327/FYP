@@ -50,9 +50,11 @@ app.get('/', function(req, res) {
     });
 });
 
-app.set('port', (3005));
+//app.set('port', (3005));
 
+app.set('port', (process.env.PORT) || 3005);
 app.use(accessControls);
+
 app.use(cors());
 
 // Routes which should handle requests

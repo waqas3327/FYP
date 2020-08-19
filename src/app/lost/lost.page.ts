@@ -23,7 +23,7 @@ export class LostPage implements OnInit {
   queryParameters: number;
   uniqueID: any;
   markertype;
-  sameuser = false;
+  sameuser = true;
   loggeduser = localStorage.getItem('name');
 
   clicked = false;
@@ -130,8 +130,9 @@ private alertController: AlertController,
   }
   edit(){
     this.editclicked = true;
-     
   }
+
+  
   
  //mini map code[end]
  formInitializer() {
@@ -252,6 +253,9 @@ if(this.markertype === 'lostproduct')
               if(this.dataretrieved.data.youremail == this.loggeduser){
                 this.sameuser = true;
               }
+              else{
+              this.sameuser = false;
+              }
               this.map.setCenter(latlng);
            //console.log(status);
         });
@@ -285,6 +289,9 @@ if(this.markertype === 'lostproduct')
           if(this.dataretrieved.data.youremail == this.loggeduser){
             this.sameuser = true;
           }
+          else{
+            this.sameuser = false;
+            }
           this.map.setCenter(latlng);
        //console.log(status);
     });
@@ -296,6 +303,16 @@ if(this.markertype === 'lostproduct')
         }
       );
     }//end if
+ 
   }
+
+  
+
+
+  viewprofile() {
+    this.router.navigate(['/viewclientprofile'], { queryParams: { emailID: this.dataretrieved.data.youremail } });
+  
+}
+
 
 }
