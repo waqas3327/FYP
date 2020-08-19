@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="secondary">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-back-button defaultHref="home"></ion-back-button>
         </ion-buttons>
         <ion-title>
             Register
@@ -19,12 +19,13 @@
                     </div>
 
                     <div text-center>
-                        <h3>Create your account!</h3>
-                        <ion-buttons slot="start">
-                            <ion-back-button defaultHref="home"></ion-back-button>
-                        </ion-buttons>
+                        <h4>Create your account!</h4>
+
                     </div>
                     <div padding>
+
+
+
                         <ion-item>
                             <ion-input name="name" type="text" placeholder="Name" formControlName="name"></ion-input>
                         </ion-item>
@@ -49,8 +50,13 @@
                             <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
                         </ion-button>
                     </div>
+
+                    <div text-center>
+                        <p>Copyright 2020. All rights reserved.</p>
+                    </div>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </form>
+    <!-- //end of form -->
 </ion-content>

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 
 const Client = new Schema({
+    // imageUrl: String,
     name: String,
     mnumber: String,
     address: String,

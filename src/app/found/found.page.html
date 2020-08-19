@@ -1,65 +1,76 @@
 <ion-header>
     <ion-toolbar color="secondary">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>
-            Found Description</ion-title>
-        <ion-buttons slot="end">
             <ion-back-button defaultHref="geolocation"></ion-back-button>
         </ion-buttons>
+        <ion-title>
+            Found</ion-title>
+
+        <ion-button *ngIf="sameuser" (click)="edit()" fill="clear" slot="end" color="light">
+            <ion-icon name="create" slot="end"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="sameuser" (click)="delete()" fill="clear" slot="end" color="light">
+            <ion-icon name="trash" slot="end"></ion-icon>
+        </ion-button>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row class="ion-justify-content-center">
-            <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+    <form [formGroup]="getData">
+        <ion-grid>
+            <ion-row class="ion-justify-content-center">
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
 
 
-                <!-- DIV to dsiplay image -->
-                <div class="col-lg-10">
-                    <img [src]="user.src" onError="this.src='assets/images/avatar.jpg'" />
-                </div>
-                <!-- Place holder div -->
-                <div style="position: relative; top:30px; width: 100%; ">
-                    <ion-item >
-                        <ion-label style="color:#0cd1e8;" position="stacked">Title</ion-label>
-                        <ion-input name="title " type="text" readonly value={{dataretrieved?.data?.title}}></ion-input>
+                    <!-- DIV to dsiplay image -->
+                    <div class="col-lg-10">
+                        <img [src]="user.src" onError="this.src='assets/images/avatar.jpg'" />
+                    </div>
+                    <!-- Place holder div -->
+                    <div style="position: relative; top:30px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Title</ion-label>
+                            <ion-input name="title " formControlName="title" type="text" value={{dataretrieved?.data?.title}}></ion-input>
 
-                    </ion-item>
-                    <ion-item >
-                        <ion-label style="color:#0cd1e8;" position="stacked">Posted By</ion-label>
-                        <ion-input name="email " type="text " readonly value={{dataretrieved?.data?.youremail}}>
-                        </ion-input>
-                    </ion-item>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Posted By</ion-label>
+                            <ion-input name="youremail " readonly formControlName="youremail" type="text " value={{dataretrieved?.data?.youremail}}>
+                            </ion-input>
+                        </ion-item>
 
-                </div>
-                <!-- div for description -->
-                <div style="position: relative;top:40px; width: 100%; ">
-                   
-                    <ion-item>
-                        <ion-label style="color:#0cd1e8;" position="stacked">Description</ion-label>
-                        <ion-textarea auto-grow="true" readonly value={{dataretrieved?.data?.description}}>
-                        </ion-textarea>
-                    </ion-item>
-                </div><br>
-                <!-- div for displaying address -->
-                <div style="position: relative;top:40px; width: 100%; ">
-                    <ion-item>
-                        <ion-label style="color:#0cd1e8;" position="stacked">Address</ion-label>
-                        <ion-textarea auto-grow="true" readonly value={{address}}>
-                        </ion-textarea>
-                    </ion-item>
-                </div>
-                <!-- div for displaying map -->
-                <div padding class="ion-text-center" #mapContainer id="map"></div>
+                    </div>
+                    <!-- div for description -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Description</ion-label>
+                            <ion-textarea name="description" formControlName="description" auto-grow="true" value={{dataretrieved?.data?.description}}>
+                            </ion-textarea>
+                        </ion-item>
+                    </div><br>
+                    <!-- div for displaying address -->
+                    <div style="position: relative;top:40px; width: 100%; ">
+                        <ion-item>
+                            <ion-label style="color:#0cd1e8;" position="stacked">Address</ion-label>
+                            <ion-textarea auto-grow="true" readonly value={{address}}>
+                            </ion-textarea>
+                        </ion-item>
+                    </div>
+                    <!-- div for displaying map -->
+                    <div color="secondary" padding class="ion-text-center">Found At</div>
+                    <div padding class="ion-text-center" #mapContainer id="map"></div>
+                    <br><br><br><br><br>
+                    <div padding>
+                        <ion-button *ngIf="editclicked" color="secondary" size="large" shape="round" type="submit" (click)="update()" expand="block">Update
+                            <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
+                        </ion-button>
+                    </div>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
 
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-
-
+    </form>
 </ion-content>

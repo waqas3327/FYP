@@ -73,6 +73,88 @@ async function runUpdate(_id, updates, res) {
 }
 
 
+//updating posts
+foundpersonController.updatePost = async(req, res) => {
+    if (!req.params._id) {
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const _id = req.params._id;
+        let updates = req.body;
+        delete updates['youremail'];
+        runUpdate(_id, updates, res);
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+};
+async function runUpdate(_id, updates, res) {
+    try {
+        const result = await foundPerson.updateOne({
+            _id: _id
+        }, {
+            $set: updates
+        }, {
+            upsert: true,
+            runValidators: true
+        });
+
+
+        {
+            if (result.nModified == 1) {
+                res.status(200).send({
+                    code: 200,
+                    message: "Updated Successfully"
+                });
+            } else if (result.upserted) {
+                res.status(200).send({
+                    code: 200,
+                    message: "Created Successfully"
+                });
+            } else {
+                res
+                    .status(422)
+                    .send({
+                        code: 422,
+                        message: 'Unprocessible Entity'
+                    });
+            }
+        }
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+}
+
+//deleting post
+foundpersonController.deletePost = async(req, res) => {
+    if (!req.params._id) {
+        Fu;
+        res.status(500).send({
+            message: 'ID missing'
+        });
+    }
+    try {
+        const _id = req.params._id;
+
+        const result = await foundPerson.findOneAndDelete({
+            _id: _id
+        });
+
+        res.status(200).send({
+            code: 200,
+            message: 'Deleted Successfully'
+        });
+    } catch (error) {
+        console.log('error', error);
+        return res.status(500).send(error);
+    }
+};
+
+
+
 
 foundpersonController.getAllFoundPersons = async(req, res) => {
     foundPerson.find({})
@@ -105,13 +187,23 @@ foundpersonController.getSingleFoundPerson = async(req, res) => {
 foundpersonController.getSingleFoundPersonEmail = async(req, res) => {
     try {
         const email = req.params.email
-        console.log('mail in api', email);
         person = await foundPerson.find({ "youremail": email });
-        res.status(200).send({
-            code: 200,
-            message: 'Successful',
-            data: person
-        });
+        res.json(person);
+        // res.status(200).send({
+        //     code: 200,
+        //     message: 'Successful',
+        //     data: person
+        // });
+
+
+        // foundPerson.find({})
+        //     .exec(function(err, foundPerson) {
+        //         if (err) {
+        //             console.log('Error while retrieving ');
+        //         } else {
+        //             res.json(foundPerson);
+        //         }
+        //     })
 
 
     } catch (error) {

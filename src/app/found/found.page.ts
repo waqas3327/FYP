@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectConfig } from '../sdk/project.config';
 import { UserService } from '../sdk/custom/user.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastService } from '../sdk/custom/toast.service';
+import { AlertController } from '@ionic/angular';
 
 declare var google: any;
 
@@ -14,6 +17,7 @@ export class FoundPage implements OnInit {
  
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   
+  getData: FormGroup;
   sub: any;
   queryParameters: number;
   uniqueID: any;
@@ -36,8 +40,18 @@ export class FoundPage implements OnInit {
     src: ''
   };
   address: any;
+  sameuser = false;
+  loggeduser = localStorage.getItem('name');
+  clicked = false;
+  editclicked = false;
+  selectedPost: string;
 
-  constructor(private route: ActivatedRoute, private userservice: UserService) { }
+  constructor(private route: ActivatedRoute, private userservice: UserService,
+    private toastservice: ToastService,
+    private router: Router,
+    private formbuilder: FormBuilder,
+    private alertcontroller: AlertController
+    ) { }
 
   //small map code....
   mapOptions: google.maps.MapOptions = {
@@ -54,7 +68,133 @@ export class FoundPage implements OnInit {
 
   ngAfterViewInit() {
     this.mapInitializer();
+    
   }
+
+  
+async delete() {
+  this.selectedPost = this.dataretrieved.data._id;
+  console.log('id:',this.selectedPost);
+  const alert = await this.alertcontroller.create({
+    header: 'Confirm!',
+    message: 'Are you sure you want to delete the Post?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: blah => {
+          console.log('Confirm Cancel: blah');
+        }
+      },
+      {
+        text: 'Okay',
+        handler: () => {
+          this.deletePost();
+        }
+      }
+    ]
+  });
+  await alert.present();
+}
+async deletePost() {
+if(this.markertype === 'foundperson')
+{
+  try{
+  this.userservice.deleteFoundPersonPost(this.selectedPost).subscribe(
+    data => {
+      const msg = "Success! Post Deleted Successfully.";
+        this.toastservice.presentToast(msg);
+      console.log('got response from server', data);
+      this.router.navigate(['geolocation']);
+    },
+    error => {
+      console.log('error', error);
+      alert('Problem posting data!');
+    }
+  );
+  } catch (ex) {
+      console.log('ex', ex);
+    }    
+  }
+if(this.markertype === 'foundproduct')
+{
+  try{
+    this.userservice.deleteFoundProductPost(this.selectedPost).subscribe(
+      data => {
+        const msg = "Success! Post Deleted Successfully.";
+          this.toastservice.presentToast(msg);
+        console.log('got response from server', data);
+        this.router.navigate(['geolocation']);
+      },
+      error => {
+        console.log('error', error);
+        alert('Problem posting data!');
+      }
+    );
+    } catch (ex) {
+        console.log('ex', ex);
+      }
+}
+}
+
+
+  update(){
+    this.clicked=true;
+    if(this.markertype === 'foundperson'){
+    try {       
+      const getpdata = this.getData.value;
+      this.userservice.updateFoundPersonPost(getpdata,this.dataretrieved.data._id).subscribe(
+        data => {
+          const msg = "Success! Post Updated Successfully.";
+            this.toastservice.presentToast(msg);
+          console.log('got response from server', data);
+          this.router.navigate(['geolocation']);
+        },
+        error => {
+          console.log('error', error);
+          alert('Problem posting data!');
+        }
+      );
+      } catch (ex) {
+          console.log('ex', ex);
+        }    
+      }
+      if(this.markertype === 'foundproduct'){
+        try {       
+          const getpdata = this.getData.value;
+          this.userservice.updateFoundProductPost(getpdata,this.dataretrieved.data._id).subscribe(
+            data => {
+              const msg = "Success! Post Updated Successfully.";
+                this.toastservice.presentToast(msg);
+              console.log('got response from server', data);
+              this.router.navigate(['geolocation']);
+            },
+            error => {
+              console.log('error', error);
+              alert('Problem posting data!');
+            }
+          );
+          } catch (ex) {
+              console.log('ex', ex);
+            }    
+          }
+
+  }
+  edit(){
+    this.editclicked = true;
+     
+  }
+  
+ //mini map code[end]
+ formInitializer() {
+  this.getData = this.formbuilder.group({
+    description: ['', Validators.required],
+    youremail: ['', [Validators.required, Validators.email]],
+    title: ['', Validators.required],
+   
+  });
+}
 
   mapInitializer() {
     this.map = new google.maps.Map(this.gmap.nativeElement, 
@@ -66,6 +206,7 @@ export class FoundPage implements OnInit {
  //mini map code[end]
 
   ngOnInit() {
+    this.formInitializer();
     //getting data from query params
     this.sub = this.route
       .queryParams
@@ -99,6 +240,9 @@ export class FoundPage implements OnInit {
          animation: google.maps.Animation.DROP,
          position:latlng ,
        });
+       if(this.dataretrieved.data.youremail == this.loggeduser){
+        this.sameuser = true;
+      }
        this.map.setCenter(latlng);
     //console.log(status);
  });
@@ -130,6 +274,9 @@ export class FoundPage implements OnInit {
                    animation: google.maps.Animation.DROP,
                    position:latlng ,
                  });
+                 if(this.dataretrieved.data.youremail == this.loggeduser){
+                  this.sameuser = true;
+                }
                  this.map.setCenter(latlng);
               //console.log(status);
            });
@@ -140,8 +287,4 @@ export class FoundPage implements OnInit {
       );
     }//end if
   }
-
-
-
-
 }

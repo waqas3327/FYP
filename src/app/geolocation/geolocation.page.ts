@@ -47,6 +47,9 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 //gets the position where marker is supposed to be placed
   datacollector(data) {
     this.myLatLng = data;
+    console.log('geolocation data',data);
+    console.log('geolocation data length',data.length);
+    
     for (var i = 0; i < data.length; i++) {
       this.myLatLng[i].lat = data[i].lat;
       this.myLatLng[i].lng = data[i].lng;
@@ -215,6 +218,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     };
     for (var i = 0; i < this.myLatLng.length; i++) {
       this.marker = new google.maps.Marker({
+
         position: this.myLatLng[i],
         map: this.map,
         icon: icon1,

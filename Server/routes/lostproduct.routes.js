@@ -8,9 +8,12 @@ const upload = require('../config/upload');
 
 router.post("/PostLostProduct", upload.single('file'), lostproductController.PostLostProduct);
 router.put('/updatePostLostProduct/:_id', lostproductController.updateUser);
+router.put('/updateLostProductPost/:_id', lostproductController.updatePost);
+
 router.get("/getalllostproducts", lostproductController.getAllLostProducts);
 router.get('/getsinglelostproduct/:_id', lostproductController.getSingleLostProduct);
 router.get('/getsinglelostproductemail/:email', lostproductController.getSingleLostProductEmail);
+router.delete('/deleteLostProductPost/:_id', lostproductController.deletePost);
 
 
 // router.post("/postlost",lostproductController.postlostproduct);

@@ -9,18 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-name = 'No user';
+name;
+userexist = false;
 public appPages = [
-    {
-      title: 'Login',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'Register',
-      url: '/register',
-      icon: 'create'
-    },
+    // {
+    //   title: 'Login',
+    //   url: '/home',
+    //   icon: 'home'
+    // },
+    // {
+    //   title: 'Register',
+    //   url: '/register',
+    //   icon: 'create'
+    // },
     {
       title: 'Profile',
       url: '/profile',
@@ -31,11 +32,11 @@ public appPages = [
       url: '/myposts',
       icon: 'bookmarks'
     },
-    {
-      title: 'GeoLocation',
-      url: '/geolocation',
-      icon: 'locate'
-    },
+    // {
+    //   title: 'GeoLocation',
+    //   url: '/geolocation',
+    //   icon: 'locate'
+    // },
     
     {
       title: 'About',
@@ -72,17 +73,38 @@ initializeApp() {
   // tslint:disable-next-line: use-lifecycle-interface
 ngDoCheck() {
     this.name = localStorage.getItem('name');
+    
+    if(!this.name){
+      this.userexist = true;
+    }
+    else{
+      this.userexist = false;
+    }
+    
+  }
+  ngOnInit() {
+    this.name = localStorage.getItem('name');
+    
+    if(!this.name){
+      console.log('name',this.name)
+      this.userexist = true;
+    }
+    else{
+      this.userexist = false;
+    }
   }
   // tslint:disable-next-line: use-lifecycle-interface
 
   ngOnDestroy() {
     localStorage.removeItem('name');
+    this.userexist = false;
   }
   
   logout(){
     alert('logged out succesfully!');
     localStorage.removeItem('name');
     localStorage.removeItem('token');
+    this.userexist = false;
     this.router.navigate(['geolocation']);    
   }
 }

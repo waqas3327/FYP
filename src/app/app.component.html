@@ -9,13 +9,24 @@
                 </ion-toolbar>
             </ion-header>
             <ion-content>
+
+                <ion-header class="bar-profile">
+                    <div *ngIf="!userexist" class="profile">
+                        <img class="profile-picture" src="../assets/images/newbab.jpeg" width="150px" height="150px" />
+                        <h3 class="name" style="font-family: sans-serif;color: white; size: 14px;">{{name}}</h3>
+                    </div>
+                    <div *ngIf="userexist" class="profile">
+                        <img class="profile-picture" src="../assets/images/avatar.jpg" width="150px" height="150px" />
+                        <h3 class="name">Your Name</h3>
+                    </div>
+                </ion-header>
+
+                <!-- 
+
                 <div color="secondary" class="profile">
-                    <img class="profile-picture" src="../assets/icon/user.png" width="100px" height="100px" />
+                    <img class="profile-picture" src="../assets/images/Adil.jpeg" />
                     <h3 class="name" style="font-family: sans-serif;color: white">{{name}}</h3>
-                    <!-- <ion-button shape="round" color="secondary"> -->
-                    <!-- <ion-icon name="log-out" size="large" color="light" (click)="logout()"></ion-icon> -->
-                    <!-- </ion-button> -->
-                </div>
+                </div> -->
                 <ion-list>
                     <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
                         <ion-item [routerDirection]="'root'" [routerLink]="[p.url]" *ngIf="p.url">

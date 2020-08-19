@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="secondary">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-back-button defaultHref="geolocation"></ion-back-button>
         </ion-buttons>
         <ion-title>
             Profile
@@ -53,6 +53,10 @@
                         <ion-button color="secondary" size="large" type="submit" shape="round" expand="block" *ngIf="clickededit" (click)="update()">Update
                             <ion-spinner name="bubbles" *ngIf="clickedspinner"></ion-spinner>
                         </ion-button>
+                    </div>
+                    <br><br><br><br><br><br><br><br><br><br>
+                    <div text-center>
+                        <p>Copyright 2020. All rights reserved.</p>
                     </div>
                 </ion-col>
             </ion-row>

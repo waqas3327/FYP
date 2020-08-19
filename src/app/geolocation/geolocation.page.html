@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-toolbar color="secondary">
-        <ion-title *ngIf="!isSearchbarOpen">Lost & Found</ion-title>
+        <ion-title *ngIf="!isSearchbarOpen">People Assist</ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -41,11 +41,13 @@
     </ion-fab>
 
     <ion-fab vertical="top" horizontal="end" slot="fixed">
-        <ion-fab-button size="small" color="light" (click)="getLocation()">
-            <img style="width: 20px" src="../../assets/icon/loc.png">
+        <ion-fab-button size="small" color="secondary" (click)="getLocation()">
+            <!-- <img style="width: 20px" src="../../assets/icon/loc.png"> -->
+            <ion-icon color="light" name="locate"></ion-icon>
         </ion-fab-button>
-        <ion-fab-button size="small" color="light" (click)="displayallmarkers()">
-            <ion-icon name="search"></ion-icon>
+        <ion-fab-button size="small" color="secondary" (click)="displayallmarkers()">
+            <ion-icon color="light" name="search"></ion-icon>
+
         </ion-fab-button>
     </ion-fab>
 

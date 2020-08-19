@@ -17,6 +17,8 @@ userController.registerUser = async(req, res) => {
         var hash = bcrypt.hashSync(password, salt);
 
         console.log('hash - > ', hash);
+        // const filePath = `uploadUser/${req./*params.*/file.originalname}`;
+        // body.imageUrl = filePath;
         body.password = hash;
         const result = await Client.findOne({ "email": email });
         if (!result) // this means result is null
