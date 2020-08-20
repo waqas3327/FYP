@@ -101,6 +101,18 @@ export class ViewclientprofilePage implements OnInit {
       
    }
 
+   chat(){
+     let user = localStorage.getItem('name');
+     console.log('useremail sent',user);
+     console.log('clientemail sent',this.clientemail);
+     const str = user.substring(0, user.indexOf("@"));
+      const str1 = this.clientemail.substring(0, this.clientemail.indexOf("@"));
+      console.log(' after substring useremail sent',str);
+      console.log('after substring clientemail sent',str1);
+    this.router.navigate(['/chat'], { queryParams: { useremail: str, clientemail: str1 } });
+  
+   }
+
    ratingCalculator() {
     this.calculatedRating = this.dataretrieved.data.rating/this.dataretrieved.data.count;
     this.calculatedRating = parseFloat(this.calculatedRating).toFixed(1);

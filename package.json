@@ -15,6 +15,7 @@
     "dependencies": {
         "@angular/common": "~8.1.2",
         "@angular/core": "~8.1.2",
+        "@angular/fire": "^6.0.2",
         "@angular/forms": "~8.1.2",
         "@angular/http": "^7.2.15",
         "@angular/platform-browser": "~8.1.2",
@@ -51,6 +52,7 @@
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "express.js": "^1.0.0",
+        "firebase": "^7.18.0",
         "font-awesome": "^4.7.0",
         "heroku": "^7.39.0",
         "ionic": "^5.4.13",
@@ -58,7 +60,7 @@
         "jquery": "^3.5.1",
         "mongoose": "^5.9.4",
         "nodemailer": "^6.4.5",
-        "rxjs": "~6.5.1",
+        "rxjs": "^6.5.5",
         "tslib": "^1.11.1",
         "zone.js": "~0.9.1"
     },

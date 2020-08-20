@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="geolocation"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Chat
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+    <div id="chatMessages">
+        <div *ngFor="let message of messages" [class]="message.specialMessage ? 'message special' : 'message'">
+            <div [class]="message.sender == useremailrecieved ? 'innerMessage messageRight' : 'innerMessage messageLeft'">
+                <div class="username">{{ message.sender }}</div>
+                <div class="messageContent">{{ message.message }}</div>
+                <div class="time" text-right><br> {{message.createdAt | date:'short'}}</div>
+            </div>
+        </div>
+    </div>
+    <ion-footer>
+        <ion-toolbar>
+            <div id="footer">
+                <div class="elem">
+                    <ion-input type="text" [(ngModel)]="message"></ion-input>
+                </div>
+                <div class="elem"><button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button></div>
+            </div>
+        </ion-toolbar>
+    </ion-footer>
+
+    <!-- nonnnn wala -->
+    <!-- <ion-footer>
+    <ion-toolbar color="light">
+        <ion-row align-items-end no-padding>
+            <ion-col size="10">
+                <textarea placeholder="Enter your message" autosize [(ngModel)]="message" class="message-input"></textarea>
+            </ion-col>
+            <ion-col size="2">
+                <ion-img (click)="sendMessage()" style="width: 30px; height: 30px;" src="../../assets/icon/ey-outline.svg" alt="image"></ion-img>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+
+</ion-footer> -->

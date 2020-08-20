@@ -61,7 +61,11 @@ const routes: Routes = [
   {
     path: 'viewclientprofile',
     loadChildren: () => import('./viewclientprofile/viewclientprofile.module').then( m => m.ViewclientprofilePageModule)
+  },  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   }
+
 
 
 
