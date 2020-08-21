@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 
 
 
@@ -21,17 +22,20 @@ createdAt;
   modifiedstring: any;
   username: any;
 existence = false;
-
+  reversedString: any;
+  chatsubscribption;
+  recivedData: unknown[];
+  //@ViewChild (IonContent, false) content: IonContent;
   constructor(
     public db: AngularFireDatabase,private route: ActivatedRoute
   ) {
-this.ngOnInit();
-    this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
-      console.log('ya channel',this.channel);
-      this.messages = data;
-      console.log('messages han bhai',this.messages);
+    //this.ngOnInit();
+    // this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
+    //   console.log('ya channel',this.channel);
+    //   this.messages = data;
+    //   console.log('messages han bhai',this.messages);
 
-    });
+    // });
   }
   sendMessage() {
     
@@ -45,34 +49,33 @@ this.ngOnInit();
       // some error. maybe firebase is unreachable
     });
     this.message = '';
+    // setTimeout(() => {
+    //   this.content.scrollToBottom(10);
+    // });
   }
 
 
-  // ionViewDidLoad() {
-  //   this.db.list(`/channels/${this.channel}`).push({
-  //     specialMessage: true,
-  //     message: `${this.useremailrecieved} has joined the room`
-  //   });
-  // }
+  ionViewDidLoad() {
+    this.db.list(`/channels/${this.channel}`).push({
+      specialMessage: true,
+      message: `${this.useremailrecieved} has joined the conversation`
+    });
+  }
 
-  // ionViewWillLeave(){
-  //   this.db.list(`/channels/${this.channel}`).push({
-  //     specialMessage: true,
-  //     message: `${this.username} has left the room`
-  //   });
-  // }
+  ionViewWillLeave(){
+    this.db.list(`/channels/${this.channel}`).push({
+      specialMessage: true,
+      message: `${this.useremailrecieved} has left the conversation`
+    });
+  }
 listenerFirebase(){
   this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
     console.log('ya channel',this.channel);
     this.messages = data;
-
+  
   });
 }
 
-checkexistence(reversedString){
-
-return true;
-}
 
 
   ngOnInit() {
@@ -80,23 +83,35 @@ return true;
     this.sub = this.route
     .queryParams
     .subscribe(params => {
-      // Defaults to 0 if no query param provided.
       this.queryParameters = +params['page'] || 0;
       console.log('inside ngoninit thora nicahy');
       this.useremailrecieved=params.useremail;
       this.clientemailrecieved=params.clientemail;
-      console.log('email params:',this.useremailrecieved);
-    
-      this.modifiedstring = this.useremailrecieved + "-" + this.clientemailrecieved;
-      const reversedString = this.clientemailrecieved + "-" + this.useremailrecieved;
-      if(this.checkexistence(reversedString) == true){
-        this.channel = reversedString;
-      }
-      else{
+      
+      this.modifiedstring = this.useremailrecieved + "-" + this.clientemailrecieved; //example sami-adil
+      this.reversedString = this.clientemailrecieved + "-" + this.useremailrecieved; //example adil-sami
+      this.channel = this.reversedString; //reversed adil-sami
+      this.db.list(`/channels/${this.channel}`).valueChanges().subscribe(value=>{
+         console.log('value',value.length) // check whether channel(adil-sami) exists or not
+      
+         //if adil-sami exists than use this channel
+         if(value.length === 0 || value === undefined){
+        console.log('inside if');
         this.channel = this.modifiedstring;
       }
-     
-  this.listenerFirebase();
+      //if(value !== undefined){
+        //otherwise use smai-adil channel create new channel
+        else{
+        console.log('inside else');
+        this.channel = this.reversedString;
+      }  
+      });
+      this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
+        console.log('ya channel',this.channel);
+        this.messages = data;
+        console.log('messages han bhai',this.messages);
+      });
+     this.listenerFirebase();
     }); 
   }
 }
