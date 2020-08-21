@@ -4,6 +4,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { ToastService } from '../sdk/custom/toast.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-viewclientprofile',
   templateUrl: './viewclientprofile.page.html',
@@ -25,13 +26,15 @@ export class ViewclientprofilePage implements OnInit {
   constructor(private route: ActivatedRoute,private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
-    private formBuilder: FormBuilder) { this.backbutton() }
+    private formBuilder: FormBuilder, private service: UserService) { this.backbutton() }
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {
         console.log('backbutton1');
     });
     }
+
+    
 
     logRatingChange(rating){
       this.userrating = rating;
@@ -56,7 +59,7 @@ export class ViewclientprofilePage implements OnInit {
             this.ratedsuccessfully = false;
             
           console.log('got response from server', data);
-          //this.router.navigate(['viewclientprofile']);
+          this.router.navigate(['lost']);
         },
         error => {
           console.log('error', error);
@@ -67,7 +70,7 @@ export class ViewclientprofilePage implements OnInit {
           console.log('ex', ex);
         } 
        
-        this.show = false;
+        this.show = false; 
   }
 
 
@@ -96,6 +99,18 @@ export class ViewclientprofilePage implements OnInit {
          console.log("api error in all request retrieval", err);
        }
       
+   }
+
+   chat(){
+     let user = localStorage.getItem('name');
+     console.log('useremail sent',user);
+     console.log('clientemail sent',this.clientemail);
+     const str = user.substring(0, user.indexOf("@"));
+      const str1 = this.clientemail.substring(0, this.clientemail.indexOf("@"));
+      console.log(' after substring useremail sent',str);
+      console.log('after substring clientemail sent',str1);
+    this.router.navigate(['/chat'], { queryParams: { useremail: str, clientemail: str1 } });
+  
    }
 
    ratingCalculator() {
