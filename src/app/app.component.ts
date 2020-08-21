@@ -44,9 +44,13 @@ public appPages = [
       icon: 'information-circle-outline'
     },
     {
+      title: 'Chats',
+      url: '/openchat',
+      icon: 'chatbubbles'
+    },
+    {
       title: 'Log Out',
       icon: 'log-out',
-   
     }
   ];
 constructor(
