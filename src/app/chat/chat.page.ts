@@ -10,8 +10,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-
-
 createdAt;
   message: string = '';
   messages =  [];
@@ -22,6 +20,7 @@ createdAt;
   useremailrecieved: any;
   modifiedstring: any;
   username: any;
+existence = false;
 
   constructor(
     public db: AngularFireDatabase,private route: ActivatedRoute
@@ -33,11 +32,7 @@ this.ngOnInit();
       console.log('messages han bhai',this.messages);
 
     });
-
   }
-
-
-
   sendMessage() {
     
     this.db.list(`/channels/${this.channel}`).push({
@@ -74,6 +69,12 @@ listenerFirebase(){
   });
 }
 
+checkexistence(reversedString){
+
+return true;
+}
+
+
   ngOnInit() {
     console.log('inside ngoninit');
     this.sub = this.route
@@ -87,7 +88,14 @@ listenerFirebase(){
       console.log('email params:',this.useremailrecieved);
     
       this.modifiedstring = this.useremailrecieved + "-" + this.clientemailrecieved;
-    this.channel = this.modifiedstring; 
+      const reversedString = this.clientemailrecieved + "-" + this.useremailrecieved;
+      if(this.checkexistence(reversedString) == true){
+        this.channel = reversedString;
+      }
+      else{
+        this.channel = this.modifiedstring;
+      }
+     
   this.listenerFirebase();
     }); 
   }
