@@ -5,6 +5,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from '../sdk/custom/toast.service';
 import { AlertController } from '@ionic/angular';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google: any;
 
@@ -50,8 +51,8 @@ export class FoundPage implements OnInit {
     private toastservice: ToastService,
     private router: Router,
     private formbuilder: FormBuilder,
-    private alertcontroller: AlertController
-    ) { }
+    private alertcontroller: AlertController, private loaderservice: LoaderService
+    ) { this.loaderservice.showHideAutoLoader();}
 
   //small map code....
   mapOptions: google.maps.MapOptions = {

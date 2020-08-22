@@ -9,6 +9,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { analyzeFile } from '@angular/compiler';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google: any;
 
@@ -37,6 +38,7 @@ export class MypostsPage implements AfterViewInit, OnInit {
   foundpersonsdata; //getting found persons
 emailfromlocalstorage:any;
 
+
   searchTerm = '';
   results: Observable<any>;
   Searchposition:any;
@@ -44,12 +46,14 @@ emailfromlocalstorage:any;
   address: any;
   public isSearchbarOpen=false;
 
-  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService) {this.backbutton() }
+  constructor(private router: Router, private geolocation: Geolocation,
+     private zone: NgZone, private userService: UserService,private loaderservice: LoaderService) {this.backbutton() }
   backbutton() {
     console.log('backbutton');
     document.addEventListener('backbutton', () => {
       console.log('backbutton1');
   });
+  this.loaderservice.showLoader();
   }
   
   
@@ -94,19 +98,6 @@ emailfromlocalstorage:any;
 
   ngOnInit() {
     this.emailfromlocalstorage = localStorage.getItem('name');
-    // this.sub = this.route
-    // .queryParams
-    // .subscribe(params => {
-    //   // Defaults to 0 if no query param provided.
-    //   this.queryParameters = +params['page'] || 0;
-    //   this.uniqueID=params.uniqueid;
-    //   this.latt = params.laatitude;
-    //   this.lngg = params.loongitude;
-    //   console.log('ID:',this.uniqueID);
-    //   console.log('latt:',this.latt);
-    //   console.log('lngg:',this.lngg);
-    // }); 
-
     //getting data from lost products 
     this.userService.getSingleLostProductEmail(this.emailfromlocalstorage).subscribe(
       alllostproducts => {
@@ -152,16 +143,20 @@ emailfromlocalstorage:any;
       allfoundpersons => {
         this.foundpersonsdata = allfoundpersons;
         //console.log("all lost products", this.lostproductsdata[0].lat);
+        this.loaderservice.hideLoader();
       },
       err => {
         console.log("api error in data retrieval", err);
+        this.loaderservice.hideLoader();
       }
     );
+    
     //this.displayallmarkers();
   }
   
 
   ngAfterViewInit() {
+   
     this.mapInitializer();
     //this.displayallmarkers();
     setTimeout (() => {

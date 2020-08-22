@@ -10,6 +10,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
 import { ToastService } from '../sdk/custom/toast.service';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google:any;
 @Component({
@@ -50,8 +51,10 @@ export class PostfoundPage {
     private formBuilder: FormBuilder, 
     private service: UserService,
     private toastservice: ToastService,
-    private actionSheetCtrl:ActionSheetController
-    ){this.backbutton()}
+    private actionSheetCtrl:ActionSheetController,
+    private loaderservice: LoaderService
+    ){this.backbutton();
+    this.loaderservice.showHideAutoLoader();}
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {

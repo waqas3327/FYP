@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { Subscription } from 'rxjs';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 @Component({
   selector: 'app-register',
@@ -13,15 +14,17 @@ export class RegisterPage implements OnInit {
   loading = false;
   public clicked = false;
   getData: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router, private uuserService: UserService) { this.backbutton(); }
+  constructor(private fb: FormBuilder,private loaderservice: LoaderService,private router: Router, private uuserService: UserService) { this.backbutton(); }
   backbutton() {
     console.log('backbutton');
     document.addEventListener('backbutton', () => {
       console.log('backbutton1');
   });
+  this.loaderservice.showLoader();
   }
   ngOnInit() {
     this.formInitializer();
+    this.loaderservice.hideLoader();
   }
   formInitializer() {
     this.getData = this.fb.group({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../sdk/custom/user.service';
 import { Router } from '@angular/router';
-
+import { LoaderService } from '../sdk/custom/loader.service';
 @Component({
   selector: 'app-openchat',
   templateUrl: './openchat.page.html',
@@ -13,38 +13,42 @@ export class OpenchatPage implements OnInit {
   startmodified: any;
   endmodified: any;
   user: any;
-
-  constructor(private userService: UserService,private router: Router) { }
+spinner = true;
+  constructor(private userService: UserService,private router: Router,
+    private loaderservice: LoaderService) {
+      this.loaderservice.showLoader();
+     }
 
   // str = str.substring(str.indexOf(":") + 1);
 
   ngOnInit() {
+
     this.userloggedin = localStorage.getItem('name');
     this.user = this.userloggedin.substring(0, this.userloggedin.indexOf("@"));
     //retrieving channels
     this.userService.GetAllChannels().subscribe(
       allchannels => {
-        console.log("Channels retrieved", allchannels[0].name);
-        //this.allChannelsRetrieved = allchannels;
-        
-      
+    
         for (let i = 0;i<allchannels.length;i++){
-             console.log('inside loop');
              this.startmodified = allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
              this.endmodified = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
-             console.log('front',this.startmodified);
-             console.log('back',this.endmodified);
              if(this.startmodified === this.user){
                this.allChannelsRetrieved[i] = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
             }
-            if( this.endmodified === this.user){
+           else if( this.endmodified === this.user){
               this.allChannelsRetrieved[i] =allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
             }
+            else{
+              this.allChannelsRetrieved[i] = null;
+            }
+            console.log('ya problem ha', this.allChannelsRetrieved[i]);
         }
-      
+        //this.spinner = false;
+        this.loaderservice.hideLoader();
       },
       err => {
         console.log("api error in all request retrieval", err);
+        this.loaderservice.hideLoader();
       }
     );
   }//end of ngOnInit();
@@ -52,7 +56,5 @@ export class OpenchatPage implements OnInit {
 openChat(item){
   this.router.navigate(['/chat'], { queryParams: { useremail: this.user, clientemail: item } });
 }
-
-
 
 }

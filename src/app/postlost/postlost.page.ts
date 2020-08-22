@@ -10,6 +10,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
 import { ToastService } from '../sdk/custom/toast.service';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google:any;
 
@@ -59,13 +60,16 @@ export class PostlostPage implements OnInit {
     private formBuilder: FormBuilder, 
     private service: UserService,
     private toastservice: ToastService,
-    private actionSheetCtrl:ActionSheetController
-    ){this.backbutton()}
+    private actionSheetCtrl:ActionSheetController,
+    private loaderservice: LoaderService
+    ){this.backbutton();
+    this.loaderservice.showHideAutoLoader();}
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {
         console.log('backbutton1');
     });
+  
     }
     datacollector(data) {
       this.myLatLng = data;
@@ -272,8 +276,10 @@ export class PostlostPage implements OnInit {
   }
 
     ngOnInit(){
+    
       this.formInitializer();
       this.getCurrentLocation();
+      
       //this.getLostData.patchValue({youremail: this.emaildisplay});
     }
   

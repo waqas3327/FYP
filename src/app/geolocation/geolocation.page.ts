@@ -6,6 +6,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google: any;
 @Component({
@@ -39,7 +40,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   address: any;
   public isSearchbarOpen=false;
 
-  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService) { }
+  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService
+    ,private loaderservice: LoaderService) {this.loaderservice.showHideAutoLoader(); }
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;
@@ -75,18 +77,6 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 
 
   ngOnInit() {
-    // this.sub = this.route
-    // .queryParams
-    // .subscribe(params => {
-    //   // Defaults to 0 if no query param provided.
-    //   this.queryParameters = +params['page'] || 0;
-    //   this.uniqueID=params.uniqueid;
-    //   this.latt = params.laatitude;
-    //   this.lngg = params.loongitude;
-    //   console.log('ID:',this.uniqueID);
-    //   console.log('latt:',this.latt);
-    //   console.log('lngg:',this.lngg);
-    // }); 
 
     //getting data from lost products 
     this.userService.getAllLostProducts().subscribe(
@@ -98,6 +88,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       },
       err => {
         console.log("api error in all request retrieval", err);
+        
       }
     );
 

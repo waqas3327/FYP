@@ -3,6 +3,7 @@ import { UserService } from '../sdk/custom/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from '../sdk/custom/toast.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +22,14 @@ export class ProfilePage implements OnInit {
   constructor(private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
-    private formBuilder: FormBuilder) { this.backbutton() }
+    private formBuilder: FormBuilder,
+    private loaderservice: LoaderService) { this.backbutton() }
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {
         console.log('backbutton1');
     });
+    this.loaderservice.showLoader();
     }
 
  
@@ -40,9 +43,11 @@ export class ProfilePage implements OnInit {
     this.userservice.getSingleUser(this.email).subscribe(
       userdata => {
         this.dataretrieved = userdata;
+        this.loaderservice.hideLoader();
 });  
       err => {
         console.log("api error in all request retrieval", err);
+        this.loaderservice.hideLoader();
       }
   }
 

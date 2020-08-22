@@ -6,6 +6,7 @@ import { ToastService } from '../sdk/custom/toast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { observable } from 'rxjs';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 declare var google: any;
 
@@ -55,7 +56,8 @@ getData: FormGroup;
 private toastservice: ToastService,
 private formbuilder: FormBuilder,
 private alertController: AlertController,
-    ) { }
+private loaderservice: LoaderService
+    ) {this.loaderservice.showHideAutoLoader();}
 
   //small map code....
   mapOptions: google.maps.MapOptions = {
@@ -219,6 +221,7 @@ if(this.markertype === 'lostproduct')
 
 
   ngOnInit() {
+    
     this.formInitializer();
     //getting data from query params
     this.sub = this.route
@@ -261,9 +264,12 @@ if(this.markertype === 'lostproduct')
         });
         this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
           console.log('imageurl:', this.user.src);
+        
         },
         err => {
           console.log("api error in all request retrieval", err);
+        
+      
         }
       );
     }//end if
