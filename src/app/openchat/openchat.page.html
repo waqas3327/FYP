@@ -10,5 +10,9 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-list class="welcome-card" *ngFor="let item of allChannelsRetrieved">
+        <ion-item (click)="openChat(item)">
+            <ion-label>{{item}}</ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
