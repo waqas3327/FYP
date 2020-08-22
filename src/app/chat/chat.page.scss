@@ -2,44 +2,53 @@
     display: inline-block;
     padding: 5px 10px;
     background-color: #3880ff;
-    ;
     margin: 5px;
     color: white;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .innerMessage.messageRight {
-    background-color: green;
-    ;
+    background-color:#0cd1e8;
+    //color:black;
+    //border-style:solid;
+    //border-width: medium;
 }
 
 .time {
     color: white;
     float: right;
+    font-size:60%;
 }
 
 .username {
-    font-weight: bold;
-    font-size: 80%;
+    //font-weight: bold;
+    color: white;
+    font-size: 60%;
 }
 
 .message {
     font-size: 120%;
 }
 
+
 .elem button {
-    border-radius: 0;
+    border-radius: 5px;
     margin: 0;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: #0cd1e8;
 }
 
 .elem {
+    
+    border-radius: 5px;
     position: relative;
     min-width: 50px;
+    background-color: #eeeeee;
+    margin-right: 0vh;
 }
 
 div#footer div.elem:first-child {
@@ -47,9 +56,15 @@ div#footer div.elem:first-child {
 }
 
 div#footer {
+    position: sticky;
     display: flex;
     flex-direction: row;
     align-items: stretch;
+    
+}
+#chatMessages{
+
+    margin-bottom:50px;
 }
 
 ion-input {
@@ -59,7 +74,9 @@ ion-input {
 
 ion-toolbar {
     margin: 0;
-    padding: 0!important;
+    padding: 0;
+    
+   
 }
 
 .message:after {
@@ -77,7 +94,7 @@ ion-toolbar {
 }
 
 .message.special.innerMessage .messageContent {
-    background: yellow;
+    //background: yellow;
     display: inline-block;
     padding: 0 10px;
 }

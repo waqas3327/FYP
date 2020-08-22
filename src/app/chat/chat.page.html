@@ -17,20 +17,22 @@
             <div [class]="message.sender == useremailrecieved ? 'innerMessage messageRight' : 'innerMessage messageLeft'">
                 <div class="username">{{ message.sender }}</div>
                 <div class="messageContent">{{ message.message }}</div>
-                <div class="time" text-right><br> {{message.createdAt | date:'short'}}</div>
+                <div class="time" text-right> {{message.createdAt | date:'short'}}</div>
             </div>
         </div>
+        
     </div>
-    <ion-footer>
+    <ion-footer style="position: fixed; bottom: 0px;width: 95%;">
         <ion-toolbar>
             <div id="footer">
                 <div class="elem">
                     <ion-input type="text" [(ngModel)]="message"></ion-input>
                 </div>
-                <div class="elem"><button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button></div>
+                <div class="elem"><button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button></div> 
             </div>
-        </ion-toolbar>
+        </ion-toolbar>  
     </ion-footer>
+</ion-content>
 
     <!-- nonnnn wala -->
     <!-- <ion-footer>
