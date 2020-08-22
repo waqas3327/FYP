@@ -256,4 +256,20 @@ public deleteLostProductPost(_id: string): Observable<any> {
   return this.http.delete(url);
 }
 
+//save channels
+public SaveChannels(credentials: object): Observable<any> {
+  const url = ProjectConfig.getPath() + '/chat/SaveChannel';
+
+  return this.http.put(url, credentials);
+}
+
+//getting all found persons
+public GetAllChannels(): Observable<any> {
+  const url = ProjectConfig.getPath() + '/chat/GetAllChannels';
+  //return this.http.get(url, credentials);
+  return this.http.get(url);
+}
+
+
+
 }

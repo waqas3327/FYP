@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
-import { IonContent } from '@ionic/angular';
-
+import { UserService } from '../sdk/custom/user.service';
 
 
 @Component({
@@ -21,8 +20,8 @@ createdAt;
   useremailrecieved: any;
   modifiedstring: any;
   reversedString: any;
-  //@ViewChild (IonContent, false) content: IonContent;
-  constructor(
+  
+  constructor(private userService: UserService,
     public db: AngularFireDatabase,private route: ActivatedRoute
   ) {
     this.ngOnInit();
@@ -35,6 +34,20 @@ createdAt;
   }
   sendMessage() {
     
+    try {   
+      this.userService.SaveChannels(this.channel).subscribe(
+         async data => {
+          console.log('got response from server', data);
+        },
+        error => {
+          console.log('error', error);
+          console.log('Problem posting data!');
+        }
+      );
+      } catch (ex) {
+          console.log('ex', ex);
+        }
+
     this.db.list(`/channels/${this.channel}`).push({
       sender: this.useremailrecieved,
       message: this.message,
@@ -45,9 +58,7 @@ createdAt;
       // some error. maybe firebase is unreachable
     });
     this.message = '';
-    // setTimeout(() => {
-    //   this.content.scrollToBottom(10);
-    // });
+     
   }
 
 
