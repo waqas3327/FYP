@@ -33,7 +33,6 @@ createdAt;
     });
   }
   sendMessage() {
-    
     try {   
       this.userService.SaveChannels(this.channel).subscribe(
          async data => {

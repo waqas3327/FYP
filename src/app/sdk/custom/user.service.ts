@@ -257,10 +257,11 @@ public deleteLostProductPost(_id: string): Observable<any> {
 }
 
 //save channels
-public SaveChannels(credentials: object): Observable<any> {
+public SaveChannels(channel: string){
   const url = ProjectConfig.getPath() + '/chat/SaveChannel';
+const body = {name: channel};
 
-  return this.http.put(url, credentials);
+  return this.http.post(url, body);
 }
 
 //getting all found persons
