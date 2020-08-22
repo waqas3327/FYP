@@ -20,22 +20,18 @@ createdAt;
   clientemailrecieved: any;
   useremailrecieved: any;
   modifiedstring: any;
-  username: any;
-existence = false;
   reversedString: any;
-  chatsubscribption;
-  recivedData: unknown[];
   //@ViewChild (IonContent, false) content: IonContent;
   constructor(
     public db: AngularFireDatabase,private route: ActivatedRoute
   ) {
-    //this.ngOnInit();
-    // this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
-    //   console.log('ya channel',this.channel);
-    //   this.messages = data;
-    //   console.log('messages han bhai',this.messages);
+    this.ngOnInit();
+    this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
+      console.log('ya channel',this.channel);
+      this.messages = data;
+      console.log('messages han bhai',this.messages);
 
-    // });
+    });
   }
   sendMessage() {
     
@@ -76,8 +72,6 @@ listenerFirebase(){
   });
 }
 
-
-
   ngOnInit() {
     console.log('inside ngoninit');
     this.sub = this.route
@@ -86,32 +80,26 @@ listenerFirebase(){
       this.queryParameters = +params['page'] || 0;
       console.log('inside ngoninit thora nicahy');
       this.useremailrecieved=params.useremail;
-      this.clientemailrecieved=params.clientemail;
-      
+      this.clientemailrecieved=params.clientemail;      
       this.modifiedstring = this.useremailrecieved + "-" + this.clientemailrecieved; //example sami-adil
       this.reversedString = this.clientemailrecieved + "-" + this.useremailrecieved; //example adil-sami
       this.channel = this.reversedString; //reversed adil-sami
       this.db.list(`/channels/${this.channel}`).valueChanges().subscribe(value=>{
-         console.log('value',value.length) // check whether channel(adil-sami) exists or not
-      
-         //if adil-sami exists than use this channel
+         console.log('value',value.length) // check whether channel(adil-sami) exists or not      
+         //if adil-sami donot exists than use this channel
          if(value.length === 0 || value === undefined){
         console.log('inside if');
         this.channel = this.modifiedstring;
+        this.listenerFirebase();
       }
-      //if(value !== undefined){
         //otherwise use smai-adil channel create new channel
         else{
         console.log('inside else');
         this.channel = this.reversedString;
+        this.listenerFirebase();
       }  
-      });
-      this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
-        console.log('ya channel',this.channel);
-        this.messages = data;
-        console.log('messages han bhai',this.messages);
-      });
-     this.listenerFirebase();
-    }); 
+      });     
+    });
+     
   }
 }
