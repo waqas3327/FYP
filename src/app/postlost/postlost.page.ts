@@ -52,12 +52,11 @@ export class PostlostPage implements OnInit {
   geocoder = new google.maps.Geocoder;
   Searchposition:any;
 
-
-   //Constructor
   isLoadingImgUpload = false;
   isLoading = false;
   randomNumber: any;
-  
+   
+  //Constructor
   constructor(
     private geolocation: Geolocation, 
     private mediaCapture: MediaCapture,
@@ -70,7 +69,8 @@ export class PostlostPage implements OnInit {
     private loaderservice: LoaderService,
     private alertservice: AlertService,
     private zone: NgZone
-    ){this.backbutton();
+    )
+    {this.backbutton();
     this.loaderservice.showHideAutoLoader();}
     backbutton() {
       console.log('backbutton');
@@ -151,11 +151,11 @@ export class PostlostPage implements OnInit {
       disableDefaultUI: true,
        zoom: 14
      };
-    selectSearchResult(item) {
+  selectSearchResult(item) {
 
-    
-      this.map = new google.maps.Map(this.gmap.nativeElement,
-       this.mapOptions2);
+
+    this.map = new google.maps.Map(this.gmap.nativeElement,
+      this.mapOptions2);
     this.clearMarkers();
    this.autocompleteItems = [];
 
