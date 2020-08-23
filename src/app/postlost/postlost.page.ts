@@ -52,12 +52,11 @@ export class PostlostPage implements OnInit {
   geocoder = new google.maps.Geocoder;
   Searchposition:any;
 
-
-   //Constructor
   isLoadingImgUpload = false;
   isLoading = false;
   randomNumber: any;
-  
+   
+  //Constructor
   constructor(
     private geolocation: Geolocation, 
     private mediaCapture: MediaCapture,
@@ -70,7 +69,8 @@ export class PostlostPage implements OnInit {
     private loaderservice: LoaderService,
     private alertservice: AlertService,
     private zone: NgZone
-    ){this.backbutton();
+    )
+    {this.backbutton();
     this.loaderservice.showHideAutoLoader();}
     backbutton() {
       console.log('backbutton');
@@ -151,30 +151,30 @@ export class PostlostPage implements OnInit {
       disableDefaultUI: true,
        zoom: 14
      };
-    selectSearchResult(item) {
+  selectSearchResult(item) {
 
-    
-      this.map = new google.maps.Map(this.gmap.nativeElement,
-       this.mapOptions2);
+
+    this.map = new google.maps.Map(this.gmap.nativeElement,
+      this.mapOptions2);
     this.clearMarkers();
-   this.autocompleteItems = [];
+    this.autocompleteItems = [];
 
-   this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
-     console.log('hello adil bacha');
-     if (status === 'OK' && results[0]) {
-       this.Searchposition = {
-         lat: results[0].geometry.location.lat,
-         lng: results[0].geometry.location.lng
-       };
-       let marker = new google.maps.Marker({
-         position: results[0].geometry.location,
-         map: this.map,
-       });
-       this.markers.push(marker);
-       this.map.setCenter(results[0].geometry.location);
-     }
-   })
- }
+    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+      console.log('hello adil bacha');
+      if (status === 'OK' && results[0]) {
+        this.Searchposition = {
+          lat: results[0].geometry.location.lat,
+          lng: results[0].geometry.location.lng
+        };
+        let marker = new google.maps.Marker({
+          position: results[0].geometry.location,
+          map: this.map,
+        });
+        this.markers.push(marker);
+        this.map.setCenter(results[0].geometry.location);
+      }
+    })
+  }
    
 
   //droping marker on the selected location
