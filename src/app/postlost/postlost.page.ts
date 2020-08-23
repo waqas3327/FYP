@@ -366,6 +366,7 @@ export class PostlostPage implements OnInit {
   getLocation() {
 
     this.geolocation.getCurrentPosition().then((resp) => {
+      
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
       this.map = new google.maps.Map(this.gmap.nativeElement,
@@ -388,111 +389,14 @@ export class PostlostPage implements OnInit {
         draggable:true
       });
       infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
       infoWindow.open(this.map);
       this.map.setCenter(pos);
       this.geoMarker.setMap(this.map);
+      
+    
     }).catch((error) => {
       console.log('Error in getting the locations', error);
     });
-    this.displayallmarkers();
-
-    this.map.addListener('click', (event) => {
-      this.addMarker(event.latLng);
-      });
+   
   }
-  displayallmarkers() {
-
-    //lost product markers
-    this.datacollector(this.lostproductsdata);
-    const icon = {
-      url: '../../assets/icon/LOST PROD.png',
-      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
-      scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
-    for (var i = 0; i < this.myLatLng.length; i++) {
-      this.marker = new google.maps.Marker({
-        position: this.myLatLng[i],
-        map: this.map,
-        icon: icon,
-        store_id: this.lostproductsdata[i]._id,
-        markerType: 'lostproduct'
-      });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Lost Product';
-      this.addInfoWindow(this.marker, content);
-    }
-    //lost person markers
-    this.datacollector(this.lostpersonsdata);
-    const icon1 = {
-      url: '../../assets/icon/LOST PEOP.png',
-      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
-      scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
-    for (var i = 0; i < this.myLatLng.length; i++) {
-      this.marker = new google.maps.Marker({
-        position: this.myLatLng[i],
-        map: this.map,
-        icon: icon1,
-        store_id: this.lostpersonsdata[i]._id,
-        markerType: 'lostperson',
-      });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      console.log('this is markers type:', this.marker.get('markerType'));
-      let content: string = 'Lost Person';
-      this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
-    }
-
-    //found product markers
-    this.datacollector(this.foundproductsdata);
-    const icon2 = {
-      url: '../../assets/icon/FOUND PROD.png',
-      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
-      scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
-    for (var i = 0; i < this.myLatLng.length; i++) {
-      this.marker = new google.maps.Marker({
-        position: this.myLatLng[i],
-        map: this.map,
-        icon: icon2,
-        store_id: this.foundproductsdata[i]._id,
-        markerType: 'foundproduct'
-      });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      //console.log(this.lostproductsdata[i]._id);
-      let content: string = 'Found Product';
-      this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
-    }
-    //lost person markers
-    this.datacollector(this.foundpersonsdata);
-    const icon3 = {
-      url: '../../assets/icon/FOUND PEOP.png',
-      //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
-      scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
-    for (var i = 0; i < this.myLatLng.length; i++) {
-      this.marker = new google.maps.Marker({
-        position: this.myLatLng[i],
-        map: this.map,
-        icon: icon3,
-        store_id: this.foundpersonsdata[i]._id,
-        markerType: 'foundperson'
-      });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      console.log('this is markers type:', this.marker.get('markerType'));
-      console.log(this.marker.position);
-      let content: string = 'Found Person';
-      this.addInfoWindow(this.marker, content);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
-    }
-  }
-  
-
-
 }
