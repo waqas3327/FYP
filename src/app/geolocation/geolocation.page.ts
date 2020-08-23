@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
+import { IonRouterOutlet, AlertController } from '@ionic/angular';
 
 declare var google: any;
 @Component({
@@ -40,12 +41,53 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   myLatLng;
   address: any;
   public isSearchbarOpen=false;
+  lastTimeBackPress = 0;
+  timePeriodToExit = 2000;
 
-  constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService
-    ,private loaderservice: LoaderService, private alertservice: AlertService) {this.loaderservice.showHideAutoLoader(); }
+  @ViewChild(IonRouterOutlet, { static: false }) routerOutlets: IonRouterOutlet;
+  constructor(private alertController: AlertController,private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService
+    ,private loaderservice: LoaderService, private alertservice: AlertService) {this.loaderservice.showHideAutoLoader(); this.backbutton();}
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;
+  //back button
+  backbutton() {
+    console.log('backbutton');
+    document.addEventListener('backbutton', () => {
+      console.log('backbutton1');
+      if (this.routerOutlets && this.routerOutlets.canGoBack()) {
+        this.routerOutlets.pop();
+      } else if (this.router.url === '/home') {
+        if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
+          this.lastTimeBackPress = new Date().getTime();
+          this.presentAlertConfirm();
+        } else {
+          // tslint:disable-next-line: no-string-literal
+          navigator['app'].exitApp();
+        }
+      }
+    });
+      }
+     async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      // header: 'Confirm!',
+      message: 'Are you sure you want to exit the app?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => { }
+      }, {
+        text: 'Close App',
+        handler: () => {
+          // tslint:disable-next-line: no-string-literal
+          navigator['app'].exitApp();
+        }
+      }]
+    });
+    await alert.present();
+      }
+
 
 //gets the position where marker is supposed to be placed
   datacollector(data) {

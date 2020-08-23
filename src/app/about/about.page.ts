@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonRouterOutlet } from '@ionic/angular';
 
 @Component({
   selector: 'app-about',
@@ -7,12 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutPage implements OnInit {
 // tslint:disable-next-line: prefer-const
+@ViewChild(IonRouterOutlet, { static: false }) routerOutlets: IonRouterOutlet;
 
 constructor() { this.backbutton(); }
 backbutton() {
-  console.log('backbutton');
-  document.addEventListener('backbutton', () => {
-    console.log('backbutton1');
+    console.log('backbutton');
+    document.addEventListener('backbutton', () => {
+      console.log('backbutton1');
+      if (this.routerOutlets && this.routerOutlets.canGoBack()) {
+        this.routerOutlets.pop();
+      }
 });
 }
 ngOnInit() {

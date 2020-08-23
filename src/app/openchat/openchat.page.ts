@@ -15,8 +15,6 @@ export class OpenchatPage implements OnInit {
   endmodified: any;
   user: any;
 spinner = true;
-  newchannel=[];
-  count=0;
   constructor(private userService: UserService,private router: Router,
     private loaderservice: LoaderService,private alertservice: AlertService) {
       this.loaderservice.showLoader();
@@ -54,26 +52,8 @@ spinner = true;
     );
   }//end of ngOnInit();
 
-//   console.log('item',allchannels[0].name);
-//   console.log('all channels:',allchannels);
-  
-//   for (let item of allchannels)
-//     {
-//       console.log('inside looop');
-//       if (item.name.includes(this.user)){
-//       this.allChannelsRetrieved.push(item.name);
-//     }
-//  }
-
-
-
-  
-
   openChat(item){
   this.router.navigate(['/chat'], { queryParams: { useremail: this.user, clientemail: item } });
 }
-
-
-
 
 }
