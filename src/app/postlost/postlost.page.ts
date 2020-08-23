@@ -364,7 +364,6 @@ export class PostlostPage implements OnInit {
     console.log('currentloc',this.lng);
   }
   getLocation() {
-
     this.geolocation.getCurrentPosition().then((resp) => {
       
       this.latitude = resp.coords.latitude;

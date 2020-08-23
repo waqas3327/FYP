@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
+import { IonContent } from '@ionic/angular';
 
 
 @Component({
@@ -24,6 +25,8 @@ createdAt;
   reversedString: any;
   nameToBeDisplayed: any;
   
+  @ViewChild(IonContent, {static: false}) content: IonContent 
+
   constructor(private userService: UserService, private alertservice: AlertService,
     public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService
   ) {
@@ -43,7 +46,7 @@ createdAt;
           console.log('got response from server', data);
         },
         error => {
-          this.alertservice.presentAlertConfirm("There is a problem with server","Error!");
+         // this.alertservice.presentAlertConfirm("There is a problem with server","Error!");
         }
       );
       } catch (ex) {
@@ -60,7 +63,10 @@ createdAt;
       // some error. maybe firebase is unreachable
     });
     this.message = '';
-     
+    setTimeout (() => {
+      this.content.scrollToBottom(200);
+    })
+    
   }
 
 
