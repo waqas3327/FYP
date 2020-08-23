@@ -129,14 +129,13 @@ export class PostlostPage implements OnInit {
        this.clearMarkers();
       if (!location) {
         location = this.map.getCenter();
-      }
-      
+      }      
       let marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
         position: location,
         draggable:true,
-  
+
       });
       this.markers.push(marker);
       let content: string = 'remove';
