@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 
 @Component({
@@ -20,10 +22,12 @@ createdAt;
   useremailrecieved: any;
   modifiedstring: any;
   reversedString: any;
+  nameToBeDisplayed: any;
   
-  constructor(private userService: UserService,
-    public db: AngularFireDatabase,private route: ActivatedRoute
+  constructor(private userService: UserService, private alertservice: AlertService,
+    public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService
   ) {
+    this.loaderservice.showHideAutoLoader();
     this.ngOnInit();
     this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
       console.log('ya channel',this.channel);
@@ -39,8 +43,7 @@ createdAt;
           console.log('got response from server', data);
         },
         error => {
-          console.log('error', error);
-          console.log('Problem posting data!');
+          this.alertservice.presentAlertConfirm("There is a problem with server","Error!");
         }
       );
       } catch (ex) {
@@ -61,19 +64,20 @@ createdAt;
   }
 
 
-  ionViewDidLoad() {
-    this.db.list(`/channels/${this.channel}`).push({
-      specialMessage: true,
-      message: `${this.useremailrecieved} has joined the conversation`
-    });
-  }
+  // ionViewDidLoad() {
+  //   this.db.list(`/channels/${this.channel}`).push({
+  //     specialMessage: true,
+  //     message: `${this.useremailrecieved} has joined the conversation`
+  //   });
+  // }
 
-  ionViewWillLeave(){
-    this.db.list(`/channels/${this.channel}`).push({
-      specialMessage: true,
-      message: `${this.useremailrecieved} has left the conversation`
-    });
-  }
+  // ionViewWillLeave(){
+  //   this.db.list(`/channels/${this.channel}`).push({
+  //     specialMessage: true,
+  //     message: `${this.useremailrecieved} has left the conversation`
+  //   });
+  // }
+
 listenerFirebase(){
   this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
     console.log('ya channel',this.channel);
@@ -100,12 +104,14 @@ listenerFirebase(){
          if(value.length === 0 || value === undefined){
         console.log('inside if');
         this.channel = this.modifiedstring;
+        this.nameToBeDisplayed = this.modifiedstring.substring(this.modifiedstring.indexOf("-") + 1);
         this.listenerFirebase();
       }
         //otherwise use smai-adil channel create new channel
         else{
         console.log('inside else');
         this.channel = this.reversedString;
+        this.nameToBeDisplayed = this.reversedString.substring(0, this.reversedString.indexOf("-"));
         this.listenerFirebase();
       }  
       });     

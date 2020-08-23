@@ -1,57 +1,81 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../sdk/custom/user.service';
 import { Router } from '@angular/router';
-
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 @Component({
   selector: 'app-openchat',
   templateUrl: './openchat.page.html',
   styleUrls: ['./openchat.page.scss'],
 })
 export class OpenchatPage implements OnInit {
-  allChannelsRetrieved = [];
+  allChannelsRetrieved=[];
   userloggedin: any;
   startmodified: any;
   endmodified: any;
   user: any;
-
-  constructor(private userService: UserService,private router: Router) { }
+spinner = true;
+  constructor(private userService: UserService,private router: Router,
+    private loaderservice: LoaderService,private alertservice: AlertService) {
+      this.loaderservice.showLoader();
+     }
 
   // str = str.substring(str.indexOf(":") + 1);
 
   ngOnInit() {
+
     this.userloggedin = localStorage.getItem('name');
     this.user = this.userloggedin.substring(0, this.userloggedin.indexOf("@"));
     //retrieving channels
     this.userService.GetAllChannels().subscribe(
       allchannels => {
-        console.log("Channels retrieved", allchannels[0].name);
-        //this.allChannelsRetrieved = allchannels;
-        
-      
         for (let i = 0;i<allchannels.length;i++){
-             console.log('inside loop');
-             this.startmodified = allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
-             this.endmodified = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
-             console.log('front',this.startmodified);
-             console.log('back',this.endmodified);
-             if(this.startmodified === this.user){
-               this.allChannelsRetrieved[i] = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
-            }
-            if( this.endmodified === this.user){
-              this.allChannelsRetrieved[i] =allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
-            }
-        }
-      
+          this.startmodified = allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
+          this.endmodified = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
+          if(this.startmodified === this.user){
+            this.allChannelsRetrieved[i] = allchannels[i].name.substring(allchannels[i].name.indexOf("-") + 1);
+         }
+        else if( this.endmodified === this.user){
+           this.allChannelsRetrieved[i] =allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
+         }
+         else{
+           console.log('inside elseee');
+           this.allChannelsRetrieved.splice(i, 1);
+         }
+         console.log('ya problem ha', this.allChannelsRetrieved[i]);
+      }
+      for(let a =0 ; a < this.allChannelsRetrieved.length; a++) {
+        console.log('again chanels',this.allChannelsRetrieved[a])
+      }
+         this.loaderservice.hideLoader();
       },
       err => {
         console.log("api error in all request retrieval", err);
+        this.alertservice.presentAlertConfirm("Server Down! Please retry","Error!");
+        this.loaderservice.hideLoader();
       }
     );
   }//end of ngOnInit();
 
-openChat(item){
+//   console.log('item',allchannels[0].name);
+//   console.log('all channels:',allchannels);
+  
+//   for (let item of allchannels)
+//     {
+//       console.log('inside looop');
+//       if (item.name.includes(this.user)){
+//       this.allChannelsRetrieved.push(item.name);
+//     }
+//  }
+
+
+
+  
+
+  openChat(item){
   this.router.navigate(['/chat'], { queryParams: { useremail: this.user, clientemail: item } });
 }
+
 
 
 

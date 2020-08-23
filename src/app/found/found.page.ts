@@ -5,6 +5,8 @@ import { UserService } from '../sdk/custom/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from '../sdk/custom/toast.service';
 import { AlertController } from '@ionic/angular';
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 declare var google: any;
 
@@ -50,8 +52,8 @@ export class FoundPage implements OnInit {
     private toastservice: ToastService,
     private router: Router,
     private formbuilder: FormBuilder,
-    private alertcontroller: AlertController
-    ) { }
+    private alertcontroller: AlertController, private loaderservice: LoaderService, private alertservice: AlertService
+    ) { this.loaderservice.showHideAutoLoader();}
 
   //small map code....
   mapOptions: google.maps.MapOptions = {
@@ -110,7 +112,7 @@ if(this.markertype === 'foundperson')
     },
     error => {
       console.log('error', error);
-      alert('Problem posting data!');
+      this.alertservice.presentAlertConfirm("Cannot Delete Post! Server Down","Failed!");
     }
   );
   } catch (ex) {
@@ -129,7 +131,7 @@ if(this.markertype === 'foundproduct')
       },
       error => {
         console.log('error', error);
-        alert('Problem posting data!');
+        this.alertservice.presentAlertConfirm("Cannot Delete Post! Server Down","Failed!");
       }
     );
     } catch (ex) {
@@ -153,7 +155,7 @@ if(this.markertype === 'foundproduct')
         },
         error => {
           console.log('error', error);
-          alert('Problem posting data!');
+          this.alertservice.presentAlertConfirm("Cannot Update Post! Server Down","Failed!");
         }
       );
       } catch (ex) {
@@ -172,7 +174,7 @@ if(this.markertype === 'foundproduct')
             },
             error => {
               console.log('error', error);
-              alert('Problem posting data!');
+              this.alertservice.presentAlertConfirm("Cannot Update Post! Server Down","Failed!");
             }
           );
           } catch (ex) {
@@ -256,11 +258,9 @@ if(this.markertype === 'foundproduct')
        this.map.setCenter(latlng);
     //console.log(status);
  });
-
-          
         },
         err => {
-          console.log("api error in all request retrieval", err);
+          this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
         }
       );
     }//end if
@@ -295,7 +295,7 @@ if(this.markertype === 'foundproduct')
            });
         },
         err => {
-          console.log("api error in all request retrieval", err);
+          this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
         }
       );
     }//end if

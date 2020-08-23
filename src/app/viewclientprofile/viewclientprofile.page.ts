@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { ToastService } from '../sdk/custom/toast.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { LoaderService } from '../sdk/custom/loader.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ViewclientprofilePage implements OnInit {
   userrating:any;
   ratedsuccessfully: boolean = true;
 
-  constructor(private route: ActivatedRoute,private userservice: UserService,
+  constructor(private loaderservice: LoaderService,private route: ActivatedRoute,private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
     private formBuilder: FormBuilder, private service: UserService) { this.backbutton() }
@@ -32,6 +33,7 @@ export class ViewclientprofilePage implements OnInit {
       document.addEventListener('backbutton', () => {
         console.log('backbutton1');
     });
+    this.loaderservice.showLoader();
     }
 
     
@@ -94,9 +96,11 @@ export class ViewclientprofilePage implements OnInit {
        userdata => {
          this.dataretrieved = userdata;
          console.log('rating',this.dataretrieved.data.rating);
+         this.loaderservice.hideLoader();
  });  
        err => {
          console.log("api error in all request retrieval", err);
+         this.loaderservice.hideLoader();
        }
       
    }

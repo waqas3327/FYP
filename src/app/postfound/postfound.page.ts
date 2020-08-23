@@ -10,6 +10,8 @@ import { UserService } from '../sdk/custom/user.service';
 import { analyzeAndValidateNgModules, identifierModuleUrl } from '@angular/compiler';
 import { async } from '@angular/core/testing';
 import { ToastService } from '../sdk/custom/toast.service';
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 declare var google:any;
 @Component({
@@ -50,8 +52,10 @@ export class PostfoundPage {
     private formBuilder: FormBuilder, 
     private service: UserService,
     private toastservice: ToastService,
-    private actionSheetCtrl:ActionSheetController
-    ){this.backbutton()}
+    private actionSheetCtrl:ActionSheetController,
+    private loaderservice: LoaderService,private alertservice: AlertService
+    ){this.backbutton();
+    this.loaderservice.showHideAutoLoader();}
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {
@@ -179,6 +183,7 @@ export class PostfoundPage {
             },
             error => {
               console.log('error', error);
+              this.alertservice.presentAlertConfirm("Cannot Upload Image!","Failed!");
               this.isLoadingImgUpload = false;
               // this.toasterService.pop(
               //   'error',
@@ -209,7 +214,8 @@ export class PostfoundPage {
           },
           error => {
             console.log('error', error);
-            alert('Problem posting data!');
+            this.alertservice.presentAlertConfirm("Cannot Post Data!","Failed!");
+          
           }
         );
         } catch (ex) {
@@ -234,7 +240,7 @@ export class PostfoundPage {
           },
           error => {
             console.log('error', error);
-            alert('Problem posting data!');
+            this.alertservice.presentAlertConfirm("Cannot Post Data!","Failed!");
           }
         );
         } catch (ex) {

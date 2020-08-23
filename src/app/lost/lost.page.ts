@@ -6,6 +6,8 @@ import { ToastService } from '../sdk/custom/toast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { observable } from 'rxjs';
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 declare var google: any;
 
@@ -55,7 +57,8 @@ getData: FormGroup;
 private toastservice: ToastService,
 private formbuilder: FormBuilder,
 private alertController: AlertController,
-    ) { }
+private loaderservice: LoaderService,private alertservice: AlertService
+    ) {this.loaderservice.showHideAutoLoader();}
 
   //small map code....
   mapOptions: google.maps.MapOptions = {
@@ -100,7 +103,7 @@ private alertController: AlertController,
         },
         error => {
           console.log('error', error);
-          alert('Problem posting data!');
+          this.alertservice.presentAlertConfirm("Cannot Update Data! Server Down","Failed!");
         }
       );
       } catch (ex) {
@@ -119,7 +122,7 @@ private alertController: AlertController,
             },
             error => {
               console.log('error', error);
-              alert('Problem posting data!');
+              this.alertservice.presentAlertConfirm("Cannot Update Data! Server Down","Failed!");
             }
           );
           } catch (ex) {
@@ -184,7 +187,7 @@ if(this.markertype === 'lostperson')
     },
     error => {
       console.log('error', error);
-      alert('Problem posting data!');
+      this.alertservice.presentAlertConfirm("Cannot Delete Post! Server Down","Failed!");
     }
   );
   } catch (ex) {
@@ -203,7 +206,8 @@ if(this.markertype === 'lostproduct')
       },
       error => {
         console.log('error', error);
-        alert('Problem posting data!');
+        
+        this.alertservice.presentAlertConfirm("Cannot Delete Post! Server Down","Failed!");
       }
     );
     } catch (ex) {
@@ -219,6 +223,7 @@ if(this.markertype === 'lostproduct')
 
 
   ngOnInit() {
+    
     this.formInitializer();
     //getting data from query params
     this.sub = this.route
@@ -261,9 +266,12 @@ if(this.markertype === 'lostproduct')
         });
         this.user.src = ProjectConfig.getPath() + '/' + this.dataretrieved.data.imageUrl;
           console.log('imageurl:', this.user.src);
+        
         },
         err => {
           console.log("api error in all request retrieval", err);
+        
+      
         }
       );
     }//end if

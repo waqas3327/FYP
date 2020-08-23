@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import { AlertService } from './sdk/custom/alert.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -57,7 +58,7 @@ constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private router:Router
+    private router:Router, private alertservice: AlertService
   ) {
     this.initializeApp();
     this.backbutton();
@@ -105,7 +106,8 @@ ngDoCheck() {
   }
   
   logout(){
-    alert('logged out succesfully!');
+
+  this.alertservice.presentAlertConfirm("Logged Out Successfully!", "Success");
     localStorage.removeItem('name');
     localStorage.removeItem('token');
     this.userexist = false;

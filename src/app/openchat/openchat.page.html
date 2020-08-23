@@ -10,6 +10,9 @@
 </ion-header>
 
 <ion-content>
+    <!-- <div class="spin" *ngIf="spinner">
+        <ion-spinner name="bubbles"></ion-spinner>
+    </div> -->
     <ion-list class="welcome-card" *ngFor="let item of allChannelsRetrieved">
         <ion-item (click)="openChat(item)">
             <ion-label>{{item}}</ion-label>

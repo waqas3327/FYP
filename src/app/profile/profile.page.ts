@@ -3,6 +3,8 @@ import { UserService } from '../sdk/custom/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from '../sdk/custom/toast.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +23,15 @@ export class ProfilePage implements OnInit {
   constructor(private userservice: UserService,
     private toastservice: ToastService,
     private router: Router,
-    private formBuilder: FormBuilder) { this.backbutton() }
+    private formBuilder: FormBuilder,
+    private loaderservice: LoaderService,
+    private alertservice: AlertService) { this.backbutton() }
     backbutton() {
       console.log('backbutton');
       document.addEventListener('backbutton', () => {
         console.log('backbutton1');
     });
+    this.loaderservice.showLoader();
     }
 
  
@@ -40,9 +45,12 @@ export class ProfilePage implements OnInit {
     this.userservice.getSingleUser(this.email).subscribe(
       userdata => {
         this.dataretrieved = userdata;
+        this.loaderservice.hideLoader();
 });  
       err => {
         console.log("api error in all request retrieval", err);
+        this.alertservice.presentAlertConfirm("Server Down! Please retry", "Error!");
+        this.loaderservice.hideLoader();
       }
   }
 
@@ -93,7 +101,7 @@ export class ProfilePage implements OnInit {
           },
           error => {
             console.log('error', error);
-            alert('Problem posting data!');
+            this.alertservice.presentAlertConfirm("Cannot Post Data right!","Failed!");
           }
         );
         } catch (ex) {
