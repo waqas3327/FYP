@@ -172,6 +172,11 @@ export class PostlostPage implements OnInit {
        });
        this.markers.push(marker);
        this.map.setCenter(results[0].geometry.location);
+       
+       this.map.addListener('click', (event) => {
+        this.addMarker(event.latLng);
+        });
+
      }
    })
  }
@@ -391,6 +396,10 @@ export class PostlostPage implements OnInit {
       console.log('Error in getting the locations', error);
     });
     this.displayallmarkers();
+
+    this.map.addListener('click', (event) => {
+      this.addMarker(event.latLng);
+      });
   }
   displayallmarkers() {
 
