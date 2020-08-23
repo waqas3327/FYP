@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -11,7 +12,7 @@ import { UserService } from '../sdk/custom/user.service';
 })
 export class ForgotpasswordPage implements OnInit {
   forgotPasswordForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private service: UserService) { this.backbutton(); }
+  constructor(private formBuilder: FormBuilder, private service: UserService, private alertservice: AlertService) { this.backbutton(); }
   clicked = false;
   backbutton() {
     console.log('backbutton');
@@ -35,13 +36,11 @@ export class ForgotpasswordPage implements OnInit {
     console.log('ForgotPaswordData:', forgotData);
     this.service.userForgotPassword(forgotData).subscribe(
       data => {
-        console.log('got response from server', data);
-        alert('Password sent! Check your Email');
+        this.alertservice.presentAlertConfirm("Email Sent! Check your email","Success!");
         this.clicked = false;
       },
       error => {
-        console.log('error', error);
-        alert('User does not exist! Please sign up first.');
+        this.alertservice.presentAlertConfirm("Cannot Send Email! Server Down","Failed!");
         this.clicked = false;
       }
     );

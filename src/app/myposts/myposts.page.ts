@@ -10,6 +10,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { analyzeFile } from '@angular/compiler';
 import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 declare var google: any;
 
@@ -46,7 +47,7 @@ emailfromlocalstorage:any;
   address: any;
   public isSearchbarOpen=false;
 
-  constructor(private router: Router, private geolocation: Geolocation,
+  constructor(private router: Router, private geolocation: Geolocation, private alertservice:AlertService,
      private zone: NgZone, private userService: UserService,private loaderservice: LoaderService) {this.backbutton() }
   backbutton() {
     console.log('backbutton');
@@ -108,6 +109,7 @@ emailfromlocalstorage:any;
       },
       err => {
         console.log("api error in all request retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data!","Failed!");
       }
     );
 
@@ -121,6 +123,7 @@ emailfromlocalstorage:any;
       },
       err => {
         console.log("api error in data retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data!","Failed!");
       }
     );
 
@@ -135,6 +138,7 @@ emailfromlocalstorage:any;
       },
       err => {
         console.log("api error in all request retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data!","Failed!");
       }
     );
 
@@ -147,6 +151,7 @@ emailfromlocalstorage:any;
       },
       err => {
         console.log("api error in data retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data!","Failed!");
         this.loaderservice.hideLoader();
       }
     );

@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ createdAt;
   reversedString: any;
   nameToBeDisplayed: any;
   
-  constructor(private userService: UserService,
+  constructor(private userService: UserService, private alertservice: AlertService,
     public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService
   ) {
     this.loaderservice.showHideAutoLoader();
@@ -42,8 +43,7 @@ createdAt;
           console.log('got response from server', data);
         },
         error => {
-          console.log('error', error);
-          console.log('Problem posting data!');
+          this.alertservice.presentAlertConfirm("There is a problem with server","Error!");
         }
       );
       } catch (ex) {

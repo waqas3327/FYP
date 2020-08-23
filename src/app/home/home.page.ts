@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { AlertController, IonRouterOutlet } from '@ionic/angular';
+import { AlertService } from '../sdk/custom/alert.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,7 +18,7 @@ export class HomePage {
   @ViewChild(IonRouterOutlet, { static: false }) routerOutlets: IonRouterOutlet;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private alertController: AlertController, private router: Router, private formBuilder: FormBuilder, private service: UserService) { this.backbutton()}
+  constructor(private alertController: AlertController, private alertservice: AlertService,private router: Router, private formBuilder: FormBuilder, private service: UserService) { this.backbutton()}
   loginForm: FormGroup;
   backbutton() {
     console.log('backbutton');
@@ -87,7 +88,8 @@ export class HomePage {
         this.clicked = false;
         this.loading = false;
         console.log('error', error);
-        alert('Wrong email or password!');
+       
+        this.alertservice.presentAlertConfirm("Wrong Username or password","Failed!");
       }
     );
     } catch (ex) {

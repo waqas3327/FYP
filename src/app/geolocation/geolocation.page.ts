@@ -7,6 +7,7 @@ import { analyzeFile } from '@angular/compiler';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 declare var google: any;
 @Component({
@@ -41,7 +42,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   public isSearchbarOpen=false;
 
   constructor(private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService
-    ,private loaderservice: LoaderService) {this.loaderservice.showHideAutoLoader(); }
+    ,private loaderservice: LoaderService, private alertservice: AlertService) {this.loaderservice.showHideAutoLoader(); }
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;
@@ -87,7 +88,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 
       },
       err => {
-        console.log("api error in all request retrieval", err);
+      
+        this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
         
       }
     );
@@ -101,7 +103,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
-        console.log("api error in data retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
       }
     );
 
@@ -115,7 +117,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 
       },
       err => {
-        console.log("api error in all request retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
       }
     );
 
@@ -126,7 +128,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
-        console.log("api error in data retrieval", err);
+        this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
       }
     );
     //this.displayallmarkers();

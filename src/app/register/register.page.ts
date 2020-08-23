@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { UserService } from '../sdk/custom/user.service';
 import { Subscription } from 'rxjs';
 import { LoaderService } from '../sdk/custom/loader.service';
+import { AlertService } from '../sdk/custom/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ export class RegisterPage implements OnInit {
   loading = false;
   public clicked = false;
   getData: FormGroup;
-  constructor(private fb: FormBuilder,private loaderservice: LoaderService,private router: Router, private uuserService: UserService) { this.backbutton(); }
+  constructor(private alertservice: AlertService,private fb: FormBuilder,private loaderservice: LoaderService,private router: Router, private uuserService: UserService) { this.backbutton(); }
   backbutton() {
     console.log('backbutton');
     document.addEventListener('backbutton', () => {
@@ -67,7 +68,7 @@ SaveToDB() {
     this.uuserService.userRegister(this.getData.value).subscribe(
       data => {
         console.log('got response from server', data);
-        alert('Registeration Successfull!');
+        this.alertservice.presentAlertConfirm("Registeration Succesfull!","Success");
         this.loading = false;
         this.router.navigateByUrl('/home');
       },
@@ -75,7 +76,7 @@ SaveToDB() {
         this.clicked = false;
         this.loading = false;
         console.log('error', error);
-        alert('Registeration Failed!User Already Exists');
+        this.alertservice.presentAlertConfirm("Registeration Failed! User Already exists.","Failed")
       }
     );
   }
