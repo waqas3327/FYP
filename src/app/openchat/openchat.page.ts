@@ -15,6 +15,8 @@ export class OpenchatPage implements OnInit {
   endmodified: any;
   user: any;
 spinner = true;
+  newchannel=[];
+  count=0;
   constructor(private userService: UserService,private router: Router,
     private loaderservice: LoaderService,private alertservice: AlertService) {
       this.loaderservice.showLoader();
@@ -23,7 +25,6 @@ spinner = true;
   // str = str.substring(str.indexOf(":") + 1);
 
   ngOnInit() {
-
     this.userloggedin = localStorage.getItem('name');
     this.user = this.userloggedin.substring(0, this.userloggedin.indexOf("@"));
     //retrieving channels
@@ -39,18 +40,14 @@ spinner = true;
            this.allChannelsRetrieved[i] =allchannels[i].name.substring(0, allchannels[i].name.indexOf("-"));
          }
          else{
-           console.log('inside elseee');
-           this.allChannelsRetrieved.splice(i, 1);
+           this.allChannelsRetrieved[i] = "a";
          }
-         console.log('ya problem ha', this.allChannelsRetrieved[i]);
       }
-      for(let a =0 ; a < this.allChannelsRetrieved.length; a++) {
-        console.log('again chanels',this.allChannelsRetrieved[a])
-      }
+      
          this.loaderservice.hideLoader();
       },
       err => {
-        console.log("api error in all request retrieval", err);
+
         this.alertservice.presentAlertConfirm("Server Down! Please retry","Error!");
         this.loaderservice.hideLoader();
       }

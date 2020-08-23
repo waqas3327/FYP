@@ -14,7 +14,7 @@
         <ion-spinner name="bubbles"></ion-spinner>
     </div> -->
     <ion-list class="welcome-card" *ngFor="let item of allChannelsRetrieved">
-        <ion-item (click)="openChat(item)">
+        <ion-item *ngIf="item !== 'a'" (click)="openChat(item)">
             <ion-label>{{item}}</ion-label>
         </ion-item>
     </ion-list>
