@@ -1,5 +1,5 @@
 
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, NgZone} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
@@ -46,6 +46,11 @@ export class PostlostPage implements OnInit {
   foundproductsdata; //getting found products
   foundpersonsdata; //getting found persons
   myLatLng;
+  autocomplete = { input: '' };
+  autocompleteItems = [];
+  GoogleAutocomplete = new google.maps.places.AutocompleteService();
+  geocoder = new google.maps.Geocoder;
+  Searchposition:any;
 
 
    //Constructor
@@ -63,7 +68,8 @@ export class PostlostPage implements OnInit {
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController,
     private loaderservice: LoaderService,
-    private alertservice: AlertService
+    private alertservice: AlertService,
+    private zone: NgZone
     ){this.backbutton();
     this.loaderservice.showHideAutoLoader();}
     backbutton() {
@@ -121,7 +127,55 @@ export class PostlostPage implements OnInit {
       })
     }
 
+    updateSearchResults() {
+      if (this.autocomplete.input == '') {
+        this.autocompleteItems = [];
+        return;
+      }
+      this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+        (predictions, status) => {
+          this.autocompleteItems = [];
+          this.zone.run(() => {
+            predictions.forEach((prediction) => {
+              this.autocompleteItems.push(prediction);
+            });
+          });
+        });
+        console.log(this.autocompleteItems);
+    }
+    clearSearchResults(){
+      this.autocompleteItems=[];
+    }
+    mapOptions2: google.maps.MapOptions = {
+      center: this.Searchposition,
+      disableDefaultUI: true,
+       zoom: 14
+     };
+    selectSearchResult(item) {
 
+    
+      this.map = new google.maps.Map(this.gmap.nativeElement,
+       this.mapOptions2);
+    this.clearMarkers();
+   this.autocompleteItems = [];
+
+   this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+     console.log('hello adil bacha');
+     if (status === 'OK' && results[0]) {
+       this.Searchposition = {
+         lat: results[0].geometry.location.lat,
+         lng: results[0].geometry.location.lng
+       };
+       let marker = new google.maps.Marker({
+         position: results[0].geometry.location,
+         map: this.map,
+       });
+       this.markers.push(marker);
+       this.map.setCenter(results[0].geometry.location);
+     }
+   })
+ }
+   
 
   //droping marker on the selected location
     addMarker(location) {
@@ -133,9 +187,8 @@ export class PostlostPage implements OnInit {
       let marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
-        position: location,
-        draggable:true,
-
+        position: location
+  
       });
       this.markers.push(marker);
       let content: string = 'remove';
@@ -326,7 +379,8 @@ export class PostlostPage implements OnInit {
       const marker = new google.maps.Marker({
         position: pos,
         map: this.map,
-        icon: icon
+        icon: icon,
+        draggable:true
       });
       infoWindow.setPosition(pos);
       infoWindow.setContent('Location found.');
