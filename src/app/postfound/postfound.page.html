@@ -1,4 +1,4 @@
-<!-- <ion-header>
+<ion-header>
     <ion-toolbar color="secondary">
         <ion-buttons slot="start">
             <ion-back-button defaultHref="geolocation"></ion-back-button>
@@ -68,11 +68,10 @@
 
 
     
-    <div color="secondary" padding class="ion-text-center" style="border-style: solid;border-color: black; color:black">
-        <h3 >Please insert marker on map</h3>
+    <div color="secondary" >
+        <h3 style="position: relative; left:10%;">Please insert marker on map</h3>
         <ion-header  >
             <ion-toolbar color='secondary' style="position: relative;width:90%;left:5%; border-radius: 10px;">
-                 Search bar in toolbar 
                 <ion-searchbar style="position: relative;width: 100%;left:3%;  border-radius: 20px;"  showCancelButton="true" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
                 
                       
@@ -81,10 +80,15 @@
                     <ion-icon color="light" name="locate"></ion-icon>
                 </ion-button> 
             </ion-toolbar>
-        </ion-header>
-    </div>
+        </ion-header> 
+        <ion-list style="position: relative; left:10%;width: 90%;left: 5%; max-height: 200px; overflow-y: scroll;" [hidden]="autocompleteItems.length == 0">
+            <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+                {{ item.description }}
+            </ion-item>
+        </ion-list>
+    
     <div padding class="ion-text-center" #mapContainer id="map"></div>
-
+</div>
     <div padding id="buttons">
         <ion-button color="secondary" size="small" shape="round" [disabled]="getfoundData.invalid" type="submit" (click)="SaveToDB()">Post
             <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
@@ -94,108 +98,5 @@
         </ion-button>
     </div>
 </ion-content> 
- -->
- <ion-header>
-    <ion-toolbar color="secondary">
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="geolocation"></ion-back-button>
-        </ion-buttons>
-        <ion-title>
-            Post Lost
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
-<ion-content>
-    <form [formGroup]="getLostData">
-        <ion-grid>
-            <ion-row color="secondary" justify-content-center>
-                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-                    <div padding (click)="clearSearchResults()" >
-                        <ion-list>
-                            <ion-radio-group formControlName="lostType">
-                                <ion-list-header>
-                                    <ion-label>Type</ion-label>
-                                </ion-list-header>
-                                <ion-item>
-                                    <ion-label>Item</ion-label>
-                                    <ion-radio value="person"></ion-radio>
-                                    <ion-label slot="end">Person</ion-label>
-                                    <ion-radio slot="start" value="item"></ion-radio>
-                                </ion-item>
-                            </ion-radio-group>
-                        </ion-list>
-
-                        <!-- code from sir alamgir -->
-                        <div class="col-lg-10">
-                            <label>
-                <input type="file" #inputFile style="display:none" (change)="onFileChange($event)" />
-                <img [src]="userInfo?.avatar" class="fixed-size" onError="this.src='assets/images/placeholder.jpg'" />
-              </label>
-                            <button *ngIf="userInfo?.touched" type="button" (click)="uploadImage()" class="btn btn-green round" [disabled]="isLoadingImgUpload">
-                <i *ngIf="isLoadingImgUpload" class="fa fa-circle-o-notch fa-spin btn-spinner"></i>
-                <span *ngIf="!isLoadingImgUpload">Upload Image
-                </span>
-              </button>
-                        </div>
-                        <ion-item>
-                            <ion-input name="title" formControlName="title" type="text" placeholder="title"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-input name="description" formControlName="description" type="text" placeholder="Description">
-                            </ion-input>
-                        </ion-item>
-
-                        <ion-item>
-                            <ion-input name="reward" formControlName="reward" type="text" placeholder="Offer Reward"></ion-input>
-                        </ion-item>
-                    </div>
-
-                    <!-- <div color="secondary" padding class="ion-text-center">
-                        <h3>Please insert marker on map</h3>
-                        <ion-button shape="round" color="secondary" slot="end" (click)="getLocation()">
-                            <ion-icon name="locate"></ion-icon>
-                        </ion-button>
-                    </div> -->
-                     
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </form>
-    <div  >
-        <h3 style="position: relative; left:10%;">Please insert marker on map</h3>
-                        <!-- <ion-button shape="round" color="secondary" slot="end" (click)="getLocation()">
-                            <ion-icon name="locate"></ion-icon>
-                        </ion-button> -->
-        <ion-header >
-            <ion-toolbar color='secondary' style="position: relative;width:90%;left:5%; border-radius: 10px;">
-                <!-- Search bar in toolbar -->
-                <ion-searchbar style="position: relative;width: 100%;left:3%;  border-radius: 20px;"  showCancelButton="true" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
-                
-                      
-                </ion-searchbar>
-                <ion-button  fill="clear" color="light" slot="end" (click)="getLocation()">
-                    <ion-icon color="light" name="locate"></ion-icon>
-                </ion-button> 
-            </ion-toolbar>
-        </ion-header>
-    
-        <ion-list style="position: relative; left:10%;width: 90%;left: 5%; max-height: 200px; overflow-y: scroll;" [hidden]="autocompleteItems.length == 0">
-            <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-                {{ item.description }}
-            </ion-item>
-        </ion-list>
-    <div padding #mapContainer id="map"  (click)="clearSearchResults()" ></div>
-    </div>
-
-
-    <div padding id="buttons">
-        <ion-button color="secondary" size="small" shape="round" [disabled]="getLostData.invalid" type="submit" (click)="SaveToDB()">
-            Post
-            <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
-        </ion-button>
-        <ion-button color="secondary" size="small" shape="round" (click)="cancel()">Cancel
-            <ion-spinner name="bubbles" *ngIf="clicked"></ion-spinner>
-        </ion-button>
-    </div>
-
-</ion-content>
+ 
+ 

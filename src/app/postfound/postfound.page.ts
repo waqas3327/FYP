@@ -1,5 +1,5 @@
 
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, NgZone} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
@@ -24,7 +24,7 @@ export class PostfoundPage {
   //Variables declared
   latitude: number;
   longitude: number;
-  ID: String;
+  public ID: String;
   IDperson: String;
   marker: any;
   getfoundData: FormGroup;
@@ -37,12 +37,16 @@ export class PostfoundPage {
   lng1;
   private markers =[];
   coordinates = new google.maps.LatLng(this.lat, this.lng);
-
+  autocomplete = { input: '' };
+  autocompleteItems = [];
+  GoogleAutocomplete = new google.maps.places.AutocompleteService();
    //Constructor
   isLoadingImgUpload = false;
   isLoading = false;
   randomNumber: any;
   geoMarker: any;
+  Searchposition:any;
+  geocoder = new google.maps.Geocoder;
   
   constructor(
     private geolocation: Geolocation, 
@@ -51,6 +55,7 @@ export class PostfoundPage {
     private router: Router, 
     private formBuilder: FormBuilder, 
     private service: UserService,
+    private zone: NgZone,
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController,
     private loaderservice: LoaderService,private alertservice: AlertService
@@ -132,6 +137,94 @@ export class PostfoundPage {
     clearMarkers() {
       this.setMapOnAll(null);
     }
+
+    updateSearchResults() {
+      if (this.autocomplete.input == '') {
+        this.autocompleteItems = [];
+        return;
+      }
+      this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+        (predictions, status) => {
+          this.autocompleteItems = [];
+          this.zone.run(() => {
+            predictions.forEach((prediction) => {
+              this.autocompleteItems.push(prediction);
+            });
+          });
+        });
+        console.log(this.autocompleteItems);
+    }
+
+    getLocation() {
+
+      this.geolocation.getCurrentPosition().then((resp) => {
+        
+        this.latitude = resp.coords.latitude;
+        this.longitude = resp.coords.longitude;
+        this.map = new google.maps.Map(this.gmap.nativeElement,
+          this.mapOptions1);
+        const infoWindow = new google.maps.InfoWindow;
+        const pos = {
+          lat: this.latitude,
+          lng: this.longitude
+        };
+        const icon = {
+          url: '../../assets/icon/YOU ARE HERE.png',
+          //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+        };
+  
+        const marker = new google.maps.Marker({
+          position: pos,
+          map: this.map,
+          icon: icon,
+          draggable:true
+        });
+        infoWindow.setPosition(pos);
+        infoWindow.open(this.map);
+        this.map.setCenter(pos);
+        this.geoMarker.setMap(this.map);
+        
+      
+      }).catch((error) => {
+        console.log('Error in getting the locations', error);
+      });
+     
+    }
+    mapOptions2: google.maps.MapOptions = {
+      center: this.Searchposition,
+      disableDefaultUI: true,
+       zoom: 14
+     };
+    selectSearchResult(item) {
+
+
+      this.map = new google.maps.Map(this.gmap.nativeElement,
+        this.mapOptions2);
+      this.clearMarkers();
+     this.autocompleteItems = [];
+  
+     this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+       console.log('hello adil bacha');
+       if (status === 'OK' && results[0]) {
+         this.Searchposition = {
+           lat: results[0].geometry.location.lat,
+           lng: results[0].geometry.location.lng
+         };
+         let marker = new google.maps.Marker({
+           position: results[0].geometry.location,
+           map: this.map,
+         });
+         this.markers.push(marker);
+         this.map.setCenter(results[0].geometry.location);
+         
+         this.map.addListener('click', (event) => {
+          this.addMarker(event.latLng);
+          });
+  
+       }
+     })
+   }
 
     
 
