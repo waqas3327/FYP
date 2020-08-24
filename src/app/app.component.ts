@@ -38,17 +38,17 @@ public appPages = [
     //   url: '/geolocation',
     //   icon: 'locate'
     // },
-    
-    {
-      title: 'About',
-      url: '/about',
-      icon: 'information-circle-outline'
-    },
     {
       title: 'Chats',
       url: '/openchat',
       icon: 'chatbubbles'
     },
+    {
+      title: 'User Guide',
+      url: '/about',
+      icon: 'information-circle-outline'
+    },
+    
     {
       title: 'Log Out',
       icon: 'log-out',
