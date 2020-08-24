@@ -34,10 +34,10 @@
                 <input type="file" #inputFile style="display:none" (change)="onFileChange($event)" />
                 <img [src]="userInfo?.avatar" class="fixed-size" onError="this.src='assets/images/placeholder.jpg'" />
               </label>
-                            <button *ngIf="userInfo?.touched" type="button" (click)="uploadImage()" class="btn btn-green round" [disabled]="isLoadingImgUpload">
+                <button *ngIf="userInfo?.touched" type="button" (click)="uploadImage()" class="btn btn-green round" [disabled]="isLoadingImgUpload">
                 <i *ngIf="isLoadingImgUpload" class="fa fa-circle-o-notch fa-spin btn-spinner"></i>
                 <span *ngIf="!isLoadingImgUpload">Upload Image
-                </span>
+                </span> 
               </button>
                         </div>
                         <ion-item>
