@@ -175,6 +175,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   
 
   ngAfterViewInit() {
+   
     this.mapInitializer();
   
   }
@@ -214,9 +215,14 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     this.setMapOnAll(null);
   }
 
- 
+ IonViewWillEnter(){
+   this.clearMarkers();
+ }
+
   displayalllostmarkers() {
     this.clearMarkers();
+    this.markers = [];
+    
     //lost product markers
     this.datacollector(this.lostproductsdata);
     const icon = {
@@ -233,13 +239,13 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'lostproduct',
         markerContent: this.lostproductsdata[i].title
       });
-      let content: string;
-      this.addInfoWindow(this.marker, content);
+
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
       this.markers.push(this.marker);
+
     }
     //lost person markers
     this.datacollector(this.lostpersonsdata);
@@ -258,19 +264,26 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'lostperson',
         markerContent: this.lostpersonsdata[i].title
       });
-      let content: string;
-      this.addInfoWindow(this.marker, content);
+      
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
       this.markers.push(this.marker);
+       this.markers.push(this.marker);
     }
+    console.log("this.markers",this.markers);
+    if(this.markers.length === 0){
+      this.alertservice.presentAlertConfirm("There are no Lost markers in this area", "Not Found!")
+    }
+
   }
 
 
   displayallfoundmarkers(){
     this.clearMarkers();
+    this.markers = [];
+    
     this.datacollector(this.foundproductsdata);
     const icon2 = {
       url: '../../assets/icon/FOUND PROD.png',
@@ -286,13 +299,13 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'foundproduct',
         markerContent: this.foundproductsdata[i].title
       });
-      let content: string;
-      this.addInfoWindow(this.marker, content);
+      
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
       this.markers.push(this.marker);
+       this.markers.push(this.marker);
     }
     //lost person markers
     this.datacollector(this.foundpersonsdata);
@@ -310,13 +323,18 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'foundperson',
         markerContent: this.foundpersonsdata[i].title
       });
-      let content: string;
-      this.addInfoWindow(this.marker, content);
+      
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
       this.markers.push(this.marker);
+       this.markers.push(this.marker);
+    }
+
+    console.log("this.markers",this.markers);
+    if(this.markers.length === 0){
+      this.alertservice.presentAlertConfirm("There are no found markers in this area", "Not Found!")
     }
   }
 
