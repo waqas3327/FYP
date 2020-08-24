@@ -1,5 +1,5 @@
 export class ProjectConfig {
-    private static path = 'https://peopleassist.herokuapp.com';
+    private static path = 'http://localhost:3005';
     public static getPath(): string {
       return ProjectConfig.path;
     }

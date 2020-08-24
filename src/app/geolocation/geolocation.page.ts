@@ -9,13 +9,16 @@ import { Observable } from 'rxjs';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
 import { IonRouterOutlet, AlertController } from '@ionic/angular';
-
 declare var google: any;
+
+
 @Component({
   selector: 'app-geolocation',
   templateUrl: './geolocation.page.html',
   styleUrls: ['./geolocation.page.scss'],
 })
+
+
 export class GeolocationPage implements AfterViewInit, OnInit {
   @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   latitude: number;
@@ -45,8 +48,19 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   timePeriodToExit = 2000;
 
   @ViewChild(IonRouterOutlet, { static: false }) routerOutlets: IonRouterOutlet;
-  constructor(private alertController: AlertController,private router: Router, private geolocation: Geolocation, private zone: NgZone, private userService: UserService
-    ,private loaderservice: LoaderService, private alertservice: AlertService) {this.loaderservice.showHideAutoLoader(); this.backbutton();}
+  constructor(private alertController: AlertController,
+    private router: Router,
+    private geolocation: Geolocation, 
+    private zone: NgZone, 
+    private userService: UserService
+    ,private loaderservice: LoaderService, 
+    private alertservice: AlertService) 
+    {
+       this.loaderservice.showHideAutoLoader(); 
+       this.backbutton();
+    }
+
+
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;
@@ -92,9 +106,6 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 //gets the position where marker is supposed to be placed
   datacollector(data) {
     this.myLatLng = data;
-    console.log('geolocation data',data);
-    console.log('geolocation data length',data.length);
-    
     for (var i = 0; i < data.length; i++) {
       this.myLatLng[i].lat = data[i].lat;
       this.myLatLng[i].lng = data[i].lng;
@@ -102,9 +113,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
   }
 
 
-  coordinates = new google.maps.LatLng(this.lat, this.lng);
-
-                                             // page mapoptions
+  coordinates = new google.maps.LatLng(this.lat, this.lng);                    
+  // page mapoptions
   mapOptions: google.maps.MapOptions = {
     center: this.coordinates,
     disableDefaultUI: true,
@@ -124,25 +134,17 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     //getting data from lost products 
     this.userService.getAllLostProducts().subscribe(
       alllostproducts => {
-        console.log("1st record  products", alllostproducts);
         this.lostproductsdata = alllostproducts;
-        console.log("all lost products", this.lostproductsdata[0].lat);
-
       },
       err => {
-      
         this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
-        
       }
     );
 
-                                                 //getting data from lost persons 
-
+   //getting data from lost persons 
     this.userService.getAllLostPersons().subscribe(
       alllostpersons => {
-        console.log("1st record  products", alllostpersons);
         this.lostpersonsdata = alllostpersons;
-        //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
         this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
@@ -150,13 +152,10 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     );
 
 
-                                                    //getting data from found products 
-
+    //getting data from found products 
     this.userService.getAllFoundProducts().subscribe(
       allfoundproducts => {
         this.foundproductsdata = allfoundproducts;
-        // console.log("all found products", this.foundproductsdata[0].lat);
-
       },
       err => {
         this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
@@ -167,19 +166,17 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     this.userService.getAllFoundPersons().subscribe(
       allfoundpersons => {
         this.foundpersonsdata = allfoundpersons;
-        //console.log("all lost products", this.lostproductsdata[0].lat);
       },
       err => {
         this.alertservice.presentAlertConfirm("Cannot Load Data! Server Down","Failed!");
       }
     );
-    //this.displayallmarkers();
   }
   
 
   ngAfterViewInit() {
     this.mapInitializer();
-
+  
   }
 
   mapInitializer() {
@@ -195,15 +192,11 @@ export class GeolocationPage implements AfterViewInit, OnInit {
     });
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
-     // console.log('clicked marker, markerType value:', marker.get('markerType'));
-      //this.router.navigate(['/description-page']);
       if ((marker.get('markerType') == 'lostperson') || (marker.get('markerType') == 'lostproduct')) {
         this.router.navigate(['/lost'], { queryParams: { markerID: marker.get('store_id'), markertype: marker.get('markerType') } });
-       // console.log('inside lost url: markertype value', marker.get('markerType'));
       }
       else if ((marker.get('markerType') == 'foundperson') || (marker.get('markerType') == 'foundproduct')) {
         this.router.navigate(['/found'], { queryParams: { markerID: marker.get('store_id'), markertype: marker.get('markerType') } });
-       // console.log('inside found url: markertype value', marker.get('markerType'));
       }
     })
   }
@@ -223,8 +216,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
 
  
   displayalllostmarkers() {
-this.clearMarkers();
-
+    this.clearMarkers();
     //lost product markers
     this.datacollector(this.lostproductsdata);
     const icon = {
@@ -241,10 +233,7 @@ this.clearMarkers();
         markerType: 'lostproduct',
         markerContent: this.lostproductsdata[i].title
       });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      //console.log(this.lostproductsdata[i]._id);
       let content: string;
-      
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
@@ -269,24 +258,19 @@ this.clearMarkers();
         markerType: 'lostperson',
         markerContent: this.lostpersonsdata[i].title
       });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      console.log('this is markers type:', this.marker.get('markerType'));
       let content: string;
-      
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
-      //this.marker.setMap(this.map);
-      //this.markers.push(marker);
       this.markers.push(this.marker);
     }
   }
+
+
   displayallfoundmarkers(){
-   this.clearMarkers();
-   //this.marker.setMap(null);
-    //found product markers
+    this.clearMarkers();
     this.datacollector(this.foundproductsdata);
     const icon2 = {
       url: '../../assets/icon/FOUND PROD.png',
@@ -302,10 +286,7 @@ this.clearMarkers();
         markerType: 'foundproduct',
         markerContent: this.foundproductsdata[i].title
       });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      //console.log(this.lostproductsdata[i]._id);
       let content: string;
-      
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
@@ -329,17 +310,12 @@ this.clearMarkers();
         markerType: 'foundperson',
         markerContent: this.foundpersonsdata[i].title
       });
-      console.log('this is markers id:', this.marker.get('store_id'));
-      console.log('this is markers type:', this.marker.get('markerType'));
-      console.log(this.marker.position);
       let content: string;
-     
       this.addInfoWindow(this.marker, content);
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
       infoWindow.open(this.map,this.marker);
-      //this.marker.setMap(this.map);
       this.markers.push(this.marker);
     }
   }
@@ -350,6 +326,8 @@ this.clearMarkers();
       map: this.map
     });
   }
+
+
   clearSearchResults(){
     this.autocompleteItems=[];
   }
@@ -372,19 +350,12 @@ this.clearMarkers();
   }
 
 
-  // mapOptions1: google.maps.MapOptions = {
-  //   center: this.coordinates,
-  //   disableDefaultUI: true,
-  //   zoom: 18
-  // };
   getLocation() {
-
-    this.geolocation.getCurrentPosition().then((resp) => {
+      this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
       this.map = new google.maps.Map(this.gmap.nativeElement,
-        this.mapOptions1);
-      const infoWindow = new google.maps.InfoWindow;
+      this.mapOptions1);
       const pos = {
         lat: this.latitude,
         lng: this.longitude
@@ -394,52 +365,44 @@ this.clearMarkers();
         //url: 'https://img.icons8.com/ios-glyphs/24/000000/place-marker.png', // image url
         scaledSize: new google.maps.Size(50, 50), // scaled size
       };
-
       const marker = new google.maps.Marker({
         position: pos,
         map: this.map,
         icon: icon
       });
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(this.map);
       this.map.setCenter(pos);
       this.geoMarker.setMap(this.map);
     }).catch((error) => {
-      console.log('Error in getting the locations', error);
+      console.log("error in locating");
+      //this.alertservice.presentAlertConfirm("There is probably problem with your GPS!","Failed!");
     });
-    this.displayalllostmarkers();
-    this.displayallfoundmarkers();
   }
+
   mapOptions2: google.maps.MapOptions = {
     center: this.Searchposition,
     disableDefaultUI: true,
      zoom: 14
    };
+
+
   selectSearchResult(item) {
-
-    
-       this.map = new google.maps.Map(this.gmap.nativeElement,
+        this.map = new google.maps.Map(this.gmap.nativeElement,
         this.mapOptions2);
-     this.clearMarkers();
-    this.autocompleteItems = [];
-
-    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
-      console.log('hello adil bacha');
-      if (status === 'OK' && results[0]) {
-        this.Searchposition = {
-          lat: results[0].geometry.location.lat,
-          lng: results[0].geometry.location.lng
-        };
-        let marker = new google.maps.Marker({
-          position: results[0].geometry.location,
-          map: this.map,
-        });
-        this.markers.push(marker);
-        this.map.setCenter(results[0].geometry.location);
+        this.clearMarkers();
+        this.autocompleteItems = [];
+        this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+             this.Searchposition = {
+            lat: results[0].geometry.location.lat,
+            lng: results[0].geometry.location.lng
+            };
+              let marker = new google.maps.Marker({
+              position: results[0].geometry.location,
+              map: this.map,
+              });
+              this.markers.push(marker);
+              this.map.setCenter(results[0].geometry.location);
       }
     })
   }
-
-
 }
