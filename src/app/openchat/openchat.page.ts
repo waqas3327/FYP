@@ -3,6 +3,8 @@ import { UserService } from '../sdk/custom/user.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
+import { Platform } from '@ionic/angular';
+
 @Component({
   selector: 'app-openchat',
   templateUrl: './openchat.page.html',
@@ -15,10 +17,15 @@ export class OpenchatPage implements OnInit {
   endmodified: any;
   user: any;
 spinner = true;
-  constructor(private userService: UserService,private router: Router,
+  constructor(private platform: Platform,private userService: UserService,private router: Router,
     private loaderservice: LoaderService,private alertservice: AlertService) {
       this.loaderservice.showLoader();
-     }
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        console.log('Handler was called!');
+        this.router.navigate(['geolocation']);
+      }); 
+    
+    }
 
   // str = str.substring(str.indexOf(":") + 1);
 

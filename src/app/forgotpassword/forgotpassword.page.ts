@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
 import { AlertService } from '../sdk/custom/alert.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -12,14 +13,13 @@ import { AlertService } from '../sdk/custom/alert.service';
 })
 export class ForgotpasswordPage implements OnInit {
   forgotPasswordForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private service: UserService, private alertservice: AlertService) { this.backbutton(); }
+  constructor(private platform: Platform,private router: Router,private formBuilder: FormBuilder, private service: UserService, private alertservice: AlertService) { 
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      console.log('Handler was called!');
+      this.router.navigate(['home']);
+    });
+   }
   clicked = false;
-  backbutton() {
-    console.log('backbutton');
-    document.addEventListener('backbutton', () => {
-      console.log('backbutton1');
-  });
-  }
   ngOnInit() {
     this.formInitializer();
   }

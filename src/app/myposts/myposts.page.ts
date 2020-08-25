@@ -11,6 +11,7 @@ import { LocationStrategy } from '@angular/common';
 import { analyzeFile } from '@angular/compiler';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
+import { Platform } from '@ionic/angular';
 
 declare var google: any;
 
@@ -47,17 +48,16 @@ emailfromlocalstorage:any;
   address: any;
   public isSearchbarOpen=false;
 
-  constructor(private router: Router, private geolocation: Geolocation, private alertservice:AlertService,
-     private zone: NgZone, private userService: UserService,private loaderservice: LoaderService) {this.backbutton() }
-  backbutton() {
-    console.log('backbutton');
-    document.addEventListener('backbutton', () => {
-      console.log('backbutton1');
-  });
-  this.loaderservice.showLoader();
-  }
+  constructor(private platform: Platform,private router: Router, private geolocation: Geolocation, private alertservice:AlertService,
+     private zone: NgZone, private userService: UserService,private loaderservice: LoaderService) {
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        console.log('Handler was called!');
+        this.router.navigate(['geolocation']);
+      });
+      this.loaderservice.showLoader();
+     }
   
-  
+
   map: google.maps.Map;
   lat = 30.3760;
   lng = 69.3451;

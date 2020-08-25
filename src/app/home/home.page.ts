@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
-import { AlertController, IonRouterOutlet } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { AlertService } from '../sdk/custom/alert.service';
 @Component({
   selector: 'app-home',
@@ -19,11 +19,16 @@ export class HomePage {
   constructor(private alertController: AlertController, 
     private alertservice: AlertService,
     private router: Router, private formBuilder: FormBuilder, 
-    private service: UserService) 
-    { }
-  loginForm: FormGroup;
-  
+    private service: UserService, private platform: Platform) 
+    { 
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        console.log('Handler was called!');
+        this.router.navigate(['geolocation']);
+      });
+    }
 
+
+  loginForm: FormGroup;
   register() {
    this.router.navigate(['register']);
   }

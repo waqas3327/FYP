@@ -71,7 +71,7 @@ export class GeolocationPage implements AfterViewInit, OnInit {
       console.log('backbutton1');
       if (this.routerOutlets && this.routerOutlets.canGoBack()) {
         this.routerOutlets.pop();
-      } else if (this.router.url === '/home') {
+      } else if (this.router.url === '/geolocation') {
         if (new Date().getTime() - this.lastTimeBackPress >= this.timePeriodToExit) {
           this.lastTimeBackPress = new Date().getTime();
           this.presentAlertConfirm();
@@ -239,7 +239,9 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'lostproduct',
         markerContent: this.lostproductsdata[i].title
       });
-
+      let content: string;
+      this.addInfoWindow(this.marker, content);
+      
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
       });
@@ -264,6 +266,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'lostperson',
         markerContent: this.lostpersonsdata[i].title
       });
+      let content: string;
+      this.addInfoWindow(this.marker, content);
       
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
@@ -299,6 +303,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'foundproduct',
         markerContent: this.foundproductsdata[i].title
       });
+      let content: string;
+      this.addInfoWindow(this.marker, content);
       
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent
@@ -323,6 +329,8 @@ export class GeolocationPage implements AfterViewInit, OnInit {
         markerType: 'foundperson',
         markerContent: this.foundpersonsdata[i].title
       });
+      let content: string;
+      this.addInfoWindow(this.marker, content);
       
       var infoWindow = new google.maps.InfoWindow({
         content:this.marker.markerContent

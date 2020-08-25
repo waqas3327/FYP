@@ -58,16 +58,16 @@ export class PostfoundPage {
     private zone: NgZone,
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController,
-    private loaderservice: LoaderService,private alertservice: AlertService
-    ){this.backbutton();
-    this.loaderservice.showHideAutoLoader();}
-    backbutton() {
-      console.log('backbutton');
-      document.addEventListener('backbutton', () => {
-        console.log('backbutton1');
+    private loaderservice: LoaderService,private alertservice: AlertService,
+    private platform
+    ){
+    this.loaderservice.showHideAutoLoader();
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      console.log('Handler was called!');
+      this.router.navigate(['geolocation']);
     });
-    }
-
+  }
+    
     emaildisplay = localStorage.getItem('name');
     
 

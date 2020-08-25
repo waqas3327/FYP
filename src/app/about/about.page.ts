@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonRouterOutlet } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -8,18 +9,13 @@ import { IonRouterOutlet } from '@ionic/angular';
 })
 export class AboutPage implements OnInit {
 // tslint:disable-next-line: prefer-const
-@ViewChild(IonRouterOutlet, { static: false }) routerOutlets: IonRouterOutlet;
-
-constructor() { this.backbutton(); }
-backbutton() {
-    console.log('backbutton');
-    document.addEventListener('backbutton', () => {
-      console.log('backbutton1');
-      if (this.routerOutlets && this.routerOutlets.canGoBack()) {
-        this.routerOutlets.pop();
-      }
-});
+constructor(private platform: Platform, private router: Router) {
+  this.platform.backButton.subscribeWithPriority(10, () => {
+    console.log('Handler was called!');
+    this.router.navigate(['geolocation']);
+  });
 }
+
 ngOnInit() {
   }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../sdk/custom/user.service';
 import { LoaderService } from '../sdk/custom/loader.service';
 import { AlertService } from '../sdk/custom/alert.service';
-import { IonContent } from '@ionic/angular';
+import { IonContent, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -27,18 +27,21 @@ createdAt;
   
   @ViewChild(IonContent, {static: false}) content: IonContent 
 
-  constructor(private userService: UserService, private alertservice: AlertService,
-    public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService
-  ) {
-    this.loaderservice.showHideAutoLoader();
+  constructor(private router: Router,private platform: Platform,private userService: UserService, private alertservice: AlertService,
+    public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService){
+      //backkbutton registration
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        console.log('Handler was called!');
+        this.router.navigate(['geolocation']);
+      });
+    
+      this.loaderservice.showHideAutoLoader();
     this.ngOnInit();
     this.db.list(`/channels/${this.channel}`).valueChanges().subscribe( data =>{
-      console.log('ya channel',this.channel);
       this.messages = data;
-      console.log('messages han bhai',this.messages);
-
     });
   }
+
   sendMessage() {
     try {   
       this.userService.SaveChannels(this.channel).subscribe(
