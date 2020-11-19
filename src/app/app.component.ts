@@ -61,14 +61,8 @@ constructor(
     private router:Router, private alertservice: AlertService
   ) {
     this.initializeApp();
-    this.backbutton();
-  }
-  backbutton() {
-    console.log('backbutton');
-    document.addEventListener('backbutton', () => {
-      console.log('backbutton1');
-  });
-  }
+      }
+  
 initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();

@@ -11,12 +11,13 @@ export class AboutPage implements OnInit {
 // tslint:disable-next-line: prefer-const
 constructor(private platform: Platform, private router: Router) {
   this.platform.backButton.subscribeWithPriority(10, () => {
-    console.log('Handler was called!');
+    console.log('Handler was called!',this.router.url);
     this.router.navigate(['geolocation']);
   });
 }
 
 ngOnInit() {
+  
   }
 
 }

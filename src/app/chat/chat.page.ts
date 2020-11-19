@@ -27,13 +27,13 @@ createdAt;
   
   @ViewChild(IonContent, {static: false}) content: IonContent 
 
-  constructor(private router: Router,private platform: Platform,private userService: UserService, private alertservice: AlertService,
+  constructor(private router: Router,private userService: UserService, private alertservice: AlertService,
     public db: AngularFireDatabase,private route: ActivatedRoute,private loaderservice: LoaderService){
       //backkbutton registration
-      this.platform.backButton.subscribeWithPriority(10, () => {
-        console.log('Handler was called!');
-        this.router.navigate(['geolocation']);
-      });
+      // this.platform.backButton.subscribeWithPriority(10, () => {
+      //   console.log('Handler was called!');
+      //   this.router.navigate(['geolocation']);
+      // });
     
       this.loaderservice.showHideAutoLoader();
     this.ngOnInit();

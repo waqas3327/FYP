@@ -3,7 +3,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, NgZone} from '@
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationStrategy } from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
-import { AlertController, ActionSheetController } from '@ionic/angular';
+import { AlertController, ActionSheetController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../sdk/custom/user.service';
@@ -59,7 +59,7 @@ export class PostfoundPage {
     private toastservice: ToastService,
     private actionSheetCtrl:ActionSheetController,
     private loaderservice: LoaderService,private alertservice: AlertService,
-    private platform
+    private platform: Platform
     ){
     this.loaderservice.showHideAutoLoader();
     this.platform.backButton.subscribeWithPriority(10, () => {
